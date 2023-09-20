@@ -1,8 +1,12 @@
 import React from 'react'
+import Test from '../../components/Test'
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <div>
+      abcasd as
+      <Test />
+    </div>
   )
 }
 
