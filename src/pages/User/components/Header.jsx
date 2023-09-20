@@ -9,7 +9,6 @@ const Header = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '5vh',
-        bgcolor: 'black',
       }}
        >
         Header  
