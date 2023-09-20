@@ -1,24 +1,20 @@
+import { useContext } from 'react'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import path from '../../../../constants/path'
+import { AppContext } from '../../../../contexts/app.context'
+import { useNavigate } from 'react-router-dom'
 import { Sidebar, Menu, MenuItem, useProSidebar } from "react-pro-sidebar";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
-import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import Link from "next/link";
-import { Avatar, Stack } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-function App() {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const link = `/profile/${session?.user.sub}`
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SyncLockIcon from '@mui/icons-material/SyncLock';
+export default function UserSideNav() {
+  const navigate = useNavigate()
   const logOut = async () => {
-    await signOut({ redirect: false });
-    router.push("/login");
+    navigate("/login");
   };
   const { collapseSidebar } = useProSidebar();
   useEffect(() => {
@@ -36,37 +32,22 @@ function App() {
           style={{ textAlign: "center" }}
         >
           {" "}
-          <h2 style={{ color: "red" }}>Expert Booking</h2>
+          <h3>Expert Booking</h3>
         </MenuItem>
-        {session && <Link href={link}><MenuItem
-          style={{ textAlign: "center" }}
-        >
-          <Stack direction="row" alignItems="center" spacing={2} sx={{ padding: "10px 0px 10px 0px" }}>
-            <Avatar src={session?.user._doc.avatar} alt="photoURL" />
-            {" "}
-            <h2>{session?.user._doc.name} {session?.user._doc.surname}</h2>
-          </Stack>
-        </MenuItem>
-        </Link>}
-        <Link href="/dashboard">
-          <MenuItem icon={<HomeRoundedIcon />}>Home</MenuItem>
+        <Link to={path.dashboard}>
+          <MenuItem icon={<HomeRoundedIcon />}>DashBoard</MenuItem>
         </Link>
-        <Link href="/message">
-          <MenuItem icon={<ChatBubbleOutlineRoundedIcon />}>Messages</MenuItem>
+        <Link to={path.profile}>
+          <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
         </Link>
-        <Link href="/people">
-          <MenuItem icon={<Groups2RoundedIcon />}>People</MenuItem>
+        <Link to={path.changePassword}>
+          <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
         </Link>
-        <Link href="/reminder">
-          <MenuItem icon={<CalendarMonthRoundedIcon />}>Reminders</MenuItem>
+        <Link to={path.historyPurchase}>
+          <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
         </Link>
-        <Link href="/setting">
-          <MenuItem icon={<SettingsRoundedIcon />}>Settings</MenuItem>
-        </Link>
-        {session && <MenuItem icon={<LogoutRoundedIcon />} onClick={logOut}>Sign Out</MenuItem>}
+         <MenuItem icon={<LogoutRoundedIcon />} onClick={logOut}>Sign Out</MenuItem>
       </Menu>
     </Sidebar>
   );
 }
-
-export default App;

@@ -6,6 +6,7 @@ import useRouteElements from './useRouteElements'
 import { AppContext } from './contexts/app.context'
 import ThemeProvider from './theme'
 import { LocalStorageEventTarget } from './utils/auth'
+import { ProSidebarProvider } from "react-pro-sidebar";
 
 const App = () => {
   const routeElements = useRouteElements()
@@ -19,7 +20,9 @@ const App = () => {
   return (
     <HelmetProvider>
       <ErrorBoundary>
+        <ProSidebarProvider>
         <ThemeProvider>{routeElements}</ThemeProvider>
+        </ProSidebarProvider>
       </ErrorBoundary>
     </HelmetProvider>
   )
