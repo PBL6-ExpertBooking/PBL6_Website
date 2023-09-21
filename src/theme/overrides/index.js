@@ -3,7 +3,6 @@ import Card from "./Card";
 import Paper from "./Paper";
 import Input from "./Input";
 import Table from "./Table";
-import Button from "./Button";
 import ListItemButton from "./ListItemButton";
 import Tooltip from "./Tooltip";
 import Backdrop from "./Backdrop";
@@ -18,7 +17,6 @@ export default function ComponentsOverrides(theme) {
 		Table(theme),
 		Input(theme),
 		Paper(),
-		Button(theme),
 		ListItemButton(theme),
 		Tooltip(theme),
 		Backdrop(theme),
