@@ -6,14 +6,17 @@ import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
 import CartLayout from './layouts/CartLayout'
 import UserLayout from './pages/User/layouts/UserLayout'
+import ExpertLayout from './pages/Expert/layouts/ExpertLayout'
 
 const Login = lazy(() => import('./pages/Login'))
-const Profile = lazy(() => import('./pages/User/pages/Profile'))
+const Profile = lazy(() => import('./pages/Profile'))
 const Register = lazy(() => import('./pages/Register'))
 const ChangePassword = lazy(() => import('./pages/User/pages/ChangePassword'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const DashBoard = lazy(() => import('./pages/DashBoard'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
+const ExpertInfo = lazy(() => import('./pages/Expert/pages/ExpertInfo'))
+const TransactionHistory = lazy(() => import('./pages/Expert/pages/TransactionHistory'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -120,6 +123,42 @@ export default function useRouteElements() {
                   )
                 }
               ]
+            }
+          ]
+        }, 
+        {
+          path: path.expert,
+          element: <MainLayout />,
+          children: [
+            {
+            path: '',
+            element: <ExpertLayout/>,
+            children: [
+              {
+                path: path.expertProfile,
+                element: (
+                  <Suspense>
+                    <Profile />
+                  </Suspense>
+                )
+              },
+              {
+                path: path.expertInfo,
+                element: (
+                  <Suspense>
+                    <ExpertInfo />
+                  </Suspense>
+                )
+              },
+              {
+                path: path.expertTransactionHistory,
+                element: (
+                  <Suspense>
+                    <TransactionHistory />
+                  </Suspense>
+                )
+              }
+            ] 
             }
           ]
         }

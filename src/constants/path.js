@@ -10,7 +10,15 @@ const path = {
   register: '/register',
   logout: '/logout',
   productDetail: ':nameId',
-  cart: '/cart'
+  cart: '/cart',
+
+  //Expert
+  expert: '/expert',
+  expertProfile: '/expert/profile',
+  expertTransactionHistory: '/expert/transaction-history',
+  expertAnalytics: '/expert/analytics',
+  expertBookings: '/expert/bookings',
+  expertInfo: '/expert/info'
 } 
 
 export default path
