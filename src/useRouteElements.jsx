@@ -17,6 +17,7 @@ const DashBoard = lazy(() => import('./pages/DashBoard'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
 const ExpertInfo = lazy(() => import('./pages/Expert/pages/ExpertInfo'))
 const TransactionHistory = lazy(() => import('./pages/Expert/pages/TransactionHistory'))
+const ShowListPost = lazy(() => import('./pages/Expert/pages/ShowListPost'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -155,6 +156,14 @@ export default function useRouteElements() {
                 element: (
                   <Suspense>
                     <TransactionHistory />
+                  </Suspense>
+                )
+              },
+              {
+                path: path.expertShowListPost,
+                element: (
+                  <Suspense>
+                    <ShowListPost />
                   </Suspense>
                 )
               }
