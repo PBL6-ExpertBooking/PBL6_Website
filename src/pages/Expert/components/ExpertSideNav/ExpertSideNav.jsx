@@ -39,6 +39,9 @@ export default function ExpertSideNav() {
         <Link to={path.expertTransactionHistory} style={styleLink}>
           <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
         </Link>
+        <Link to={path.expertShowListPost} style={styleLink}>
+          <MenuItem icon={<CalendarMonthRoundedIcon />}>Show list post</MenuItem>
+        </Link>
         <MenuItem icon={<LogoutRoundedIcon />} onClick={logOut} style={styleLink}>
           Sign Out
         </MenuItem>

@@ -1,3 +1,3 @@
-import ExpertInfor from './ExpertInfo'
+import ExpertInfo from './ExpertInfo'
 
-export default ExpertInfor
+export default ExpertInfo
