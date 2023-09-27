@@ -13,6 +13,7 @@ import {
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import LoginPhoto from '../../assets/images/login.png'
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -28,7 +29,7 @@ const StyledSection = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   boxShadow: theme.shadows[10],
-  backgroundColor: theme.palette.background.default
+  backgroundColor: '#FF8686'
 }))
 
 const StyledContent = styled('div')(({ theme }) => ({
@@ -65,9 +66,7 @@ export default function LoginPage() {
         <StyledRoot>
           {mdUp && (
             <StyledSection>
-              <Typography variant='h3' sx={{ px: 5, mt: 10, mb: 5 }}>
-                Hi, Welcome Back
-              </Typography>
+              <img src={LoginPhoto} alt='login' />
             </StyledSection>
           )}
           <Container maxWidth='sm'>
