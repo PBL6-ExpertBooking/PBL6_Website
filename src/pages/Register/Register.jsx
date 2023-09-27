@@ -5,6 +5,7 @@ import { Link, Container, Typography, Stack, Button, TextField } from '@mui/mate
 import useResponsive from '../../hooks/useResponsive'
 import {  useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import image from '../../assets/images/login.png';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +22,7 @@ const StyledSection = styled('div')(({ theme }) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     boxShadow: theme.shadows[10],
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: '#FF8686'
 }));
 
 const StyledContent = styled('div')(({ theme }) => ({
@@ -84,7 +85,7 @@ export default function RegisterPage() {
                 <StyledRoot>
                     {mdUp && (
                         <StyledSection>
-                            {/* <Image src={image} alt="Picture of the author" /> */}
+                            <img src={image} alt='register' />
                         </StyledSection>
                     )}
                     <Container maxWidth="sm">
