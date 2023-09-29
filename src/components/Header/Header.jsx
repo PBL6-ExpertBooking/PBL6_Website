@@ -17,7 +17,9 @@ const Header = () => {
           margin: '0px 20px'
         }}
       >
-        <Typography variant='h4' component='h4'>
+        <Typography variant='h4' component='h4' onClick={() => navigate('/dashboard')} sx={{ 
+          cursor: 'pointer',
+        }} >
           <ConnectWithoutContactIcon />
           {'  '}
           Exert Booking
