@@ -11,6 +11,7 @@ const path = {
   logout: '/logout',
   productDetail: ':nameId',
   cart: '/cart',
+  expertDetail: '/expertDetail/:nameId',
 
   //Expert
   expert: '/expert',
