@@ -33,7 +33,7 @@ export default function UserSideNav() {
         <Link to={path.changePassword} style={styleLink}>
           <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
         </Link>
-        <Link to={path.historyPurchase} style={styleLink}>
+        <Link to={path.historyTransaction} style={styleLink}>
           <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
         </Link>
         <MenuItem icon={<LogoutRoundedIcon />} onClick={logOut} style={styleLink}>

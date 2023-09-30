@@ -20,6 +20,7 @@ const TransactionHistory = lazy(() => import('./pages/Expert/pages/TransactionHi
 const ShowListPost = lazy(() => import('./pages/Expert/pages/ShowListPost'))
 const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
+const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -129,9 +130,10 @@ export default function useRouteElements() {
                   )
                 },
                 {
-                  path: path.historyPurchase,
+                  path: path.historyTransaction,
                   element: (
                     <Suspense>
+                      <UserHistoryTransaction />
                     </Suspense>
                   )
                 }

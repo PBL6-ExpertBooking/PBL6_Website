@@ -8,7 +8,7 @@ function ExpertLayoutInner({ children }) {
     <div>
       <Box sx={{
         display: 'flex',
-        height: '95vh',
+        height: '93vh',
       }} >
       <ExpertSideNav />
       {children}
