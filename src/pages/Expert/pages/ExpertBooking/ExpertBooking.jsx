@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy } from 'react';
 // @mui
 import {
   Stack,
@@ -11,169 +11,188 @@ import {
   DataGrid
 } from '@mui/x-data-grid';
 
-const columns = [
-  { field: 'major', headerName: 'Major', flex: 1},
-  { field: 'title', headerName: 'Title', flex: 2 },
-  { field: 'address', headerName: 'Address', flex: 3 },
-  { 
-    field: 'price', 
-    headerName: 'Price', 
-    flex: 1 ,
-    renderCell: (params) => {
-      return (
-        <Typography variant="body2">
-          {params.value} VNĐ
-        </Typography>
-      )
-    }
-  },
-  { field: 'status', headerName: 'Status', flex: 1 },
-	{
-		field: 'action',
-		headerName: 'Action',
-		width: 180,
-		sortable: false,
-		disableClickEventBubbling: true,
-		
-		renderCell: (params) => {
-				const onClick = (e) => {
-					const currentRow = params.row;
-					return alert(JSON.stringify(currentRow, null, 4));
-				};
-				return (
-					<Stack direction="row" spacing={2}>
-						<Button variant="contained" color="warning" size="small" onClick={onClick}>Show detail</Button>
-					</Stack>
-				);
-		},
-	}
-];
+const ExpertDetailInfoModal = lazy(() => import('../../components/ExpertDetailInfoModal'))
+
+
 
 const posts = [
   {
     id: '1',
-		major: "IT1",
+    major: "IT1",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '2',
-		major: "IT2",
+    major: "IT2",
     title: 'Tìm kiếm người sửa máy tính Win10',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '3',
-		major: "IT3",
+    major: "IT3",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '4',
-		major: "IT4",
+    major: "IT4",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '5',
-		major: "IT5",
+    major: "IT5",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '6',
-		major: "IT6",
+    major: "IT6",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '7',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '8',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '9',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '10',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '11',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '12',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '13',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },{
     id: '14',
-		major: "IT",
+    major: "IT",
     title: 'Tìm kiếm người sửa máy tính Win7',
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
-		status: 'Confirmed',
+    status: 'Confirmed',
     createdAt: ""
   },
 ];
 
 
 export default function ExpertBooking() {
+  const [open, setOpen] = useState(false)
+
+  const columns = [
+    { field: 'major', headerName: 'Major', flex: 1},
+    { field: 'title', headerName: 'Title', flex: 2 },
+    { field: 'address', headerName: 'Address', flex: 3 },
+    { 
+      field: 'price', 
+      headerName: 'Price', 
+      flex: 1 ,
+      renderCell: (params) => {
+        return (
+          <Typography variant="body2">
+            {params.value} VNĐ
+          </Typography>
+        )
+      }
+    },
+    { field: 'status', headerName: 'Status', flex: 1 },
+    {
+      field: 'action',
+      headerName: 'Action',
+      width: 180,
+      sortable: false,
+      disableClickEventBubbling: true,
+      
+      renderCell: (params) => {
+          return (
+            <Stack direction="row" spacing={2}>
+              <Button variant="contained" color="warning" size="small" onClick={(e) => handleOpenModal(e, params.row)}>Show detail</Button>
+            </Stack>
+          );
+      },
+    }
+  ];
+
+  const post = {
+    id: '1',
+    title: 'Tìm kiếm người sửa máy tính Win7',
+    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
+    price: 200000,
+    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
+    createdAt: ""
+  }
+
+  const handleOpenModal = (e, row) => {
+    console.log(row.id)
+    setOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpen(false)
+  }
 
   return (
     <>
       <Container
-				sx={{ minWidth: 1500
-				}}
-			>
+        sx={{ minWidth: 1500
+        }}
+      >
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
           <Typography variant="h3" gutterBottom>
             My bookings
@@ -198,6 +217,7 @@ export default function ExpertBooking() {
           />
         </div>  
       </Container>
+      < ExpertDetailInfoModal open={open} handleCloseModal={handleCloseModal} post={post}/>
     </>
   );
 }
