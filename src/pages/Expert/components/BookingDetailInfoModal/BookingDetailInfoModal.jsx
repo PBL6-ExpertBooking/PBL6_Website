@@ -15,7 +15,7 @@ const style = {
   p: 4,
 };
 
-export default function ExpertDetailInfoModal({open, handleCloseModal, post}) {
+export default function BookingDetailInfoModal({open, handleCloseModal, post}) {
 
   return (
     <div>
@@ -105,6 +105,29 @@ export default function ExpertDetailInfoModal({open, handleCloseModal, post}) {
                 Description:
               </Typography> {post.description}
               </Typography>
+
+              <Typography
+                align="start"
+                gutterBottom
+                variant="body1"
+                sx={{
+                  fontSize: '1.2rem',
+                  color: "green"
+                }}
+              >
+                <Typography
+                align="start"
+                gutterBottom
+                variant="h5"
+                sx={{
+                  display: 'inline-block',
+                  fontStyle: 'italic',
+                  color: "black"
+                }}
+              >
+                Status:
+              </Typography> {post.status}
+              </Typography>
             </CardContent>
             <Box sx={{ flexGrow: 1 }} />
             <Divider />
@@ -135,8 +158,9 @@ export default function ExpertDetailInfoModal({open, handleCloseModal, post}) {
               >
                 <Button
                 variant='contained'
-                sx={{ width: 160, height: 40 }}
-                >Accept booking</Button>
+                color="error"
+                sx={{ width: 160, height: 40}}
+                >Cancel booking</Button>
               </Stack>
             </Stack>
           </Card>
