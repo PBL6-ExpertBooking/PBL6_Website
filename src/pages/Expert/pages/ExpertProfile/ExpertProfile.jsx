@@ -2,6 +2,7 @@ import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControl, I
 import {React, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import CertificateInfo from '../../components/CertificateInfo'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -137,6 +138,9 @@ const ExpertProfile = () => {
           </Box>
         </Stack>
       </Card>
+
+      {/* === */}
+      <CertificateInfo/>
     </div>
   )
 }
