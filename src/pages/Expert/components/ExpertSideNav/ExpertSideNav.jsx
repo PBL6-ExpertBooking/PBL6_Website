@@ -32,9 +32,6 @@ export default function ExpertSideNav() {
         <Link to={path.expertProfile} style={styleLink}>
           <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
         </Link>
-        <Link to={path.expertInfo} style={styleLink}>
-          <MenuItem icon={<ManageAccountsIcon />}>Expert Info</MenuItem>
-        </Link>
         <Link to={path.changePassword} style={styleLink}>
           <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
         </Link>
@@ -44,7 +41,7 @@ export default function ExpertSideNav() {
         <Link to={path.expertShowListPost} style={styleLink}>
           <MenuItem icon={<ChecklistIcon />}>Show list post</MenuItem>
         </Link>
-				<Link to={path.expertBookings} style={styleLink}>
+        <Link to={path.expertBookings} style={styleLink}>
           <MenuItem icon={<ShoppingCartIcon />}>My orders</MenuItem>
         </Link>
         <MenuItem icon={<LogoutRoundedIcon />} onClick={logOut} style={styleLink}>

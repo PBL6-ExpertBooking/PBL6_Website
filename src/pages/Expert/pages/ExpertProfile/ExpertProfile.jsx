@@ -1,5 +1,5 @@
-import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControlLabel, Checkbox } from '@mui/material'
-import React from 'react'
+import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import {React, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 const VisuallyHiddenInput = styled('input')({
@@ -14,9 +14,15 @@ const VisuallyHiddenInput = styled('input')({
   width: 1
 })
 
-const ExpertInfo = () => {
+const ExpertProfile = () => {
+  const [gender, setGender] = useState(0);
+  const [major, setMajor] = useState(0);
+
+  const handleChange = (event) => {
+    setGender(event.target.value);
+  };
   return (
-    <div style={{width: '100%'}}>
+    <div style={{width: '100%', height: '100vh'}}>
       <Card
         sx={{
           display: 'flex',
@@ -33,9 +39,26 @@ const ExpertInfo = () => {
             width: '100%'
           }}
         >
+          <Stack
+            spacing={5}
+            direction='column'
+            alignItems='center'
+            justifyContent='center'
+            sx={{
+              width: '50%'
+            }}
+          >
+            <Avatar alt='Remy Sharp' src='https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png' sx={{ width: 250, height: 250 }} />
+            <Box>
+              <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
+                Upload file
+                <VisuallyHiddenInput type='file' />
+              </Button>
+            </Box>
+          </Stack>
           <Box sx={{ display: 'block', width: '100%' }}>
             <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-              Expert Information
+              Expert Profile
             </Typography>
             <Box component='form' noValidate autoComplete='off'>
               <Box
@@ -43,7 +66,7 @@ const ExpertInfo = () => {
                   '& .MuiTextField-root': { m: 2, width: '45%' }
                 }}
               >
-                <TextField fullWidth required id='outlined-required' label='Username' defaultValue='test123' disabled />
+                <TextField fullWidth required id='outlined-required' label='Username' defaultValue='test123' />
                 <TextField fullWidth required id='outlined-required' label='Email' defaultValue='test123@gmail.com' />
               </Box>
 
@@ -69,6 +92,30 @@ const ExpertInfo = () => {
                   }}
                   defaultValue='0123456789'
                 />
+
+                <FormControl 
+                  sx={{width: '45%', m: 2}}
+                >
+                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={gender}
+                    label="Gender"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={0}>Male</MenuItem>
+                    <MenuItem value={1}>Female</MenuItem>
+                    <MenuItem value={2}>Orther</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <Box
+                sx={{
+                  '& .MuiTextField-root': { m: 2, width: '94%' }
+                }}
+              >
+                <TextField required id='outlined-required' label='Address' defaultValue='test' />
               </Box>
             </Box>
             <Stack
@@ -90,37 +137,8 @@ const ExpertInfo = () => {
           </Box>
         </Stack>
       </Card>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: '#E8DDDD',
-          padding: '20px',
-          margin: '20px 100px',
-        }}
-      >
-        <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-          Delete Account
-        </Typography>
-        <FormControlLabel control={<Checkbox defaultChecked />} label="
-          I understand that I will not be able to undo this action and that all my data will be deleted.
-        "  sx={{ marginLeft: '1.5rem' }} />
-        <Stack
-              spacing={1}
-              direction='row'
-              alignItems='center'
-              justifyContent='flex-end'
-              sx={{
-                marginRight: '2rem'
-              }}
-            >
-              <Button variant='contained' component='label' color='error'>
-                Delete
-              </Button>
-            </Stack>
-      </Card>
     </div>
   )
 }
 
-export default ExpertInfo
+export default ExpertProfile

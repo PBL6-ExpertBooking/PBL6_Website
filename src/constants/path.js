@@ -19,9 +19,8 @@ const path = {
   expertTransactionHistory: '/expert/transaction-history',
   expertAnalytics: '/expert/analytics',
   expertBookings: '/expert/bookings',
-  expertInfo: '/expert/info',
-	expertShowListPost: '/expert/list-post',
-	expertBookings: '/expert/bookings'
+  expertShowListPost: '/expert/list-post',
+  expertBookings: '/expert/bookings'
 } 
 
 export default path
