@@ -17,10 +17,45 @@ const VisuallyHiddenInput = styled('input')({
 const CertificateInfo = () => {
   const [major, setMajor] = useState(0);
   const [image, setImage] = useState(null)
+  
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const imgname = event.target.files[0].name;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      const img = new Image();
+      img.src = reader.result;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const maxSize = Math.max(img.width, img.height);
+        canvas.width = maxSize;
+        canvas.height = maxSize;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(
+          img,
+          (maxSize - img.width) / 2,
+          (maxSize - img.height) / 2
+        );
+        canvas.toBlob(
+          (blob) => {
+            const file = new File([blob], imgname, {
+              type: "image/png",
+              lastModified: Date.now(),
+            });
+            setImage(file);
+          },
+          "image/jpeg",
+          0.8
+        );
+      };
+    };
+  };
 
   const handleChange = (event) => {
     setMajor(event.target.value);
   };
+
   return (
     <div style={{width: '100%'}}>
       <Card
@@ -90,9 +125,13 @@ const CertificateInfo = () => {
                       width: '45%'
                     }}
                   >
-                    <Avatar alt='Remy Sharp' src='https://khoaquocte.vn/wp-content/uploads/2023/01/Certificate-la-gi.jpg' variant="square" sx={{ width: '100%', height: 400 }} />
+                    {image ? (
+                      <Avatar alt='Remy Sharp' src={URL.createObjectURL(image)} variant="square" sx={{ width: '100%', height: 400 }} />
+                    ) : (
+                      <Avatar alt='Remy Sharp' src='https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png' variant="square" sx={{ width: '100%', height: 400 }} />
+                    )}
                     <Box>
-                      <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
+                      <Button component='label' variant='contained' startIcon={<CloudUploadIcon />} onChange={(e) => handleImageChange(e)}>
                         Upload image
                         <VisuallyHiddenInput type='file' />
                       </Button>
