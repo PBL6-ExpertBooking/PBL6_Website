@@ -32,7 +32,7 @@ export default function ExpertSideNav() {
         <Link to={path.expertProfile} style={styleLink}>
           <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
         </Link>
-        <Link to={path.changePassword} style={styleLink}>
+        <Link to={path.expertChangePassword} style={styleLink}>
           <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
         </Link>
         <Link to={path.expertTransactionHistory} style={styleLink}>

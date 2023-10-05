@@ -21,6 +21,7 @@ const ShowListPost = lazy(() => import('./pages/Expert/pages/ShowListPost'))
 const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
+const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -178,6 +179,14 @@ export default function useRouteElements() {
                 element: (
                   <Suspense>
                     <ExpertBooking />
+                  </Suspense>
+                )
+              },
+              {
+                path: path.expertChangePassword,
+                element: (
+                  <Suspense>
+                    <ExpertChangePassword/>
                   </Suspense>
                 )
               }
