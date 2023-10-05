@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
 import path from '../../../../constants/path'
-import { AppContext } from '../../../../contexts/app.context'
-import { useNavigate } from 'react-router-dom'
 import { Sidebar, Menu, MenuItem, useProSidebar } from 'react-pro-sidebar'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
@@ -9,10 +7,16 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
+import { useCookies } from 'react-cookie'
+
 export default function UserSideNav() {
-  const navigate = useNavigate()
+  const [ removeCookie ] = useCookies(['user'])
   const logOut = async () => {
-    navigate('/login')
+    removeCookie('access_token', { path: '/' })
+    removeCookie('refresh_token', { path: '/' })
+    removeCookie('user', { path: '/' })
+    localStorage.removeItem('profile')
+    window.location.reload()
   }
   const { collapseSidebar } = useProSidebar()
   const styleLink = {

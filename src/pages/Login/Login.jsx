@@ -9,6 +9,8 @@ import axios from 'axios'
 import useSnackbar from '../../contexts/snackbar.context'
 import urlConfig from '../../config/UrlConfig'
 import Snackbar from '../../common/components/SnackBar'
+import { setProfileToLS } from '../../utils/auth'
+import { useCookies } from 'react-cookie';
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -42,6 +44,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function LoginPage() {
   const session = null
   const navigate = useNavigate()
+  const [cookies, setCookie] = useCookies(['user']);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { snack, setSnack } = useSnackbar()
@@ -53,7 +56,10 @@ export default function LoginPage() {
       })
       .then((res) => {
         if (res.status === 200) {
-          navigate('/dashboard')
+          setProfileToLS(res.data.user)
+          setCookie('access_token', res.data.tokens.access_token, { path: '/' })
+          setCookie('refresh_token', res.data.tokens.refresh_token, { path: '/' })
+          window.location.reload()
         }
       })
       .catch((err) => {

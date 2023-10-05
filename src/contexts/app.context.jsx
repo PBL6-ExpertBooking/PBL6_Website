@@ -1,8 +1,9 @@
 import { createContext, useState } from 'react'
-import { getAccessTokenFromLS, getProfileFromLS } from '../utils/auth'
+import { getProfileFromLS } from '../utils/auth'
+import {useCookies } from "react-cookie";
 
 export const getInitialAppContext = () => ({
-  isAuthenticated: Boolean(getAccessTokenFromLS()),
+  isAuthenticated: false,
   setIsAuthenticated: () => null,
   profile: getProfileFromLS(),
   setProfile: () => null,
@@ -19,7 +20,8 @@ export const AppProvider = ({
   children,
   defaultValue = initialAppContext
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(defaultValue.isAuthenticated)
+  const [ cookies ] = useCookies(['user']);
+  const [isAuthenticated, setIsAuthenticated] = useState(cookies.access_token ? true : false)
   const [extendedPurchases, setExtendedPurchases] = useState(defaultValue.extendedPurchases)
   const [profile, setProfile] = useState(defaultValue.profile)
 
