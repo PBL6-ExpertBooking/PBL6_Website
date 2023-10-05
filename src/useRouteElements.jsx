@@ -25,14 +25,12 @@ const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassw
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
-  // return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
-  return <Outlet />
+  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 
 function RejectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
-
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
+  return !isAuthenticated ? <Outlet /> : <Navigate to='/dashboard' />
 }
 
 export default function useRouteElements() {

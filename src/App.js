@@ -8,6 +8,7 @@ import { SnackbarContextProvider } from './contexts/snackbar.context'
 import ThemeProvider from './theme'
 import { LocalStorageEventTarget } from './utils/auth'
 import { ProSidebarProvider } from 'react-pro-sidebar'
+import { CookiesProvider } from 'react-cookie'
 
 const App = () => {
   const routeElements = useRouteElements()
@@ -21,11 +22,13 @@ const App = () => {
   return (
     <HelmetProvider>
       <ErrorBoundary>
-        <SnackbarContextProvider>
-          <ProSidebarProvider>
-            <ThemeProvider>{routeElements}</ThemeProvider>
-          </ProSidebarProvider>
-        </SnackbarContextProvider>
+        <CookiesProvider>
+          <SnackbarContextProvider>
+            <ProSidebarProvider>
+              <ThemeProvider>{routeElements}</ThemeProvider>
+            </ProSidebarProvider>
+          </SnackbarContextProvider>
+        </CookiesProvider>
       </ErrorBoundary>
     </HelmetProvider>
   )
