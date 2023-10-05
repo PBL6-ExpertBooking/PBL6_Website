@@ -20,7 +20,7 @@ export const AppProvider = ({
   children,
   defaultValue = initialAppContext
 }) => {
-  const [ cookies ] = useCookies(['user']);
+  const [ cookies, setCookie ] = useCookies(['user']);
   const [isAuthenticated, setIsAuthenticated] = useState(cookies.access_token ? true : false)
   const [extendedPurchases, setExtendedPurchases] = useState(defaultValue.extendedPurchases)
   const [profile, setProfile] = useState(defaultValue.profile)
