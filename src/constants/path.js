@@ -16,6 +16,7 @@ const path = {
   //Expert
   expert: '/expert',
   expertProfile: '/expert/profile',
+  expertChangePassword: '/expert/changepassword',
   expertTransactionHistory: '/expert/transaction-history',
   expertAnalytics: '/expert/analytics',
   expertBookings: '/expert/bookings',
