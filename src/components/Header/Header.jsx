@@ -17,12 +17,17 @@ const Header = () => {
           margin: '0px 20px'
         }}
       >
-        <Typography variant='h4' component='h4' onClick={() => navigate('/dashboard')} sx={{ 
-          cursor: 'pointer',
-        }} >
+        <Typography
+          variant='h4'
+          component='h4'
+          onClick={() => navigate('/dashboard')}
+          sx={{
+            cursor: 'pointer'
+          }}
+        >
           <ConnectWithoutContactIcon />
           {'  '}
-          Exert Booking
+          Expert Booking
         </Typography>
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
