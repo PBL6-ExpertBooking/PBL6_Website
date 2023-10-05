@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy } from 'react';
+import { useState, lazy } from 'react';
 // @mui
 import {
   Stack,

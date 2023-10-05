@@ -1,5 +1,3 @@
-import { useContext } from 'react'
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import path from '../../../../constants/path'
 import { AppContext } from '../../../../contexts/app.context'

@@ -1,13 +1,45 @@
 import React from 'react'
-import { Avatar, Box, Fab, Typography, Stack } from '@mui/material'
+import { Avatar, Box, Fab, Typography, Stack, TextField,MenuItem } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import { useNavigate } from 'react-router-dom'
+import RootModal from '../Modal/RootModal'
+import province from '../../constants/location'
+import major from '../../constants/major'
 const Header = () => {
   const navigate = useNavigate()
+  const [open, setOpen] = React.useState(false)
   return (
     <div>
+      <RootModal 
+      variant="Create"
+      title="Create Request"
+      open={open}
+      handleClose={() => setOpen(false)}
+      handleOk={() => setOpen(false)}
+      closeOnly={false}
+       >
+        <Box sx={{ my: 2}}>
+        <TextField id='outlined-basic' label='Tên tiêu đề' variant='outlined' fullWidth />
+        <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
+        <TextField id='outlined-select-currency' select label='Major' defaultValue='IT'>
+            {major.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField id='outlined-select-currency' select label='Location' defaultValue='15'>
+            {province.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          </Stack>
+        </Box>
+        </RootModal>
       <Box
         sx={{
           display: 'flex',
@@ -16,13 +48,18 @@ const Header = () => {
           height: '7vh',
           margin: '0px 20px'
         }}
-      >
-        <Typography variant='h4' component='h4' onClick={() => navigate('/dashboard')} sx={{ 
-          cursor: 'pointer',
-        }} >
+        >
+        <Typography
+          variant='h4'
+          component='h4'
+          onClick={() => navigate('/dashboard')}
+          sx={{
+            cursor: 'pointer'
+          }}
+        >
           <ConnectWithoutContactIcon />
           {'  '}
-          Exert Booking
+          Expert Booking
         </Typography>
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
@@ -42,6 +79,7 @@ const Header = () => {
                 sx={{
                   backgroundColor: '#E8DDDD'
                 }}
+                onClick={() => setOpen(true)}
               >
                 <AddIcon />
               </Fab>
