@@ -48,7 +48,7 @@ const Header = () => {
           height: '7vh',
           margin: '0px 20px'
         }}
-        >
+      >
         <Typography
           variant='h4'
           component='h4'
