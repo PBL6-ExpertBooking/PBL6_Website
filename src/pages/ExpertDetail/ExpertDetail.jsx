@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Card, CardMedia, CardContent, Typography, Avatar, Rating, Grid, Stack, CardHeader } from '@mui/material'
+import { Box, Card, CardContent, Typography, Avatar, Rating, Grid, Stack, CardHeader } from '@mui/material'
 import RatingContent from '../../components/RatingContent'
 
 const ExpertDetail = () => {

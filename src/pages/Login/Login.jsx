@@ -1,19 +1,14 @@
 import { styled } from '@mui/material/styles'
-import {
-  Link,
-  Container,
-  Typography,
-  Stack,
-  Button,
-  TextField,
-  Checkbox,
-  FormControlLabel
-} from '@mui/material'
+import { Link, Container, Typography, Stack, Button, TextField, Checkbox, FormControlLabel } from '@mui/material'
 // hooks
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LoginPhoto from '../../assets/images/login.png'
+import axios from 'axios'
+import useSnackbar from '../../contexts/snackbar.context'
+import urlConfig from '../../config/UrlConfig'
+import Snackbar from '../../common/components/SnackBar'
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -49,13 +44,26 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const { snack, setSnack } = useSnackbar()
   const login = async () => {
-    // const res = await signIn("credentials", {
-    //     username: username,
-    //     password: password,
-    // });
-    console.log(username, password)
-    navigate('/dashboard')
+    const response = await axios
+      .post(urlConfig.authentication.login, {
+        username: username,
+        password: password
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          navigate('/dashboard')
+        }
+      })
+      .catch((err) => {
+        setSnack({
+          open: true,
+          type: 'error',
+          message: `${err.response.data.message}`
+        })
+      })
+    // navigate('/dashboard')
   }
   const mdUp = useResponsive('up', 'md')
   if (session) {
@@ -63,6 +71,7 @@ export default function LoginPage() {
   } else
     return (
       <>
+        <Snackbar />
         <StyledRoot>
           {mdUp && (
             <StyledSection>
