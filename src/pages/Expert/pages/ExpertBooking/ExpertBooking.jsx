@@ -13,8 +13,6 @@ import {
 
 const BookingDetailInfoModal = lazy(() => import('../../components/BookingDetailInfoModal'))
 
-
-
 const posts = [
   {
     id: '1',
@@ -175,7 +173,7 @@ export default function ExpertBooking() {
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     price: 200000,
     description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-		status: "Confirmed",
+    status: "Confirmed",
     createdAt: ""
   }
 
