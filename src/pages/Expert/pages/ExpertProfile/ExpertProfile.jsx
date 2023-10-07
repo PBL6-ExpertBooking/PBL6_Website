@@ -97,7 +97,7 @@ const ExpertProfile = () => {
                 <FormControl 
                   sx={{width: '45%', m: 2}}
                 >
-                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                  <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

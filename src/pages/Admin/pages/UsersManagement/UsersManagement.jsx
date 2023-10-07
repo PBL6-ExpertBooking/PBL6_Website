@@ -2,7 +2,6 @@ import { useState, lazy } from 'react';
 // @mui
 import {
   Stack,
-  Button,
   Container,
   IconButton,
   Popover,
@@ -18,24 +17,34 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
+
 //USERS DATA
 const users = [
   {
     id: '1',
-    fullName: "Phạm Thành Công",
+    firstName: "Phạm Thành",
+    lastName: "Công",
     address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng, K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
     email: "conpham@gmail.com",
     phone: '0382412729',
     role: 'Expert',
+    gender: 0,
+    username: 'congphamit2002',
+    DoB: '2002-07-22',
     verify: 'Yes'
   },
   {
     id: '2',
-    fullName: "Bùi Phước Huy",
-  address: "K7/7, Ngô sỹ liên",
-    email: "conpham@gmail.com",
+    firstName: "Bùi Phước",
+    lastName: "Huy",
+    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng, K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
+    email: "huybui@gmail.com",
     phone: '0382412729',
-    role: 'Admin',
+    role: 'User',
+    gender: 0,
+    username: 'huybui2002',
+    DoB: '2002-07-23',
     verify: 'No'
   }
 ]
@@ -45,6 +54,7 @@ const UsersManagement = () => {
   //STATE
   const [openMenu, setOpenMenu] = useState(null);
   const [currentRow, setCurrentRow] = useState(null);
+  const [openModal, setOpenModal] = useState(false)
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -57,15 +67,26 @@ const UsersManagement = () => {
   };
 
   const handleClickEditBtn = () => {
-    console.log(currentRow)
+    setOpenModal(true)
   }
 
   const handleClickDeleteBtn = () => {
-    console.log(currentRow)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
   }
 
   const columns = [
-    { field: 'fullName', headerName: 'Full name', flex: 2},
+    { field: 'fullName', 
+      headerName: 'Full name', 
+      flex: 2,
+      renderCell: (params) => {
+        return (
+          params.row.firstName + " " + params.row.lastName
+        )
+      }
+    },
     { field: 'email', headerName: 'Email', flex: 2 },
     { field: 'address', headerName: 'Address', flex: 5 },
     { field: 'phone', headerName: 'Phone', flex: 2 },
@@ -153,6 +174,8 @@ const UsersManagement = () => {
           Delete
         </MenuItem>
       </Popover>
+      
+      {currentRow && < UserInfoModal open={openModal} handleCloseModal={handleCloseModal} user={currentRow}/>}
     </>
   )
 }

@@ -178,7 +178,6 @@ export default function ExpertBooking() {
   }
 
   const handleOpenModal = (e, row) => {
-    console.log(row.id)
     setOpen(true)
   }
 
