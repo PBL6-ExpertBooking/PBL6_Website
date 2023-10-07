@@ -7,6 +7,7 @@ import RegisterLayout from './layouts/RegisterLayout'
 import CartLayout from './layouts/CartLayout'
 import UserLayout from './pages/User/layouts/UserLayout'
 import ExpertLayout from './pages/Expert/layouts/ExpertLayout'
+import AdminLayout from './pages/Admin/layouts/AdminLayout'
 
 const Login = lazy(() => import('./pages/Login'))
 const Profile = lazy(() => import('./pages/Profile'))
@@ -22,6 +23,7 @@ const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
+const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -185,6 +187,26 @@ export default function useRouteElements() {
                 element: (
                   <Suspense>
                     <ExpertChangePassword/>
+                  </Suspense>
+                )
+              }
+            ] 
+            }
+          ]
+        }, 
+        {
+          path: path.admin,
+          element: <MainLayout />,
+          children: [
+            {
+            path: '',
+            element: <AdminLayout/>,
+            children: [
+              {
+                path: path.adminListUser,
+                element: (
+                  <Suspense>
+                    <UsersManagement/>
                   </Suspense>
                 )
               }

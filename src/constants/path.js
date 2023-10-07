@@ -21,7 +21,11 @@ const path = {
   expertAnalytics: '/expert/analytics',
   expertBookings: '/expert/bookings',
   expertShowListPost: '/expert/list-post',
-  expertBookings: '/expert/bookings'
+  expertBookings: '/expert/bookings',
+
+  //Admin
+  admin: '/admin',
+  adminListUser: '/admin/users-management'
 } 
 
 export default path

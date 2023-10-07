@@ -7,12 +7,10 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useCookies } from 'react-cookie'
 
-export default function ExpertSideNav() {
-   const [ cookies, setCookie, removeCookie ] = useCookies(['user'])
+export default function AdminSideNav() {
+  const [ cookies, setCookie, removeCookie ] = useCookies(['user'])
   const logOut = async () => {
     removeCookie('access_token', { path: '/' })
     removeCookie('refresh_token', { path: '/' })
@@ -31,20 +29,8 @@ export default function ExpertSideNav() {
         <Link to={path.dashboard} style={styleLink}>
           <MenuItem icon={<HomeRoundedIcon />}>DashBoard</MenuItem>
         </Link>
-        <Link to={path.expertProfile} style={styleLink}>
-          <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
-        </Link>
-        <Link to={path.expertChangePassword} style={styleLink}>
-          <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
-        </Link>
-        <Link to={path.expertTransactionHistory} style={styleLink}>
-          <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
-        </Link>
-        <Link to={path.expertShowListPost} style={styleLink}>
-          <MenuItem icon={<ChecklistIcon />}>Show list post</MenuItem>
-        </Link>
-        <Link to={path.expertBookings} style={styleLink}>
-          <MenuItem icon={<ShoppingCartIcon />}>My orders</MenuItem>
+        <Link to={path.adminListUser} style={styleLink}>
+          <MenuItem icon={<ManageAccountsIcon />}>Users management</MenuItem>
         </Link>
         <MenuItem icon={<LogoutRoundedIcon />} onClick={logOut} style={styleLink}>
           Sign Out
