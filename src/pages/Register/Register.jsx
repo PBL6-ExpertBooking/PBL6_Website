@@ -5,8 +5,11 @@ import { Link, Container, Typography, Stack, Button, TextField } from '@mui/mate
 import useResponsive from '../../hooks/useResponsive'
 import {  useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '../../common/components/SnackBar'
+import useSnackbar from '../../contexts/snackbar.context'
 import image from '../../assets/images/login.png';
-
+import axios from 'axios';
+import urlConfig from '../../config/UrlConfig';
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -38,49 +41,39 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function RegisterPage() {
-    const session = null;
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const { snack, setSnack } = useSnackbar()
+    const mdUp = useResponsive('up', 'md');
     const register = async () => {
         if (password !== confirmPassword) {
-            console.log("Passwords do not match");
+            alert("Passwords do not match");
             return;
         }
-        // const res = await fetch('/api/auth/register', {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         username: username,
-        //         name: name,
-        //         surname: surname,
-        //         email: email,
-        //         password: password,
-        //         confirmPassword: confirmPassword
-        //     }),
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // if (res.status === 201) {
-        //     navigate('/login')
-        // }
-        // else {
-        //     const result = await res.json();
-        //     console.log(result);
-        // }
+        const res = await axios.post(urlConfig.authentication.register, {
+            first_name: firstname,
+            last_name: lastname,
+            email: email,
+            username: username,
+            password: password,
+        }).then((res) => {
+            navigate('/login');
+        }).catch((err) => {
+            setSnack({
+                open: true,
+                message: err.response.data.message,
+                type: 'error'
+            })
+        })
     }
-
-    const mdUp = useResponsive('up', 'md');
-    if (session) {
-        navigate('/dashboard');
-    }
-    else
         return (
             <>
+                <Snackbar />
                 <title> Register </title>
                 <StyledRoot>
                     {mdUp && (
@@ -96,8 +89,8 @@ export default function RegisterPage() {
                             <Stack spacing={3}>
                                 <TextField name="username" label="Username" required onChange={(e) => { setUsername(e.target.value) }} />
                                 <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-                                    <TextField name="name" label="Name" required onChange={(e) => { setName(e.target.value) }} />
-                                    <TextField name="surname" label="Surname" required onChange={(e) => { setSurname(e.target.value) }} />
+                                    <TextField name="name" label="First Name" required onChange={(e) => { setFirstname(e.target.value) }} />
+                                    <TextField name="surname" label="Last Name" required onChange={(e) => { setLastname(e.target.value) }} />
 
                                 </Stack>
                                 <TextField name="email" label="Email" required onChange={(e) => { setEmail(e.target.value) }} />
