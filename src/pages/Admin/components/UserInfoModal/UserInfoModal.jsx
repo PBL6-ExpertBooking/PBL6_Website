@@ -5,7 +5,6 @@ import { Box, Stack, Button, TextField, Typography, Card, FormControl, InputLabe
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import BlockIcon from '@mui/icons-material/Block';
 import _ from 'lodash';
 import dayjs from 'dayjs';
 
@@ -16,9 +15,9 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 1000,
   bgcolor: 'background.paper',
-  border: '2px solid #ccc',
   boxShadow: 24,
   p: 4,
+  borderRadius: 2,
 };
 
 export default function UserInfoModal({open, handleCloseModal, user}) {
@@ -28,24 +27,40 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
   const [username, setUsername] = useState("");
   const [gender, setGender] = useState(0);
   const [DoB, setDoB] = useState("");
-  const [verify, setVerify] = useState("No");
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(0);
+  const [isRestricted, setIsRestricted] = useState(false);
 
   useEffect(() => {
     // Khi prop user thay đổi, cập nhật state currentUser
     // initState(user)
+    clearState()
     initState(user)
   }, [user]);
 
+
+  const clearState = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setUsername("")
+    setGender(0)
+    setDoB("")
+    setIsConfirmed(false)
+    setAddress("")
+    setRole("USER")
+    setIsRestricted(false)
+  }
+
   const initState = (user) => {
-    if (user && !_.isNull(user) && user.firstName) {
-      setFirstName(user.firstName)
+    if (user && !_.isNull(user) && user.first_name) {
+      setFirstName(user.first_name)
     }
 
-    if (user && !_.isNull(user) && user.lastName) {
-      setLastName(user.lastName)
+    if (user && !_.isNull(user) && user.last_name) {
+      setLastName(user.last_name)
     }
 
     if (user && !_.isNull(user) && user.email) {
@@ -57,15 +72,15 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
     }
 
     if (user && !_.isNull(user) && user.gender) {
-      setGender(user.gender)
+      setGender(user.gender ? 1 : 0)
     }
 
     if (user && !_.isNull(user) && user.DoB) {
       setDoB(user.DoB)
     }
 
-    if (user && !_.isNull(user) && user.verify) {
-      setVerify(user.verify)
+    if (user && !_.isNull(user) && user.isConfirmed) {
+      setIsConfirmed(user.isConfirmed ? 1 : 0)
     }
 
     if (user && !_.isNull(user) && user.address) {
@@ -77,12 +92,33 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
     }
 
     if (user && !_.isNull(user) && user.role) {
-      setRole(user.role)
+      switch(user.role) {
+        case "USER":{
+          setRole(0);
+          break;
+        }
+        case "EXPERT": {
+          setRole(1);
+          break;
+        }
+        case "ADMIN": {
+          setRole(2);
+          break;
+        }
+      }
+    } 
+
+    if (user && !_.isNull(user) && user.isRestricted) {
+      setIsRestricted(user.isRestricted ? 1 : 0)
     } 
   }
 
   const handleOnclickSaveChangesBtn = () => {
-    console.log(firstName, lastName, email, username, gender, DoB, verify, address, phone, role)
+    console.log(firstName, lastName, email, username, gender, DoB, address, phone, role, isConfirmed, isRestricted)
+  }
+
+  const lowerAndCapitalize = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   }
 
   return (
@@ -90,6 +126,7 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
       <Modal
         open={open}
         onClose={() => handleCloseModal()}
+        borderRadius
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -110,7 +147,7 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
         >
           <Box sx={{ display: 'block', width: '100%' }}>
             <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-              {user.role} Profile
+            {lowerAndCapitalize(`${user.role} Profile`)}
             </Typography>
             <Box component='form' noValidate autoComplete='off'>
               <Box
@@ -127,8 +164,8 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
                   '& .MuiTextField-root': { m: 2, width: '45%' }
                 }}
               >
-                <TextField fullWidth required id='outlined-required' label='Username' value={username} onChange={(e) => setUsername(e.target.value)} />
-                <TextField fullWidth required id='outlined-required' label='Email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <TextField fullWidth required id='outlined-required' label='Username' value={username} disabled />
+                <TextField fullWidth required id='outlined-required' label='Email' value={email} disabled />
               </Box>
 
               <Box
@@ -160,29 +197,29 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
                   >
                     <MenuItem value={0}>Male</MenuItem>
                     <MenuItem value={1}>Female</MenuItem>
-                    <MenuItem value={2}>Orther</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
 
               <Box
                 sx={{
-                  '& .MuiTextField-root': { m: 2, width: '29%' }
+                  '& .MuiTextField-root': { m: 2, width: '45%' }
                 }}
               >
                 <FormControl 
-                  sx={{width: '29%', m: 2}}
+                  sx={{width: '45%', m: 2}}
                 >
                   <InputLabel id="demo-simple-select-label">Role</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={role === 'User' ? 1 : 0}
-                    label="Gender"
-                    onChange={(e) => setRole(e.target.value == 1 ? "User" : "Expert")}
+                    value={role}
+                    label="Role"
+                    onChange={(e) => setRole(e.target.value)}
                   >
-                    <MenuItem value={0}>Expert</MenuItem>
-                    <MenuItem value={1}>User</MenuItem>
+                    <MenuItem value={0}>User</MenuItem>
+                    <MenuItem value={1}>Expert</MenuItem>
+                    <MenuItem value={2}>Admin</MenuItem>
                   </Select>
                 </FormControl>
 
@@ -190,22 +227,33 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
                   id='outlined-number'
                   label='Verify'
                   disabled
-                  type='number'
-                  value={String(verify)}
+                  value={isConfirmed ? "YES" : "NO"}
                 />
-                <LocalizationProvider 
-                  dateAdapter={AdapterDayjs}
-                  sx={{width: '29%', m: 2}}
-                >
-                  <DateField
-                    label="Date of birthday"
-                    value={dayjs(DoB)}
-                    onChange={(newValue) => setDoB(newValue)}
-                  />
-                </LocalizationProvider>
-
               </Box>
 
+              <Box
+                sx={{
+                  '& .MuiTextField-root': { m: 2, width: '45%' }
+                }}
+              >
+                <LocalizationProvider 
+                    dateAdapter={AdapterDayjs}
+                    sx={{width: '45%', m: 2}}
+                  >
+                    <DateField
+                      label="Date of birthday"
+                      value={dayjs(DoB)}
+                      onChange={(newValue) => setDoB(newValue)}
+                    />
+                </LocalizationProvider>
+
+                <TextField
+                  id='outlined-number'
+                  label='Status'
+                  disabled
+                  value={isRestricted ? "ACTIVE" : "UNACTIVE"}
+                />
+              </Box>
               <Box
                 sx={{
                   '& .MuiTextField-root': { m: 2, width: '94%' }
@@ -241,18 +289,11 @@ export default function UserInfoModal({open, handleCloseModal, user}) {
               <Button 
                 variant='contained' 
                 component='label' 
-                color='warning'
-                sx={{width: 130}}
-              >
-                Ban
-              </Button>
-              <Button 
-                variant='contained' 
-                component='label' 
                 color='error'
                 sx={{width: 130}}
+                onClick={() => handleCloseModal()}
               >
-                Delete
+                Cancel
               </Button>
             </Stack>
           </Box>
