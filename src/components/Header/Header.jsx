@@ -9,6 +9,7 @@ import province from '../../constants/location'
 import major from '../../constants/major'
 const Header = () => {
   const navigate = useNavigate()
+  const profile = JSON.parse(localStorage.getItem('profile'))
   const [open, setOpen] = React.useState(false)
   return (
     <div>
@@ -93,7 +94,7 @@ const Header = () => {
               >
                 <Avatar
                   alt='Remy Sharp'
-                  src='https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png'
+                  src={profile.photo_url}
                 />
               </Fab>
             </Box>
