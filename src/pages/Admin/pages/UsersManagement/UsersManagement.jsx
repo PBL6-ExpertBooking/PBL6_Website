@@ -1,4 +1,4 @@
-import { useState, lazy } from 'react';
+import { useState, useEffect, lazy } from 'react';
 // @mui
 import {
   Stack,
@@ -13,48 +13,45 @@ import {
   DataGrid
 } from '@mui/x-data-grid';
 
+import { useCookies } from 'react-cookie'
+import UseAxios from '../../../../hooks/useAxios';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Snackbar from '../../../../common/components/SnackBar'
+import axios from 'axios';
+import useSnackbar from '../../../../contexts/snackbar.context'
+import urlConfig from '../../../../config/UrlConfig';
+import _ from 'lodash';
 
 const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
-//USERS DATA
-const users = [
-  {
-    id: '1',
-    firstName: "Phạm Thành",
-    lastName: "Công",
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng, K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    email: "conpham@gmail.com",
-    phone: '0382412729',
-    role: 'Expert',
-    gender: 0,
-    username: 'congphamit2002',
-    DoB: '2002-07-22',
-    verify: 'Yes'
-  },
-  {
-    id: '2',
-    firstName: "Bùi Phước",
-    lastName: "Huy",
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng, K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    email: "huybui@gmail.com",
-    phone: '0382412729',
-    role: 'User',
-    gender: 0,
-    username: 'huybui2002',
-    DoB: '2002-07-23',
-    verify: 'No'
-  }
-]
-
 const UsersManagement = () => {
-
   //STATE
+  const [cookies, setCookie] = useCookies(['user'])
+  const [users, setUsers] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
   const [currentRow, setCurrentRow] = useState(null);
   const [openModal, setOpenModal] = useState(false)
+  const { snack, setSnack } = useSnackbar()
+  const accessToken = cookies.access_token
+
+  const fetchUsers = async () => {
+    const res = await UseAxios(urlConfig.user.users, accessToken)
+    if(res && res.status === 200) {
+      if(res.data.pagination) {
+        console.log(res.data.pagination.users)
+        if(res.data.pagination.users) {
+          setUsers(res.data.pagination.users)
+        }
+      }
+    }
+  } 
+
+  useEffect(() => {
+    // Gọi API để lấy danh sách người dùng ở đây
+    fetchUsers();
+  }, []); 
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -68,7 +65,7 @@ const UsersManagement = () => {
 
   const handleClickEditBtn = () => {
     setOpenModal(true)
-  }
+  }	
 
   const handleClickDeleteBtn = () => {
   }
@@ -83,15 +80,32 @@ const UsersManagement = () => {
       flex: 2,
       renderCell: (params) => {
         return (
-          params.row.firstName + " " + params.row.lastName
+          params.row.first_name + " " + params.row.last_name
         )
       }
     },
     { field: 'email', headerName: 'Email', flex: 2 },
     { field: 'address', headerName: 'Address', flex: 5 },
-    { field: 'phone', headerName: 'Phone', flex: 2 },
+    { field: 'phone', headerName: 'Phone', flex: 1.3 },
     { field: 'role', headerName: 'Role', flex: 1 },
-    { field: 'verify', headerName: 'Verify', flex: 1 },
+    { field: 'isConfirmed', 
+      headerName: 'Verify', 
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          params.row.isConfirmed == true ? "YES" : "NO"
+        )
+      }
+    },
+    { field: 'isRestricted', 
+      headerName: 'Status', 
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          params.row.isRestricted ? "ACTIVE" : "UNACTIVE"
+        )
+      }
+    },
     {
       field: 'action',
       headerName: '',
@@ -111,7 +125,7 @@ const UsersManagement = () => {
 
   return (
     <>
-
+      <Snackbar />
       <Container
         sx={{ minWidth: 1500
         }}
