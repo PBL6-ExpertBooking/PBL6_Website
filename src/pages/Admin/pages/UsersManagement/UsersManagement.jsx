@@ -23,6 +23,7 @@ import axios from 'axios';
 import useSnackbar from '../../../../contexts/snackbar.context'
 import urlConfig from '../../../../config/UrlConfig';
 import _ from 'lodash';
+import LockIcon from '@mui/icons-material/Lock';
 
 const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
@@ -34,13 +35,13 @@ const UsersManagement = () => {
   const [currentRow, setCurrentRow] = useState(null);
   const [openModal, setOpenModal] = useState(false)
   const { snack, setSnack } = useSnackbar()
+  const [rerender, setRerender] = useState(true)
   const accessToken = cookies.access_token
 
   const fetchUsers = async () => {
     const res = await UseAxios(urlConfig.user.users, accessToken)
     if(res && res.status === 200) {
       if(res.data.pagination) {
-        console.log(res.data.pagination.users)
         if(res.data.pagination.users) {
           setUsers(res.data.pagination.users)
         }
@@ -50,8 +51,11 @@ const UsersManagement = () => {
 
   useEffect(() => {
     // Gọi API để lấy danh sách người dùng ở đây
-    fetchUsers();
-  }, []); 
+    if (rerender) {
+      fetchUsers();
+    }
+    setRerender(false)
+  }, [rerender]); 
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -72,6 +76,43 @@ const UsersManagement = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false)
+  }
+
+  const hanldeClickLockAccount = async () => {
+    handleCloseMenu()
+    if(currentRow.isRestricted) {
+      const res = await UseAxios(`${urlConfig.user.users}/${currentRow._id}/enable`, accessToken, "", "PUT")
+      if (res.success) {
+        setRerender(true)
+        setSnack({
+          open: true,
+          message: 'Unlocked account successfully',
+          type: 'success'
+        })
+      } else {
+        setSnack({
+          open: true,
+          message: res.message,
+          type: 'error'
+        })
+      }
+    } else if (!currentRow.isRestricted) {
+      const res = await UseAxios(`${urlConfig.user.users}/${currentRow._id}/disable`, accessToken, "", "PUT")
+      if (res.success) {
+        setRerender(true)
+        setSnack({
+          open: true,
+          message: 'Locked account successfully',
+          type: 'success'
+        })
+      } else {
+        setSnack({
+          open: true,
+          message: res.message,
+          type: 'error'
+        })
+      }
+    }
   }
 
   const columns = [
@@ -102,7 +143,7 @@ const UsersManagement = () => {
       flex: 1,
       renderCell: (params) => {
         return (
-          params.row.isRestricted ? "ACTIVE" : "UNACTIVE"
+          params.row.isRestricted ? "UNACTIVE" : "ACTIVE"
         )
       }
     },
@@ -178,6 +219,14 @@ const UsersManagement = () => {
         >
           <EditIcon sx={{mr: 1}} />
           Edit
+        </MenuItem>
+
+        <MenuItem 
+          sx={{ color: 'warning.main' }}
+          onClick={hanldeClickLockAccount}
+        >
+          <LockIcon sx={{mr: 1}}/>
+          {currentRow && currentRow.isRestricted ? "Unlock" : "Lock"}
         </MenuItem>
 
         <MenuItem 
