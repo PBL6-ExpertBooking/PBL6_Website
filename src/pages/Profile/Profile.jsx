@@ -1,7 +1,13 @@
 import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControlLabel, Checkbox } from '@mui/material'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import axios from 'axios'
+import urlConfig from '../../config/UrlConfig'
+import { useCookies } from 'react-cookie'
+import useSnackbar from '../../contexts/snackbar.context'
+import Snackbar from '../../common/components/SnackBar'
+import UseAxios from '../../hooks/useAxios'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -15,128 +21,256 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Profile = () => {
+  const [cookies, setCookie] = useCookies(['user'])
+  const [information, setInformation] = useState({})
+  const [formData, setFormData] = useState(new FormData())
+  const { snack, setSnack } = useSnackbar()
+  const accessToken = cookies.access_token
+  const fetchData = async () => {
+    const res = await UseAxios(urlConfig.user.info, accessToken)
+    setInformation(res.data.user)
+  }
+
+  const updateData = async () => {
+    const res = await axios
+      .put(
+        urlConfig.user.info,
+        {
+          first_name: information.first_name,
+          last_name: information.last_name,
+          gender: information.gender,
+          phone: information.phone,
+          address: information.address,
+          DoB: information.DoB,
+          photo: formData.get('photo')
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+      .then((res) => {
+        setInformation(res.data.user)
+        localStorage.setItem('profile', JSON.stringify(res.data.user))
+        setSnack({
+          open: true,
+          message: 'Update Profile Successfully',
+          type: 'success'
+        })
+      })
+      .catch((err) =>
+        setSnack({
+          open: true,
+          message: `${err.response.data.message}`,
+          type: 'error'
+        })
+      )
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
   return (
-    <div style={{width: '100%'}}>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          backgroundColor: '#E8DDDD',
-          padding: '20px',
-          margin: '20px 100px',
-        }}
-      >
-        <Stack
-          spacing={2}
-          direction='row'
+    information.role && (
+      <div style={{ width: '100%' }}>
+        <Snackbar />
+        <Card
           sx={{
-            width: '100%'
+            display: 'flex',
+            flexDirection: 'row',
+            backgroundColor: '#E8DDDD',
+            padding: '20px',
+            margin: '20px 100px'
           }}
         >
           <Stack
-            spacing={5}
-            direction='column'
-            alignItems='center'
-            justifyContent='center'
+            spacing={2}
+            direction='row'
             sx={{
-              width: '50%'
+              width: '100%'
             }}
           >
-            <Avatar alt='Remy Sharp' src='https://demos.themeselection.com/marketplace/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png' sx={{ width: 250, height: 250 }} />
-            <Box>
-              <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
-                Upload file
-                <VisuallyHiddenInput type='file' />
-              </Button>
+            <Stack
+              spacing={5}
+              direction='column'
+              alignItems='center'
+              justifyContent='center'
+              sx={{
+                width: '50%'
+              }}
+            >
+              <Avatar alt='Remy Sharp' src={information.photo_url} sx={{ width: 250, height: 250 }} />
+              <Box>
+                <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
+                  Upload file
+                  <VisuallyHiddenInput
+                    type='file'
+                    accept='.jpg, .png'
+                    onChange={(e) => {
+                      const file = e.target.files[0]
+                      let newFormData = new FormData()
+                      newFormData.append('photo', file)
+                      setFormData(newFormData)
+                      const reader = new FileReader()
+                      reader.readAsDataURL(file)
+                      reader.onloadend = () => {
+                        setInformation({
+                          ...information,
+                          photo_url: reader.result
+                        })
+                      }
+                    }}
+                  />
+                </Button>
+              </Box>
+            </Stack>
+            <Box sx={{ display: 'block', width: '100%' }}>
+              <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
+                Change Profile Information
+              </Typography>
+              <Box component='form' noValidate autoComplete='off'>
+                <Box
+                  sx={{
+                    '& .MuiTextField-root': { m: 2, width: '45%' }
+                  }}
+                >
+                  <TextField
+                    fullWidth
+                    required
+                    id='outlined-required'
+                    label='Username'
+                    defaultValue={information.username}
+                    disabled
+                  />
+                  <TextField
+                    fullWidth
+                    required
+                    id='outlined-required'
+                    label='Email'
+                    defaultValue={information.email}
+                    disabled
+                  />
+                </Box>
+
+                <Box
+                  sx={{
+                    '& .MuiTextField-root': { m: 2, width: '45%' }
+                  }}
+                >
+                  <TextField
+                    required
+                    id='outlined-required'
+                    label='First Name'
+                    defaultValue={information.first_name}
+                    onChange={(e) => {
+                      setInformation({
+                        ...information,
+                        first_name: e.target.value
+                      })
+                    }}
+                  />
+                  <TextField
+                    required
+                    id='outlined-required'
+                    label='Last Name'
+                    defaultValue={information.last_name}
+                    onChange={(e) => {
+                      setInformation({
+                        ...information,
+                        last_name: e.target.value
+                      })
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    '& .MuiTextField-root': { m: 2, width: '45%' }
+                  }}
+                >
+                  <TextField
+                    id='outlined-number'
+                    label='Phone Number'
+                    type='number'
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    defaultValue={information.phone}
+                    onChange={(e) => {
+                      setInformation({
+                        ...information,
+                        phone: e.target.value
+                      })
+                    }}
+                  />
+                  <TextField
+                    required
+                    id='outlined-required'
+                    label='Address'
+                    defaultValue={information.address}
+                    onChange={(e) => {
+                      setInformation({
+                        ...information,
+                        address: e.target.value
+                      })
+                    }}
+                  />
+                </Box>
+              </Box>
+              <Stack
+                spacing={1}
+                direction='row'
+                alignItems='center'
+                justifyContent='flex-end'
+                sx={{
+                  marginRight: '2rem'
+                }}
+              >
+                <Button variant='contained' component='label' onClick={updateData}>
+                  Save Change
+                </Button>
+                <Button variant='contained' component='label' color='error'>
+                  Reset
+                </Button>
+              </Stack>
             </Box>
           </Stack>
-          <Box sx={{ display: 'block', width: '100%' }}>
-            <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-              Change Profile Information
-            </Typography>
-            <Box component='form' noValidate autoComplete='off'>
-              <Box
-                sx={{
-                  '& .MuiTextField-root': { m: 2, width: '45%' }
-                }}
-              >
-                <TextField fullWidth required id='outlined-required' label='Username' defaultValue='test123' />
-                <TextField fullWidth required id='outlined-required' label='Email' defaultValue='test123@gmail.com' />
-              </Box>
-
-              <Box
-                sx={{
-                  '& .MuiTextField-root': { m: 2, width: '45%' }
-                }}
-              >
-                <TextField required id='outlined-required' label='First Name' defaultValue='test' />
-                <TextField required id='outlined-required' label='Last Name' defaultValue='user ' />
-              </Box>
-              <Box
-                sx={{
-                  '& .MuiTextField-root': { m: 2, width: '45%' }
-                }}
-              >
-                <TextField
-                  id='outlined-number'
-                  label='Phone Number'
-                  type='number'
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  defaultValue='0123456789'
-                />
-              </Box>
-            </Box>
-            <Stack
-              spacing={1}
-              direction='row'
-              alignItems='center'
-              justifyContent='flex-end'
-              sx={{
-                marginRight: '2rem'
-              }}
-            >
-              <Button variant='contained' component='label'>
-                Save Change
-              </Button>
-              <Button variant='contained' component='label' color='error'>
-                Reset
-              </Button>
-            </Stack>
-          </Box>
-        </Stack>
-      </Card>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: '#E8DDDD',
-          padding: '20px',
-          margin: '20px 100px',
-        }}
-      >
-        <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-          Delete Account
-        </Typography>
-        <FormControlLabel control={<Checkbox defaultChecked />} label="
+        </Card>
+        <Card
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#E8DDDD',
+            padding: '20px',
+            margin: '20px 100px'
+          }}
+        >
+          <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
+            Delete Account
+          </Typography>
+          <FormControlLabel
+            control={<Checkbox defaultChecked />}
+            label='
           I understand that I will not be able to undo this action and that all my data will be deleted.
-        "  sx={{ marginLeft: '1.5rem' }} />
-        <Stack
-              spacing={1}
-              direction='row'
-              alignItems='center'
-              justifyContent='flex-end'
-              sx={{
-                marginRight: '2rem'
-              }}
-            >
-              <Button variant='contained' component='label' color='error'>
-                Delete
-              </Button>
-            </Stack>
-      </Card>
-    </div>
+        '
+            sx={{ marginLeft: '1.5rem' }}
+          />
+          <Stack
+            spacing={1}
+            direction='row'
+            alignItems='center'
+            justifyContent='flex-end'
+            sx={{
+              marginRight: '2rem'
+            }}
+          >
+            <Button variant='contained' component='label' color='error'>
+              Delete
+            </Button>
+          </Stack>
+        </Card>
+      </div>
+    )
   )
 }
 
