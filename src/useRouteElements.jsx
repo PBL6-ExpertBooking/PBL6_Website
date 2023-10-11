@@ -102,8 +102,7 @@ export default function useRouteElements() {
           path: path.cart,
           element: (
             <CartLayout>
-              <Suspense>
-              </Suspense>
+              <Suspense></Suspense>
             </CartLayout>
           )
         },
@@ -142,76 +141,76 @@ export default function useRouteElements() {
               ]
             }
           ]
-        }, 
+        },
         {
           path: path.expert,
           element: <MainLayout />,
           children: [
             {
-            path: '',
-            element: <ExpertLayout/>,
-            children: [
-              {
-                path: path.expertProfile,
-                element: (
-                  <Suspense>
-                    <ExpertProfile />
-                  </Suspense>
-                )
-              },
-              {
-                path: path.expertTransactionHistory,
-                element: (
-                  <Suspense>
-                    <TransactionHistory />
-                  </Suspense>
-                )
-              },
-              {
-                path: path.expertShowListPost,
-                element: (
-                  <Suspense>
-                    <ShowListPost />
-                  </Suspense>
-                )
-              },
-              {
-                path: path.expertBookings,
-                element: (
-                  <Suspense>
-                    <ExpertBooking />
-                  </Suspense>
-                )
-              },
-              {
-                path: path.expertChangePassword,
-                element: (
-                  <Suspense>
-                    <ExpertChangePassword/>
-                  </Suspense>
-                )
-              }
-            ] 
+              path: '',
+              element: <ExpertLayout />,
+              children: [
+                {
+                  path: path.expertProfile,
+                  element: (
+                    <Suspense>
+                      <ExpertProfile />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.expertTransactionHistory,
+                  element: (
+                    <Suspense>
+                      <TransactionHistory />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.expertShowListPost,
+                  element: (
+                    <Suspense>
+                      <ShowListPost />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.expertBookings,
+                  element: (
+                    <Suspense>
+                      <ExpertBooking />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.expertChangePassword,
+                  element: (
+                    <Suspense>
+                      <ExpertChangePassword />
+                    </Suspense>
+                  )
+                }
+              ]
             }
           ]
-        }, 
+        },
         {
           path: path.admin,
           element: <MainLayout />,
           children: [
             {
-            path: '',
-            element: <AdminLayout/>,
-            children: [
-              {
-                path: path.adminListUser,
-                element: (
-                  <Suspense>
-                    <UsersManagement/>
-                  </Suspense>
-                )
-              }
-            ] 
+              path: '',
+              element: <AdminLayout />,
+              children: [
+                {
+                  path: path.adminListUser,
+                  element: (
+                    <Suspense>
+                      <UsersManagement />
+                    </Suspense>
+                  )
+                }
+              ]
             }
           ]
         }
@@ -222,14 +221,7 @@ export default function useRouteElements() {
       element: <HomeLayout />,
       children: [
         {
-          path: path.productDetail,
-          element: (
-            <Suspense>
-            </Suspense>
-          )
-        },
-        {
-          path: '/',
+          path: '',
           index: true,
           element: (
             <Suspense>
