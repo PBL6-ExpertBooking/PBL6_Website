@@ -7,7 +7,7 @@ import transaction from '../../assets/images/transaction.gif'
 import review from '../../assets/images/review.gif'
 const HomePage = () => {
   return (
-    <Box sx={{ px: 20, pb: 10 }}>
+    <Box sx={{ px: 20, pb: 10, pt: 2 }}>
       <Card>
         <Stack
           direction='row'

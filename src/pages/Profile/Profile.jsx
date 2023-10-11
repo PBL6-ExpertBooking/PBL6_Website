@@ -2,12 +2,10 @@ import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControlLab
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import axios from 'axios'
 import urlConfig from '../../config/UrlConfig'
-import { useCookies } from 'react-cookie'
 import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
-import UseAxios from '../../hooks/useAxios'
+import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -21,36 +19,32 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Profile = () => {
-  const [cookies, setCookie] = useCookies(['user'])
   const [information, setInformation] = useState({})
   const [formData, setFormData] = useState(new FormData())
   const { snack, setSnack } = useSnackbar()
-  const accessToken = cookies.access_token
   const fetchData = async () => {
-    const res = await UseAxios(urlConfig.user.info, accessToken)
+    const res = await AxiosInterceptors.get(urlConfig.user.info)
     setInformation(res.data.user)
   }
 
   const updateData = async () => {
-    const res = await axios
-      .put(
-        urlConfig.user.info,
-        {
-          first_name: information.first_name,
-          last_name: information.last_name,
-          gender: information.gender,
-          phone: information.phone,
-          address: information.address,
-          DoB: information.DoB,
-          photo: formData.get('photo')
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'multipart/form-data'
-          }
+    const res = await AxiosInterceptors.put(
+      urlConfig.user.info,
+      {
+        first_name: information.first_name,
+        last_name: information.last_name,
+        gender: information.gender,
+        phone: information.phone,
+        address: information.address,
+        DoB: information.DoB,
+        photo: formData.get('photo')
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      )
+      }
+    )
       .then((res) => {
         setInformation(res.data.user)
         localStorage.setItem('profile', JSON.stringify(res.data.user))
@@ -103,7 +97,7 @@ const Profile = () => {
               <Avatar alt='Remy Sharp' src={information.photo_url} sx={{ width: 250, height: 250 }} />
               <Box>
                 <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
-                  Upload file
+                  Upload Photo
                   <VisuallyHiddenInput
                     type='file'
                     accept='.jpg, .png'
