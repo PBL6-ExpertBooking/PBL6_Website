@@ -1,21 +1,52 @@
-import { Link } from 'react-router-dom'
+import { Box, Typography, Container, Button, styled } from '@mui/material'
+import svg from '../../assets/images/404.svg'
+import { Helmet } from 'react-helmet-async'
 
-export default function NotFound() {
+const MainContent = styled(Box)(
+  ({ theme }) => `
+    height: 100%;
+    display: flex;
+    flex: 1;
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+)
+
+function NotFound() {
   return (
-    <main className='flex h-screen w-full flex-col items-center justify-center'>
-      <h1 className='text-9xl font-extrabold tracking-widest text-gray-900'>404</h1>
-      <div className='absolute rotate-12 rounded bg-orange px-2 text-sm text-white'>Page Not Found</div>
-      <button className='mt-5'>
-        <Link
-          to='/'
-          className='active:text-orange-500 group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring'
-        >
-          <span className='absolute inset-0 translate-x-0.5 translate-y-0.5 bg-orange transition-transform group-hover:translate-y-0 group-hover:translate-x-0' />
-          <span className='relative block border border-current px-8 py-3'>
-            <span>Go Home</span>
-          </span>
-        </Link>
-      </button>
-    </main>
+    <>
+      <Helmet>
+        <title>Status - 404</title>
+      </Helmet>
+      <MainContent>
+        <Container maxWidth='md'>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+          >
+            <img alt='404' height={180} src={svg} />
+            <Typography variant='h2' sx={{ my: 2 }}>
+              The page you were looking for doesn't exist.
+            </Typography>
+            <Typography variant='h4' color='text.secondary' fontWeight='normal' sx={{ mb: 4 }}>
+              You may have mistyped the address or the page may have moved.
+            </Typography>
+          </Box>
+          <Container maxWidth='sm' sx={{ textAlign: 'center', mt: 3, p: 4 }}>
+            <Button href='/' variant='outlined'>
+              Go to homepage
+            </Button>
+          </Container>
+        </Container>
+      </MainContent>
+    </>
   )
 }
+
+export default NotFound

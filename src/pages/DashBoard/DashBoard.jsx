@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import province from '../../constants/location'
 import major from '../../constants/major'
 import TopExpert from '../../components/TopExpert'
+import { Helmet } from 'react-helmet-async'
 
 const DashBoard = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -13,6 +14,9 @@ const DashBoard = () => {
   }
   return (
     <div>
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
       <Box
         sx={{
           backgroundColor: 'white',

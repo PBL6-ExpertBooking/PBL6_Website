@@ -1,6 +1,5 @@
 import { styled } from '@mui/material/styles'
 import { Link, Container, Typography, Stack, Button, TextField, Checkbox, FormControlLabel } from '@mui/material'
-// hooks
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +9,9 @@ import useSnackbar from '../../contexts/snackbar.context'
 import urlConfig from '../../config/UrlConfig'
 import Snackbar from '../../common/components/SnackBar'
 import { setProfileToLS } from '../../utils/auth'
-import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie'
+import { Helmet } from 'react-helmet-async'
+
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -44,7 +45,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function LoginPage() {
   const session = null
   const navigate = useNavigate()
-  const [cookies, setCookie] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(['user'])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { snack, setSnack } = useSnackbar()
@@ -77,6 +78,9 @@ export default function LoginPage() {
   } else
     return (
       <>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
         <Snackbar />
         <StyledRoot>
           {mdUp && (

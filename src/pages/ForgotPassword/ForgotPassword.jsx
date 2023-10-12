@@ -11,6 +11,7 @@ import {
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import Forgot_Photo from '../../assets/images/forgot_password.png'
 // ----------------------------------------------------------------------
 
@@ -55,6 +56,9 @@ export default function ForgotPassword() {
   } else
     return (
       <>
+        <Helmet>
+          <title>Forgot Password</title>
+        </Helmet>
         <StyledRoot>
           {mdUp && (
             <StyledSection>
