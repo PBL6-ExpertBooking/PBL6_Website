@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import SearchIcon from '@mui/icons-material/Search'
+import { Helmet } from 'react-helmet-async'
 
 function createData(name, price, time, methods) {
   return { name, price, time, methods }
@@ -20,6 +21,9 @@ const HistoryTransaction = () => {
   const [value, setValue] = React.useState(dayjs('2022-04-17'))
   return (
     <div style={{ width: '100%', padding: '20px 100px' }}>
+      <Helmet>
+        <title>History Transaction</title>
+      </Helmet>
       <Typography variant='h3' sx={{ margin: '1rem 0' }}>
         History Transaction
       </Typography>

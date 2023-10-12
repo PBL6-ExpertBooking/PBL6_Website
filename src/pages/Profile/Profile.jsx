@@ -6,6 +6,7 @@ import urlConfig from '../../config/UrlConfig'
 import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
 import AxiosInterceptors from '../../common/utils/axiosInterceptors'
+import { Helmet } from 'react-helmet-async'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -68,6 +69,9 @@ const Profile = () => {
   return (
     information.role && (
       <div style={{ width: '100%' }}>
+        <Helmet>
+          <title>Profile</title>
+        </Helmet>
         <Snackbar />
         <Card
           sx={{

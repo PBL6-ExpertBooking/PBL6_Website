@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { Helmet } from 'react-helmet-async'
 const ChangePassword = () => {
   const [showPassword, setShowPassword] = React.useState(false)
 
@@ -23,6 +24,9 @@ const ChangePassword = () => {
   }
   return (
     <div style={{ width: '100%' }}>
+      <Helmet>
+        <title>Change Password</title>
+      </Helmet>
       <Card
         sx={{
           display: 'flex',

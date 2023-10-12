@@ -10,7 +10,7 @@ import SyncLockIcon from '@mui/icons-material/SyncLock'
 import { useCookies } from 'react-cookie'
 
 export default function UserSideNav() {
-  const [ cookies, setCookie, removeCookie ] = useCookies(['user'])
+  const [cookies, setCookie, removeCookie] = useCookies(['user'])
   const logOut = async () => {
     removeCookie('access_token', { path: '/' })
     removeCookie('refresh_token', { path: '/' })
