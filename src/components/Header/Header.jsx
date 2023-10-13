@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Box, Fab, Typography, Stack, TextField,MenuItem } from '@mui/material'
+import { Avatar, Box, Fab, Typography, Stack, TextField, MenuItem } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
@@ -7,40 +7,41 @@ import { useNavigate } from 'react-router-dom'
 import RootModal from '../Modal/RootModal'
 import province from '../../constants/location'
 import major from '../../constants/major'
+import HeaderUserbox from './UserBox'
 const Header = () => {
   const navigate = useNavigate()
   const profile = JSON.parse(localStorage.getItem('profile'))
   const [open, setOpen] = React.useState(false)
   return (
     <div>
-      <RootModal 
-      variant="Create"
-      title="Create Request"
-      open={open}
-      handleClose={() => setOpen(false)}
-      handleOk={() => setOpen(false)}
-      closeOnly={false}
-       >
-        <Box sx={{ my: 2}}>
-        <TextField id='outlined-basic' label='Tên tiêu đề' variant='outlined' fullWidth />
-        <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
-        <TextField id='outlined-select-currency' select label='Major' defaultValue='IT'>
-            {major.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField id='outlined-select-currency' select label='Location' defaultValue='15'>
-            {province.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+      <RootModal
+        variant='Create'
+        title='Create Request'
+        open={open}
+        handleClose={() => setOpen(false)}
+        handleOk={() => setOpen(false)}
+        closeOnly={false}
+      >
+        <Box sx={{ my: 2 }}>
+          <TextField id='outlined-basic' label='Tên tiêu đề' variant='outlined' fullWidth />
+          <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
+            <TextField id='outlined-select-currency' select label='Major' defaultValue='IT'>
+              {major.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField id='outlined-select-currency' select label='Location' defaultValue='15'>
+              {province.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
           </Stack>
         </Box>
-        </RootModal>
+      </RootModal>
       <Box
         sx={{
           display: 'flex',
@@ -84,7 +85,7 @@ const Header = () => {
               >
                 <AddIcon />
               </Fab>
-              <Fab
+              {/* <Fab
                 size='small'
                 aria-label='add'
                 onClick={() => navigate('/user/profile')}
@@ -96,7 +97,8 @@ const Header = () => {
                   alt='Remy Sharp'
                   src={profile.photo_url}
                 />
-              </Fab>
+              </Fab> */}
+              <HeaderUserbox />
             </Box>
           </Stack>
         </div>

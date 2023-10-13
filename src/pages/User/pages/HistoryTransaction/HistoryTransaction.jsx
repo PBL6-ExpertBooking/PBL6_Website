@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Fab } from '@mui/material'
+import { Typography, Fab } from '@mui/material'
 import dayjs from 'dayjs'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -7,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import SearchIcon from '@mui/icons-material/Search'
 import { Helmet } from 'react-helmet-async'
+import Transaction from './Transaction'
 
 function createData(name, price, time, methods) {
   return { name, price, time, methods }
@@ -41,30 +42,7 @@ const HistoryTransaction = () => {
           </Fab>
         </DemoContainer>
       </LocalizationProvider>
-      <TableContainer component={Paper} sx={{ mt: '1.5rem' }}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>Expert Name</TableCell>
-              <TableCell align='right'>Price</TableCell>
-              <TableCell align='right'>Time</TableCell>
-              <TableCell align='right'>Method</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row'>
-                  {row.name}
-                </TableCell>
-                <TableCell align='right'>{row.price}</TableCell>
-                <TableCell align='right'>{row.time}</TableCell>
-                <TableCell align='right'>{row.methods}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Transaction />
     </div>
   )
 }
