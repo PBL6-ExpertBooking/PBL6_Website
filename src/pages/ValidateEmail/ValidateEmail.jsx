@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Card, Button } from '@mui/material'
 import axios from 'axios'
 import urlConfig from '../../config/UrlConfig'
+import { Box, Typography, Container, Button, styled } from '@mui/material'
+import confirmemail from '../../assets/images/confirmemail.png'
+import { Helmet } from 'react-helmet-async'
 
-const ValidateEmail = () => {
+const MainContent = styled(Box)(
+  ({ theme }) => `
+    height: 100%;
+    display: flex;
+    flex: 1;
+    overflow: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+)
+
+function ValidateEmail() {
   const { token } = useParams()
   const [message, setMessage] = useState('')
   const validateEmail = async () => {
@@ -18,27 +32,34 @@ const ValidateEmail = () => {
   useEffect(() => {
     validateEmail()
   }, [])
-
   return (
-    <div>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '80vh',
-          width: '100%',
-          backgroundColor: '#f5f5f5',
-          color: 'red'
-        }}
-      >
-        <h1>{message}</h1>
-        <Button variant="contained" color="primary" href="/">
-          Go to home page
-        </Button>
-      </Card>
-    </div>
+    <>
+      <Helmet>
+        <title>Validate Email</title>
+      </Helmet>
+      <MainContent>
+        <Container maxWidth='md'>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center'
+            }}
+          >
+            <img alt='confirmemail' height={500} src={confirmemail} />
+            <Typography variant='h2' sx={{ my: 2 }}>
+              {message}
+            </Typography>
+          </Box>
+          <Container maxWidth='sm' sx={{ textAlign: 'center', mt: 3, p: 4 }}>
+            <Button href='/' variant='outlined'>
+              Go to homepage
+            </Button>
+          </Container>
+        </Container>
+      </MainContent>
+    </>
   )
 }
 
