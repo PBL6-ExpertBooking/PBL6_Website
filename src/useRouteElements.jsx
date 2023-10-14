@@ -25,6 +25,7 @@ const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
+const ValidateEmail = lazy(() => import('./pages/ValidateEmail'))
 const HomePage = lazy(() => import('./pages/HomePage'))
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -220,6 +221,14 @@ export default function useRouteElements() {
       path: '',
       element: <HomeLayout />,
       children: [
+        {
+          path: path.validateEmail,
+          element: (
+            <Suspense>
+              <ValidateEmail />
+            </Suspense>
+          )
+        },
         {
           path: '',
           index: true,
