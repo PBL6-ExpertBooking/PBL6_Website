@@ -12,6 +12,7 @@ const path = {
   productDetail: ':nameId',
   cart: '/cart',
   expertDetail: '/expertDetail/:nameId',
+  validateEmail: '/validate-email/:token',
 
   //Expert
   expert: '/expert',

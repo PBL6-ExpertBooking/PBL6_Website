@@ -22,10 +22,14 @@ const VisuallyHiddenInput = styled('input')({
 const Profile = () => {
   const [information, setInformation] = useState({})
   const [formData, setFormData] = useState(new FormData())
+  const [isValidated, setIsValidated] = useState(true)
   const { snack, setSnack } = useSnackbar()
   const fetchData = async () => {
     const res = await AxiosInterceptors.get(urlConfig.user.info)
-    setInformation(res.data.user)
+      .then((res) => setInformation(res.data.user))
+      .catch((err) => {
+        setIsValidated(false)
+      })
   }
 
   const updateData = async () => {
@@ -67,7 +71,25 @@ const Profile = () => {
     fetchData()
   }, [])
   return (
-    information.role && (
+    (!isValidated && (
+      <div style={{ width: '100%' }}>
+        <Card
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '80vh',
+            width: '100%',
+            backgroundColor: '#f5f5f5',
+            color: 'red'
+          }}
+        >
+          <h1>Please check your email to validate your account!</h1>
+        </Card>
+      </div>
+    )) ||
+    (information.role && (
       <div style={{ width: '100%' }}>
         <Helmet>
           <title>Profile</title>
@@ -268,7 +290,7 @@ const Profile = () => {
           </Stack>
         </Card>
       </div>
-    )
+    ))
   )
 }
 
