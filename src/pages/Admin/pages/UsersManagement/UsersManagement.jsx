@@ -10,16 +10,14 @@ import {
 } from '@mui/material';
 
 import {
-  DataGrid
+  DataGrid,useGridApiRef
 } from '@mui/x-data-grid';
 
-import { useCookies } from 'react-cookie'
-import UseAxios from '../../../../hooks/useAxios';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Snackbar from '../../../../common/components/SnackBar'
-import axios from 'axios';
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import urlConfig from '../../../../config/UrlConfig';
 import _ from 'lodash';
@@ -29,21 +27,24 @@ const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
 const UsersManagement = () => {
   //STATE
-  const [cookies, setCookie] = useCookies(['user'])
-  const [users, setUsers] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
   const [currentRow, setCurrentRow] = useState(null);
   const [openModal, setOpenModal] = useState(false)
   const { snack, setSnack } = useSnackbar()
-  const [rerender, setRerender] = useState(true)
-  const accessToken = cookies.access_token
+  const [rerender, setRerender] = useState(false)
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [totalDocs, setTotalDocs] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
-  const fetchUsers = async () => {
-    const res = await UseAxios(urlConfig.user.users, accessToken)
+  const fetchUsers = async (page=1, limit=10) => {
+    const res = await AxiosInterceptors.get(urlConfig.user.users + `?page=${page}&limit=${limit}`)
     if(res && res.status === 200) {
       if(res.data.pagination) {
         if(res.data.pagination.users) {
           setUsers(res.data.pagination.users)
+          setTotalDocs(res.data.pagination.totalDocs)
         }
       }
     }
@@ -51,11 +52,32 @@ const UsersManagement = () => {
 
   useEffect(() => {
     // Gọi API để lấy danh sách người dùng ở đây
-    if (rerender) {
-      fetchUsers();
-    }
-    setRerender(false)
-  }, [rerender]); 
+    (async () => {
+      if (rerender) {
+        await fetchUsers();
+        setRerender(false)
+      }
+    })();
+
+    let active = true;
+    (async () => {
+      if(rerender){
+        return;
+      }
+      setLoading(true);
+      await fetchUsers(page + 1, pageSize);
+
+      if (!active) {
+        return;
+      }
+      setLoading(false);
+
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [rerender, page, pageSize]); 
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -69,7 +91,11 @@ const UsersManagement = () => {
 
   const handleClickEditBtn = () => {
     setOpenModal(true)
-  }	
+  }
+
+  const handleSetRerender = () => {
+    setRerender(true)
+  }
 
   const handleClickDeleteBtn = () => {
   }
@@ -81,8 +107,8 @@ const UsersManagement = () => {
   const hanldeClickLockAccount = async () => {
     handleCloseMenu()
     if(currentRow.isRestricted) {
-      const res = await UseAxios(`${urlConfig.user.users}/${currentRow._id}/enable`, accessToken, "", "PUT")
-      if (res.success) {
+      const res = await AxiosInterceptors.put(`${urlConfig.user.users}/${currentRow._id}/enable`)
+      if (res.status === 200) {
         setRerender(true)
         setSnack({
           open: true,
@@ -97,8 +123,8 @@ const UsersManagement = () => {
         })
       }
     } else if (!currentRow.isRestricted) {
-      const res = await UseAxios(`${urlConfig.user.users}/${currentRow._id}/disable`, accessToken, "", "PUT")
-      if (res.success) {
+      const res = await AxiosInterceptors.put(`${urlConfig.user.users}/${currentRow._id}/disable`)
+      if (res.status === 200) {
         setRerender(true)
         setSnack({
           open: true,
@@ -178,11 +204,9 @@ const UsersManagement = () => {
         </Stack>
         <div style={{ height: 700, width: '100%' }}>
           <DataGrid
-
             getRowHeight={() => 'auto'}
             rows={users}
             columns={columns}
-            editMode="row"
             sx={{
             '& .MuiDataGrid-row': {
                 minHeight: '64px !important',
@@ -192,6 +216,14 @@ const UsersManagement = () => {
               pagination: { paginationModel: { pageSize: 20 } },
             }}
             pageSizeOptions={[10, 20, 30, 50]}
+            rowCount={totalDocs}
+            paginationMode="server"
+            page={page}
+            onPaginationModelChange={(params) => {
+              setPage(params.page);
+              setPageSize(params.pageSize)
+            }}
+            loading={loading}
           />
         </div>  
       </Container>
@@ -238,7 +270,7 @@ const UsersManagement = () => {
         </MenuItem>
       </Popover>
       
-      {currentRow && < UserInfoModal open={openModal} handleCloseModal={handleCloseModal} user={currentRow}/>}
+      {currentRow && < UserInfoModal open={openModal} handleCloseModal={handleCloseModal} user={currentRow} setRerender={handleSetRerender}/>}
     </>
   )
 }
