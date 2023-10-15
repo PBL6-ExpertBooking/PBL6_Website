@@ -121,15 +121,15 @@ function HeaderUserbox() {
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component='nav'>
-          <ListItem button to={path.profile} component={NavLink}>
+          <ListItem button to={user.role === 'USER' ? path.profile : path.expertProfile} component={NavLink}>
             <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
             <ListItemText primary='My Profile' />
           </ListItem>
-          <ListItem button to={path.historyTransaction} component={NavLink}>
+          <ListItem button to={user.role === 'USER' ? path.historyTransaction : path.expertTransactionHistory} component={NavLink}>
             <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
             <ListItemText primary='History Transaction' />
           </ListItem>
-          <ListItem button to={path.changePassword} component={NavLink}>
+          <ListItem button to={user.role === 'USER' ? path.changePassword : path.expertChangePassword} component={NavLink}>
             <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
             <ListItemText primary='Change Password' />
           </ListItem>

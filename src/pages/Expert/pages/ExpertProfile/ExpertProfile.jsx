@@ -42,7 +42,6 @@ const ExpertProfile = () => {
   }
 
   const handleUpdateProfile = async () => {
-    console.log("oke")
     const res = await AxiosInterceptors.put(
       urlConfig.user.info,
       {
@@ -61,8 +60,6 @@ const ExpertProfile = () => {
       }
     )
       .then((res) => {
-        console.log("oke")
-        console.log(res.data.user)
         setProfile(res.data.user)
         localStorage.setItem('profile', JSON.stringify(res.data.user))
         setSnack({
@@ -73,7 +70,6 @@ const ExpertProfile = () => {
       })
       .catch((err) =>
       {
-        console.log("fail");
           setSnack({
             open: true,
             message: `${err.response.data.message}`,
