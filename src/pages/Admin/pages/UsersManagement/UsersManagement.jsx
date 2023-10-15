@@ -33,15 +33,13 @@ const UsersManagement = () => {
   const [currentRow, setCurrentRow] = useState(null);
   const [openModal, setOpenModal] = useState(false)
   const { snack, setSnack } = useSnackbar()
-  const [rerender, setRerender] = useState(false)
+  const [rerender, setRerender] = useState(true)
   const [users, setUsers] = useState([]);
-  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [totalDocs, setTotalDocs] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
 
-  const fetchUsers = async (page=1, limit=100000) => {
-    const res = await AxiosInterceptors.get(urlConfig.user.users + `?page=${page}&limit=${limit}`)
+  const fetchUsers = async (limit=100000) => {
+    const res = await AxiosInterceptors.get(urlConfig.user.users + `?limit=${limit}`)
     if(res && res.status === 200) {
       if(res.data.pagination) {
         if(res.data.pagination.users) {
@@ -55,31 +53,14 @@ const UsersManagement = () => {
   useEffect(() => {
     // Gọi API để lấy danh sách người dùng ở đây
     (async () => {
+      setLoading(true);
       if (rerender) {
         await fetchUsers();
         setRerender(false)
       }
-    })();
-
-    let active = true;
-    (async () => {
-      if(rerender){
-        return;
-      }
-      setLoading(true);
-      await fetchUsers(page + 1);
-
-      if (!active) {
-        return;
-      }
       setLoading(false);
-
     })();
-
-    return () => {
-      active = false;
-    };
-  }, [rerender, page]); 
+  }, [rerender]); 
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -144,7 +125,6 @@ const UsersManagement = () => {
   }
 
   const getLabel = (item) => {
-    console.log(item)
     const map = {
       USER: {
         text: 'USER',
@@ -272,12 +252,7 @@ const UsersManagement = () => {
             }}
             pageSizeOptions={[10, 20, 30, 50]}
             rowCount={totalDocs}
-            paginationMode="server"
-            page={page}
-            onPaginationModelChange={(params) => {
-              setPage(params.page);
-              setPageSize(params.pageSize)
-            }}
+            paginationMode="client"
             loading={loading}
           />
         </div>  

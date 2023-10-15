@@ -26,18 +26,32 @@ const VisuallyHiddenInput = styled('input')({
 
 const ExpertProfile = () => {
   const [profile, setProfile] = useState({});
+  const [certificates, setCertificates] = useState([])
   const [formData, setFormData] = useState(new FormData());
   const [isValidated, setIsValidated] = useState(true)
+  const [majors, setMajors] = useState([])
   const { snack, setSnack } = useSnackbar()
 
   const fetchData = async () => {
-    const res = await AxiosInterceptors.get(urlConfig.user.info)
+    const res = await AxiosInterceptors.get(urlConfig.expert.current)
     if (res.status === 200) {
-      if(res.data.user) {
-        setProfile(res.data.user)
+      if(res.data.expert.user) {
+        setProfile(res.data.expert.user)
+      }
+      if(res.data.expert.certificates) {
+        setCertificates(res.data.expert.certificates)
       }
     } else {
       setIsValidated(false)
+    }
+  }
+
+  const fetchDataMajors = async () => {
+    const res = await AxiosInterceptors.get(urlConfig.majors.getMajors)
+    if (res.status === 200) {
+      if (res.data.majors) {
+        setMajors(res.data.majors);
+      }
     }
   }
 
@@ -82,6 +96,7 @@ const ExpertProfile = () => {
 
   useEffect(() => {
     (async () => {
+      await fetchDataMajors();
       await fetchData();
     })();
   }, [])
@@ -296,8 +311,11 @@ const ExpertProfile = () => {
         </Stack>
       </Card>
 
-      {/* === */}
-      <CertificateInfo/>
+      {
+       certificates.length > 0 && certificates.map((certificate) => {
+         return <CertificateInfo certificate={certificate} majors={majors}/>
+       })
+      }
     </div>
     ))
   )

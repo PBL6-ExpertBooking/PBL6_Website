@@ -1,5 +1,5 @@
 import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-import {React, useState, useRef } from 'react'
+import {React, useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 const VisuallyHiddenInput = styled('input')({
@@ -14,15 +14,19 @@ const VisuallyHiddenInput = styled('input')({
   width: 1
 })
 
-const CertificateInfo = () => {
-  const [major, setMajor] = useState(0);
-  const [image, setImage] = useState(null)
+const CertificateInfo = (props) => {
+  const [formData, setFormData] = useState(new FormData());
+  const [certificate, setCertificate] = useState(props.certificate)
+  const [majors, setMajors] = useState(props.majors)
 
-  const handleChange = (event) => {
-    setMajor(event.target.value);
-  };
+  const handleSaveData = () => {
+    console.log("Check data update ", certificate)
+  }
+
   return (
-    <div style={{width: '100%'}}>
+    (certificate._id &&
+    
+    (<div style={{width: '100%'}}>
       <Card
         sx={{
           display: 'flex',
@@ -56,16 +60,21 @@ const CertificateInfo = () => {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={major}
+                    value={certificate.major._id}
                     label="Major"
-                    onChange={handleChange}
+                    onChange={(e) => setCertificate({
+                      ...certificate,
+                      major: {
+                        _id: e.target.value
+                      }
+                    })}
                   >
-                    <MenuItem value={0}>IT</MenuItem>
-                    <MenuItem value={1}>Teacher</MenuItem>
-                    <MenuItem value={2}>Fuho</MenuItem>
+                    {majors && majors.length > 0 && majors.map((major) => {
+                      return <MenuItem value={major._id}>{major.name}</MenuItem>
+                    })}
                   </Select>
                 </FormControl>
-                <TextField fullWidth required id='outlined-required' label='Status' defaultValue='Confirmed' />
+                <TextField fullWidth required id='outlined-required' label='Status' disabled defaultValue={certificate.isVerified ? 'Confirmed' : 'Unconfirmed'} />
               </Box>
 
               <Box
@@ -80,7 +89,16 @@ const CertificateInfo = () => {
                     width: '100%'
                   }}
                 >
-                  <TextField required id='outlined-required' label='Certificate name' defaultValue='College degree' />
+                  <TextField 
+                    required 
+                    id='outlined-required' 
+                    label='Certificate name' 
+                    value={certificate.name} 
+                    onChange={(e) => setCertificate({
+                      ...certificate,
+                      name: e.target.value
+                    })}
+                  />
                   <Stack
                     direction='column'
                     alignItems='center'
@@ -90,11 +108,28 @@ const CertificateInfo = () => {
                       width: '45%'
                     }}
                   >
-                    <Avatar alt='Remy Sharp' src='https://khoaquocte.vn/wp-content/uploads/2023/01/Certificate-la-gi.jpg' variant="square" sx={{ width: '100%', height: 400 }} />
+                    <Avatar alt='Remy Sharp' src={certificate.photo_url} variant="square" sx={{ width: '100%', height: 400 }} />
                     <Box>
                       <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
                         Upload image
-                        <VisuallyHiddenInput type='file' />
+                        <VisuallyHiddenInput 
+                          type='file'
+                          accept='.jpg, .png'
+                          onChange={(e) => {
+                          const file = e.target.files[0]
+                          let newFormData = new FormData()
+                          newFormData.append('photo', file)
+                          setFormData(newFormData)
+                          const reader = new FileReader()
+                          reader.readAsDataURL(file)
+                          reader.onloadend = () => {
+                            setCertificate({
+                              ...certificate,
+                              photo_url: reader.result
+                            })
+                          }
+                          }}
+                        />
                       </Button>
                     </Box>
                   </Stack>
@@ -110,7 +145,11 @@ const CertificateInfo = () => {
                   label="Description"
                   multiline
                   rows={4}
-                  defaultValue="Description"
+                  value={certificate.descriptions}
+                  onChange={(e) => setCertificate({
+                    ...certificate,
+                    descriptions: e.target.value
+                  })}
                 />
               </Box>
             </Box>
@@ -123,7 +162,11 @@ const CertificateInfo = () => {
                 marginRight: '2rem'
               }}
             >
-              <Button variant='contained' component='label'>
+              <Button 
+                variant='contained' 
+                component='label'
+                onClick={handleSaveData}  
+              >
                 Save Change
               </Button>
             </Stack>
@@ -131,6 +174,7 @@ const CertificateInfo = () => {
         </Stack>
       </Card>
     </div>
+    ))
   )
 }
 
