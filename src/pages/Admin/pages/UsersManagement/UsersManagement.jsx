@@ -12,6 +12,8 @@ import {
 import {
   DataGrid,useGridApiRef
 } from '@mui/x-data-grid';
+import Label from '../../../../components/Label'
+
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -31,15 +33,13 @@ const UsersManagement = () => {
   const [currentRow, setCurrentRow] = useState(null);
   const [openModal, setOpenModal] = useState(false)
   const { snack, setSnack } = useSnackbar()
-  const [rerender, setRerender] = useState(false)
+  const [rerender, setRerender] = useState(true)
   const [users, setUsers] = useState([]);
-  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [totalDocs, setTotalDocs] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
 
-  const fetchUsers = async (page=1, limit=10) => {
-    const res = await AxiosInterceptors.get(urlConfig.user.users + `?page=${page}&limit=${limit}`)
+  const fetchUsers = async (limit=100000) => {
+    const res = await AxiosInterceptors.get(urlConfig.user.users + `?limit=${limit}`)
     if(res && res.status === 200) {
       if(res.data.pagination) {
         if(res.data.pagination.users) {
@@ -53,31 +53,14 @@ const UsersManagement = () => {
   useEffect(() => {
     // Gọi API để lấy danh sách người dùng ở đây
     (async () => {
+      setLoading(true);
       if (rerender) {
         await fetchUsers();
         setRerender(false)
       }
-    })();
-
-    let active = true;
-    (async () => {
-      if(rerender){
-        return;
-      }
-      setLoading(true);
-      await fetchUsers(page + 1, pageSize);
-
-      if (!active) {
-        return;
-      }
       setLoading(false);
-
     })();
-
-    return () => {
-      active = false;
-    };
-  }, [rerender, page, pageSize]); 
+  }, [rerender]); 
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -141,6 +124,43 @@ const UsersManagement = () => {
     }
   }
 
+  const getLabel = (item) => {
+    const map = {
+      USER: {
+        text: 'USER',
+        color: 'info'
+      },
+      EXPERT: {
+        text: 'EXPERT',
+        color: 'success'
+      },
+      ADMIN: {
+        text: 'ADMIN',
+        color: 'warning'
+      },
+      YES: {
+        text: 'YES',
+        color: 'success'
+      },
+      NO: {
+        text: 'NO',
+        color: 'error'
+      },
+      ACTIVE: {
+        text: 'ACTIVE',
+        color: 'success'
+      },
+      UNACTIVE: {
+        text: 'UNACTIVE',
+        color: 'error'
+      }
+    }
+
+    const { text, color } = map[item]
+
+    return <Label color={color}>{text}</Label>
+  }
+
   const columns = [
     { field: 'fullName', 
       headerName: 'Full name', 
@@ -154,22 +174,37 @@ const UsersManagement = () => {
     { field: 'email', headerName: 'Email', flex: 2 },
     { field: 'address', headerName: 'Address', flex: 5 },
     { field: 'phone', headerName: 'Phone', flex: 1.3 },
-    { field: 'role', headerName: 'Role', flex: 1 },
-    { field: 'isConfirmed', 
-      headerName: 'Verify', 
+    { field: 'role', 
+      headerName: 'Role',
+      headerAlign: 'center',
+      align: 'center',
       flex: 1,
       renderCell: (params) => {
         return (
-          params.row.isConfirmed == true ? "YES" : "NO"
+          getLabel(params.row.role)
+        )
+      }
+    },
+    { field: 'isConfirmed', 
+      headerName: 'Verify',
+      align: 'center',
+      justifyContent: 'center',
+      headerAlign: 'center',
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          params.row.isConfirmed == true ? getLabel('YES') : getLabel('NO')
         )
       }
     },
     { field: 'isRestricted', 
-      headerName: 'Status', 
+      headerName: 'Status',
+      headerAlign: 'center',
+      align: 'center',
       flex: 1,
       renderCell: (params) => {
         return (
-          params.row.isRestricted ? "UNACTIVE" : "ACTIVE"
+          params.row.isRestricted ? getLabel("UNACTIVE") : getLabel("ACTIVE")
         )
       }
     },
@@ -217,12 +252,7 @@ const UsersManagement = () => {
             }}
             pageSizeOptions={[10, 20, 30, 50]}
             rowCount={totalDocs}
-            paginationMode="server"
-            page={page}
-            onPaginationModelChange={(params) => {
-              setPage(params.page);
-              setPageSize(params.pageSize)
-            }}
+            paginationMode="client"
             loading={loading}
           />
         </div>  
