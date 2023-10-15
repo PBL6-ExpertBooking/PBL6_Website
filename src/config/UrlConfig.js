@@ -8,7 +8,8 @@ const urlConfig = {
   },
   user: {
     info: `${process.env.REACT_APP_API_ENDPOINT}/users/current`,
-    users: `${process.env.REACT_APP_API_ENDPOINT}/users`
+    users: `${process.env.REACT_APP_API_ENDPOINT}/users`,
+		updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`
   }
 }
 

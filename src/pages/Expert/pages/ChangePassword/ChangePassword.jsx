@@ -11,18 +11,72 @@ import {
   OutlinedInput,
   IconButton
 } from '@mui/material'
+import {useState} from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import useSnackbar from '../../../../contexts/snackbar.context'
+import Snackbar from '../../../../common/components/SnackBar'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
+import { useNavigate } from 'react-router-dom'
+import path from '../../../../constants/path'
+
 const ChangePassword = () => {
-  const [showPassword, setShowPassword] = React.useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const { snack, setSnack } = useSnackbar()
+  const navigate = useNavigate()
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
+
+  const handleResetForm = () => {
+    setCurrentPassword("")
+    setNewPassword("")
+    setConfirmPassword("")
+  }
+
+  const handleUpdatePassword = async () => {
+    if (newPassword !== confirmPassword) {
+      setSnack({
+        open: true,
+        message: 'New password and confirm password must match',
+        type: 'error'
+      })
+      handleResetForm();
+      return;
+    }
+
+    const res = await AxiosInterceptors.put(urlConfig.user.updatePassword, {
+      current_password: currentPassword,
+      new_password: newPassword,
+      confirm_password: confirmPassword
+    }).then((res) => {
+      setSnack({
+        open: true,
+        message: 'Update password successfully',
+        type: 'success'
+      })
+      navigate(path.expertProfile)
+    }).catch((err) => {
+      console.log(err)
+      setSnack({
+        open: true,
+        message: `${err.response.data.message}`,
+        type: 'error'
+      })
+    })
+
+  }
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
   return (
     <div style={{ width: '100%' }}>
+      <Snackbar/>
       <Card
         sx={{
           display: 'flex',
@@ -58,6 +112,8 @@ const ChangePassword = () => {
                 </IconButton>
               </InputAdornment>
             }
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
             label='Password'
           />
         </FormControl>
@@ -93,6 +149,8 @@ const ChangePassword = () => {
                 </InputAdornment>
               }
               label='Password'
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
           </FormControl>
           <FormControl
@@ -119,6 +177,8 @@ const ChangePassword = () => {
                 </InputAdornment>
               }
               label='Password'
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={confirmPassword}
             />
           </FormControl>
         </Box>
@@ -143,10 +203,10 @@ const ChangePassword = () => {
                 marginRight: '2rem'
               }}
             >
-              <Button variant='contained' component='label'>
+              <Button variant='contained' component='label' onClick={handleUpdatePassword}>
                 Save Change
               </Button>
-              <Button variant='contained' component='label' color='error'>
+              <Button variant='contained' component='label' color='error' onClick={handleResetForm}>
                 Reset
               </Button>
             </Stack>
