@@ -12,6 +12,8 @@ import {
 import {
   DataGrid,useGridApiRef
 } from '@mui/x-data-grid';
+import Label from '../../../../components/Label'
+
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -38,7 +40,7 @@ const UsersManagement = () => {
   const [totalDocs, setTotalDocs] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  const fetchUsers = async (page=1, limit=10) => {
+  const fetchUsers = async (page=1, limit=100000) => {
     const res = await AxiosInterceptors.get(urlConfig.user.users + `?page=${page}&limit=${limit}`)
     if(res && res.status === 200) {
       if(res.data.pagination) {
@@ -65,7 +67,7 @@ const UsersManagement = () => {
         return;
       }
       setLoading(true);
-      await fetchUsers(page + 1, pageSize);
+      await fetchUsers(page + 1);
 
       if (!active) {
         return;
@@ -77,7 +79,7 @@ const UsersManagement = () => {
     return () => {
       active = false;
     };
-  }, [rerender, page, pageSize]); 
+  }, [rerender, page]); 
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
@@ -141,6 +143,44 @@ const UsersManagement = () => {
     }
   }
 
+  const getLabel = (item) => {
+    console.log(item)
+    const map = {
+      USER: {
+        text: 'USER',
+        color: 'info'
+      },
+      EXPERT: {
+        text: 'EXPERT',
+        color: 'success'
+      },
+      ADMIN: {
+        text: 'ADMIN',
+        color: 'warning'
+      },
+      YES: {
+        text: 'YES',
+        color: 'success'
+      },
+      NO: {
+        text: 'NO',
+        color: 'error'
+      },
+      ACTIVE: {
+        text: 'ACTIVE',
+        color: 'success'
+      },
+      UNACTIVE: {
+        text: 'UNACTIVE',
+        color: 'error'
+      }
+    }
+
+    const { text, color } = map[item]
+
+    return <Label color={color}>{text}</Label>
+  }
+
   const columns = [
     { field: 'fullName', 
       headerName: 'Full name', 
@@ -154,22 +194,37 @@ const UsersManagement = () => {
     { field: 'email', headerName: 'Email', flex: 2 },
     { field: 'address', headerName: 'Address', flex: 5 },
     { field: 'phone', headerName: 'Phone', flex: 1.3 },
-    { field: 'role', headerName: 'Role', flex: 1 },
-    { field: 'isConfirmed', 
-      headerName: 'Verify', 
+    { field: 'role', 
+      headerName: 'Role',
+      headerAlign: 'center',
+      align: 'center',
       flex: 1,
       renderCell: (params) => {
         return (
-          params.row.isConfirmed == true ? "YES" : "NO"
+          getLabel(params.row.role)
+        )
+      }
+    },
+    { field: 'isConfirmed', 
+      headerName: 'Verify',
+      align: 'center',
+      justifyContent: 'center',
+      headerAlign: 'center',
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          params.row.isConfirmed == true ? getLabel('YES') : getLabel('NO')
         )
       }
     },
     { field: 'isRestricted', 
-      headerName: 'Status', 
+      headerName: 'Status',
+      headerAlign: 'center',
+      align: 'center',
       flex: 1,
       renderCell: (params) => {
         return (
-          params.row.isRestricted ? "UNACTIVE" : "ACTIVE"
+          params.row.isRestricted ? getLabel("UNACTIVE") : getLabel("ACTIVE")
         )
       }
     },
