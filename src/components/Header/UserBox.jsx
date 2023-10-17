@@ -90,7 +90,7 @@ function HeaderUserbox() {
         ref={ref}
         onClick={handleOpen}
         sx={{
-          backgroundColor: '#E8DDDD'
+          backgroundColor: '#D2E9E9 '
         }}
       >
         <Avatar alt='Remy Sharp' src={user.photo_url} />

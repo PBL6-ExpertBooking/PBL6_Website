@@ -118,7 +118,7 @@ const Profile = () => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            backgroundColor: '#E8DDDD',
+            backgroundColor: '#D2E9E9 ',
             padding: '20px',
             margin: '20px 100px'
           }}
@@ -141,7 +141,19 @@ const Profile = () => {
             >
               <Avatar alt='Remy Sharp' src={information.photo_url} sx={{ width: 250, height: 250 }} />
               <Box>
-                <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
+                <Button
+                  component='label'
+                  variant='contained'
+                  startIcon={<CloudUploadIcon />}
+                  sx={{
+                    backgroundColor: '#F8F6F4',
+                    color: 'black',
+                    '&:hover': {
+                      backgroundColor: '#F8F6F4',
+                      color: 'black'
+                    }
+                  }}
+                >
                   Upload Photo
                   <VisuallyHiddenInput
                     type='file'
@@ -302,7 +314,19 @@ const Profile = () => {
                   marginRight: '2rem'
                 }}
               >
-                <Button variant='contained' component='label' onClick={updateData}>
+                <Button
+                  variant='contained'
+                  component='label'
+                  onClick={updateData}
+                  sx={{
+                    backgroundColor: '#F8F6F4',
+                    color: 'black',
+                    '&:hover': {
+                      backgroundColor: '#F8F6F4',
+                      color: 'black'
+                    }
+                  }}
+                >
                   Save Change
                 </Button>
                 <Button variant='contained' component='label' color='error'>
@@ -316,7 +340,7 @@ const Profile = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#E8DDDD',
+            backgroundColor: '#D2E9E9 ',
             padding: '20px',
             margin: '20px 100px'
           }}

@@ -35,7 +35,7 @@ const HistoryTransaction = () => {
           <Fab
             aria-label='notifi'
             sx={{
-              backgroundColor: '#E8DDDD'
+              backgroundColor: '#D2E9E9 '
             }}
           >
             <SearchIcon />

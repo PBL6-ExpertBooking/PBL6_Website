@@ -31,7 +31,7 @@ const ChangePassword = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: '#E8DDDD',
+          backgroundColor: '#D2E9E9 ',
           padding: '20px',
           margin: '20px 100px'
         }}
@@ -139,21 +139,21 @@ const ChangePassword = () => {
           - At least one number, symbol, or whitespace character
         </Typography>
         <Stack
-              spacing={1}
-              direction='row'
-              alignItems='center'
-              justifyContent='flex-end'
-              sx={{
-                marginRight: '2rem'
-              }}
-            >
-              <Button variant='contained' component='label'>
-                Save Change
-              </Button>
-              <Button variant='contained' component='label' color='error'>
-                Reset
-              </Button>
-            </Stack>
+          spacing={1}
+          direction='row'
+          alignItems='center'
+          justifyContent='flex-end'
+          sx={{
+            marginRight: '2rem'
+          }}
+        >
+          <Button variant='contained' component='label'>
+            Save Change
+          </Button>
+          <Button variant='contained' component='label' color='error'>
+            Reset
+          </Button>
+        </Stack>
       </Card>
     </div>
   )

@@ -69,7 +69,7 @@ const Header = () => {
                 size='small'
                 aria-label='notifi'
                 sx={{
-                  backgroundColor: '#E8DDDD'
+                  backgroundColor: '#D2E9E9 '
                 }}
               >
                 <NotificationsIcon />
@@ -78,7 +78,7 @@ const Header = () => {
                 size='small'
                 aria-label='add'
                 sx={{
-                  backgroundColor: '#E8DDDD'
+                  backgroundColor: '#D2E9E9 '
                 }}
                 onClick={() => setOpen(true)}
               >
