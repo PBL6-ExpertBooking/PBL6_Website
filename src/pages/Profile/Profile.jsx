@@ -1,4 +1,18 @@
-import { Box, Stack, Avatar, Button, TextField, Typography, Card, FormControlLabel, Checkbox } from '@mui/material'
+import {
+  Box,
+  Stack,
+  Avatar,
+  Button,
+  TextField,
+  Typography,
+  Card,
+  FormControlLabel,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
+} from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
@@ -7,6 +21,11 @@ import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
 import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import { Helmet } from 'react-helmet-async'
+import dayjs from 'dayjs'
+import { DateField } from '@mui/x-date-pickers/DateField'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -25,7 +44,7 @@ const Profile = () => {
   const [isValidated, setIsValidated] = useState(true)
   const { snack, setSnack } = useSnackbar()
   const fetchData = async () => {
-    const res = await AxiosInterceptors.get(urlConfig.user.info)
+    await AxiosInterceptors.get(urlConfig.user.info)
       .then((res) => setInformation(res.data.user))
       .catch((err) => {
         setIsValidated(false)
@@ -33,7 +52,7 @@ const Profile = () => {
   }
 
   const updateData = async () => {
-    const res = await AxiosInterceptors.put(
+    await AxiosInterceptors.put(
       urlConfig.user.info,
       {
         first_name: information.first_name,
@@ -205,7 +224,7 @@ const Profile = () => {
                 </Box>
                 <Box
                   sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
+                    '& .MuiTextField-root': { m: 2, width: '29%' }
                   }}
                 >
                   <TextField
@@ -223,6 +242,43 @@ const Profile = () => {
                       })
                     }}
                   />
+                  <FormControl sx={{ width: '29%', m: 2 }}>
+                    <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
+                    <Select
+                      labelId='demo-simple-select-label'
+                      id='demo-simple-select'
+                      label='Gender'
+                      defaultValue={information.gender ? 1 : 0}
+                      onChange={(e) => {
+                        setInformation({
+                          ...information,
+                          gender: e.target.value === 1 ? true : false
+                        })
+                      }}
+                    >
+                      <MenuItem value={0}>Male</MenuItem>
+                      <MenuItem value={1}>Female</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
+                    <DateField
+                      label='Date of birthday'
+                      value={dayjs(information.DoB)}
+                      onChange={(newValue) =>
+                        setInformation({
+                          ...information,
+                          DoB: newValue
+                        })
+                      }
+                    />
+                  </LocalizationProvider>
+                </Box>
+                <Box
+                  sx={{
+                    '& .MuiTextField-root': { m: 2, width: '94%' }
+                  }}
+                >
                   <TextField
                     required
                     id='outlined-required'

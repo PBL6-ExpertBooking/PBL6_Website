@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Box, Fab, Typography, Stack, TextField, MenuItem } from '@mui/material'
+import { Box, Fab, Typography, Stack, TextField, MenuItem } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
@@ -10,7 +10,6 @@ import major from '../../constants/major'
 import HeaderUserbox from './UserBox'
 const Header = () => {
   const navigate = useNavigate()
-  const profile = JSON.parse(localStorage.getItem('profile'))
   const [open, setOpen] = React.useState(false)
   return (
     <div>
@@ -85,19 +84,6 @@ const Header = () => {
               >
                 <AddIcon />
               </Fab>
-              {/* <Fab
-                size='small'
-                aria-label='add'
-                onClick={() => navigate('/user/profile')}
-                sx={{
-                  backgroundColor: '#E8DDDD'
-                }}
-              >
-                <Avatar
-                  alt='Remy Sharp'
-                  src={profile.photo_url}
-                />
-              </Fab> */}
               <HeaderUserbox />
             </Box>
           </Stack>

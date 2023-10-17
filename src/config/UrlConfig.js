@@ -15,7 +15,8 @@ const urlConfig = {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`
   },
   majors: {
-    getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`
+    getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
+    createMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`
   }
 }
 

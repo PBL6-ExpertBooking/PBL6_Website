@@ -7,8 +7,8 @@ export const getInitialAppContext = () => ({
   setIsAuthenticated: () => null,
   profile: getProfileFromLS(),
   setProfile: () => null,
-  extendedPurchases: [],
-  setExtendedPurchases: () => null,
+  role: getProfileFromLS()?.role || 'USER',
+  setRole: () => null,
   reset: () => null
 })
 
@@ -19,12 +19,12 @@ export const AppContext = createContext(initialAppContext)
 export const AppProvider = ({ children, defaultValue = initialAppContext }) => {
   const [cookies, setCookie] = useCookies(['user'])
   const [isAuthenticated, setIsAuthenticated] = useState(cookies.access_token ? true : false)
-  const [extendedPurchases, setExtendedPurchases] = useState(defaultValue.extendedPurchases)
   const [profile, setProfile] = useState(defaultValue.profile)
+  const [role, setRole] = useState(defaultValue.role)
 
   const reset = () => {
     setIsAuthenticated(false)
-    setExtendedPurchases([])
+    setRole('USER')
     setProfile(null)
   }
 
@@ -35,8 +35,8 @@ export const AppProvider = ({ children, defaultValue = initialAppContext }) => {
         setIsAuthenticated,
         profile,
         setProfile,
-        extendedPurchases,
-        setExtendedPurchases,
+        role,
+        setRole,
         reset
       }}
     >
