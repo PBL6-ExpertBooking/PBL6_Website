@@ -22,7 +22,7 @@ function ValidateEmail() {
   const { token } = useParams()
   const [message, setMessage] = useState('')
   const validateEmail = async () => {
-    const res = await axios
+    await axios
       .get(urlConfig.authentication.validateEmail + `/${token}`)
       .then((res) => setMessage(res.data.message))
       .catch((err) => {

@@ -24,9 +24,11 @@ const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
-const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const ValidateEmail = lazy(() => import('./pages/ValidateEmail'))
 const HomePage = lazy(() => import('./pages/HomePage'))
+// admin page
+const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
+const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
@@ -35,6 +37,21 @@ function ProtectedRoute() {
 function RejectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/dashboard' />
+}
+
+function AdminRoute() {
+  const { role } = useContext(AppContext)
+  return role === 'ADMIN' ? <Outlet /> : <Navigate to='/dashboard' />
+}
+
+function ExpertRoute() {
+  const { role } = useContext(AppContext)
+  return role === 'EXPERT' ? <Outlet /> : <Navigate to='/dashboard' />
+}
+
+function UserRoute() {
+  const { role } = useContext(AppContext)
+  return role === 'USER' ? <Outlet /> : <Navigate to='/dashboard' />
 }
 
 export default function useRouteElements() {
@@ -109,17 +126,19 @@ export default function useRouteElements() {
         },
         {
           path: path.user,
-          element: <MainLayout />,
+          element: <UserRoute />,
           children: [
             {
               path: '',
-              element: <UserLayout />,
+              element: <MainLayout />,
               children: [
                 {
                   path: path.profile,
                   element: (
                     <Suspense>
-                      <Profile />
+                      <UserLayout>
+                        <Profile />
+                      </UserLayout>
                     </Suspense>
                   )
                 },
@@ -127,7 +146,9 @@ export default function useRouteElements() {
                   path: path.changePassword,
                   element: (
                     <Suspense>
-                      <ChangePassword />
+                      <UserLayout>
+                        <ChangePassword />
+                      </UserLayout>
                     </Suspense>
                   )
                 },
@@ -135,7 +156,9 @@ export default function useRouteElements() {
                   path: path.historyTransaction,
                   element: (
                     <Suspense>
-                      <UserHistoryTransaction />
+                      <UserLayout>
+                        <UserHistoryTransaction />
+                      </UserLayout>
                     </Suspense>
                   )
                 }
@@ -145,17 +168,19 @@ export default function useRouteElements() {
         },
         {
           path: path.expert,
-          element: <MainLayout />,
+          element: <ExpertRoute />,
           children: [
             {
               path: '',
-              element: <ExpertLayout />,
+              element: <MainLayout />,
               children: [
                 {
                   path: path.expertProfile,
                   element: (
                     <Suspense>
-                      <ExpertProfile />
+                      <ExpertLayout>
+                        <ExpertProfile />
+                      </ExpertLayout>
                     </Suspense>
                   )
                 },
@@ -163,7 +188,9 @@ export default function useRouteElements() {
                   path: path.expertTransactionHistory,
                   element: (
                     <Suspense>
-                      <TransactionHistory />
+                      <ExpertLayout>
+                        <TransactionHistory />
+                      </ExpertLayout>
                     </Suspense>
                   )
                 },
@@ -171,7 +198,9 @@ export default function useRouteElements() {
                   path: path.expertShowListPost,
                   element: (
                     <Suspense>
-                      <ShowListPost />
+                      <ExpertLayout>
+                        <ShowListPost />
+                      </ExpertLayout>
                     </Suspense>
                   )
                 },
@@ -179,7 +208,9 @@ export default function useRouteElements() {
                   path: path.expertBookings,
                   element: (
                     <Suspense>
-                      <ExpertBooking />
+                      <ExpertLayout>
+                        <ExpertBooking />
+                      </ExpertLayout>
                     </Suspense>
                   )
                 },
@@ -187,7 +218,9 @@ export default function useRouteElements() {
                   path: path.expertChangePassword,
                   element: (
                     <Suspense>
-                      <ExpertChangePassword />
+                      <ExpertLayout>
+                        <ExpertChangePassword />
+                      </ExpertLayout>
                     </Suspense>
                   )
                 }
@@ -197,17 +230,39 @@ export default function useRouteElements() {
         },
         {
           path: path.admin,
-          element: <MainLayout />,
+          element: <AdminRoute />,
           children: [
             {
               path: '',
-              element: <AdminLayout />,
+              element: <MainLayout />,
               children: [
+                {
+                  path: path.adminProfile,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <Profile />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
                 {
                   path: path.adminListUser,
                   element: (
                     <Suspense>
-                      <UsersManagement />
+                      <AdminLayout>
+                        <UsersManagement />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminListMajor,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <MajorsManagement />
+                      </AdminLayout>
                     </Suspense>
                   )
                 }

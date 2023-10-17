@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Divider,
+  Fab,
   Hidden,
   lighten,
   List,
@@ -83,26 +84,23 @@ function HeaderUserbox() {
 
   return (
     <>
-      <UserBoxButton color='secondary' ref={ref} onClick={handleOpen}>
-        <Avatar variant='rounded' alt={user.first_name} src={user.photo_url} />
-        <Hidden mdDown>
-          <UserBoxText>
-            <UserBoxLabel variant='body1'>
-              {user.first_name} {user.last_name}
-            </UserBoxLabel>
-            <UserBoxDescription variant='body2'>{user.role}</UserBoxDescription>
-          </UserBoxText>
-        </Hidden>
-        <Hidden smDown>
-          <ExpandMoreTwoToneIcon sx={{ ml: 1 }} />
-        </Hidden>
-      </UserBoxButton>
+      <Fab
+        size='small'
+        aria-label='add'
+        ref={ref}
+        onClick={handleOpen}
+        sx={{
+          backgroundColor: '#E8DDDD'
+        }}
+      >
+        <Avatar alt='Remy Sharp' src={user.photo_url} />
+      </Fab>
       <Popover
         anchorEl={ref.current}
         onClose={handleClose}
         open={isOpen}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'right'
         }}
         transformOrigin={{
@@ -121,18 +119,54 @@ function HeaderUserbox() {
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component='nav'>
-          <ListItem button to={user.role === 'USER' ? path.profile : path.expertProfile} component={NavLink}>
-            <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-            <ListItemText primary='My Profile' />
-          </ListItem>
-          <ListItem button to={user.role === 'USER' ? path.historyTransaction : path.expertTransactionHistory} component={NavLink}>
-            <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
-            <ListItemText primary='History Transaction' />
-          </ListItem>
-          <ListItem button to={user.role === 'USER' ? path.changePassword : path.expertChangePassword} component={NavLink}>
-            <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-            <ListItemText primary='Change Password' />
-          </ListItem>
+          {user.role === 'USER' && (
+            <>
+              <ListItem button to={path.profile} component={NavLink}>
+                <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='My Profile' />
+              </ListItem>
+              <ListItem button to={path.historyTransaction} component={NavLink}>
+                <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='History Transaction' />
+              </ListItem>
+              <ListItem button to={path.changePassword} component={NavLink}>
+                <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='Change Password' />
+              </ListItem>
+            </>
+          )}
+          {user.role === 'ADMIN' && (
+            <>
+              <ListItem button to={path.adminProfile} component={NavLink}>
+                <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='My Profile' />
+              </ListItem>
+              <ListItem button to={path.adminListUser} component={NavLink}>
+                <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='Users Management' />
+              </ListItem>
+              <ListItem button to={path.adminListMajor} component={NavLink}>
+                <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='Majors Management' />
+              </ListItem>
+            </>
+          )}
+          {user.role === 'EXPERT' && (
+            <>
+              <ListItem button to={path.expertProfile} component={NavLink}>
+                <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='My Profile' />
+              </ListItem>
+              <ListItem button to={path.expertTransactionHistory} component={NavLink}>
+                <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='History Transaction' />
+              </ListItem>
+              <ListItem button to={path.expertChangePassword} component={NavLink}>
+                <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='Change Password' />
+              </ListItem>
+            </>
+          )}
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>

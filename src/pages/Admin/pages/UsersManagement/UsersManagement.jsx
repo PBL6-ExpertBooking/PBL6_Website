@@ -1,76 +1,66 @@
-import { useState, useEffect, lazy } from 'react';
+import { useState, useEffect, lazy } from 'react'
 // @mui
-import {
-  Stack,
-  Container,
-  IconButton,
-  Popover,
-  MenuItem,
-  Typography
-} from '@mui/material';
+import { Stack, Container, IconButton, Popover, MenuItem, Typography } from '@mui/material'
 
-import {
-  DataGrid,useGridApiRef
-} from '@mui/x-data-grid';
+import { DataGrid, useGridApiRef } from '@mui/x-data-grid'
 import Label from '../../../../components/Label'
 
-
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import Snackbar from '../../../../common/components/SnackBar'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import useSnackbar from '../../../../contexts/snackbar.context'
-import urlConfig from '../../../../config/UrlConfig';
-import _ from 'lodash';
-import LockIcon from '@mui/icons-material/Lock';
+import urlConfig from '../../../../config/UrlConfig'
+import _ from 'lodash'
+import LockIcon from '@mui/icons-material/Lock'
 
 const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
 const UsersManagement = () => {
   //STATE
-  const [openMenu, setOpenMenu] = useState(null);
-  const [currentRow, setCurrentRow] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null)
+  const [currentRow, setCurrentRow] = useState(null)
   const [openModal, setOpenModal] = useState(false)
   const { snack, setSnack } = useSnackbar()
   const [rerender, setRerender] = useState(true)
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [totalDocs, setTotalDocs] = useState(1);
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [totalDocs, setTotalDocs] = useState(1)
 
-  const fetchUsers = async (limit=100000) => {
+  const fetchUsers = async (limit = 100000) => {
     const res = await AxiosInterceptors.get(urlConfig.user.users + `?limit=${limit}`)
-    if(res && res.status === 200) {
-      if(res.data.pagination) {
-        if(res.data.pagination.users) {
+    if (res && res.status === 200) {
+      if (res.data.pagination) {
+        if (res.data.pagination.users) {
           setUsers(res.data.pagination.users)
           setTotalDocs(res.data.pagination.totalDocs)
         }
       }
     }
-  } 
+  }
 
   useEffect(() => {
     // Gọi API để lấy danh sách người dùng ở đây
-    (async () => {
-      setLoading(true);
+    ;(async () => {
+      setLoading(true)
       if (rerender) {
-        await fetchUsers();
+        await fetchUsers()
         setRerender(false)
       }
-      setLoading(false);
-    })();
-  }, [rerender]); 
+      setLoading(false)
+    })()
+  }, [rerender])
 
   //HANDLE
   const handleOpenMenu = (event, row) => {
     setCurrentRow(row)
-    setOpenMenu(event.currentTarget);
-  };
+    setOpenMenu(event.currentTarget)
+  }
 
   const handleCloseMenu = () => {
-    setOpenMenu(null);
-  };
+    setOpenMenu(null)
+  }
 
   const handleClickEditBtn = () => {
     setOpenModal(true)
@@ -80,8 +70,7 @@ const UsersManagement = () => {
     setRerender(true)
   }
 
-  const handleClickDeleteBtn = () => {
-  }
+  const handleClickDeleteBtn = () => {}
 
   const handleCloseModal = () => {
     setOpenModal(false)
@@ -89,7 +78,7 @@ const UsersManagement = () => {
 
   const hanldeClickLockAccount = async () => {
     handleCloseMenu()
-    if(currentRow.isRestricted) {
+    if (currentRow.isRestricted) {
       const res = await AxiosInterceptors.put(`${urlConfig.user.users}/${currentRow._id}/enable`)
       if (res.status === 200) {
         setRerender(true)
@@ -162,50 +151,46 @@ const UsersManagement = () => {
   }
 
   const columns = [
-    { field: 'fullName', 
-      headerName: 'Full name', 
+    {
+      field: 'fullName',
+      headerName: 'Full name',
       flex: 2,
       renderCell: (params) => {
-        return (
-          params.row.first_name + " " + params.row.last_name
-        )
+        return params.row.first_name + ' ' + params.row.last_name
       }
     },
     { field: 'email', headerName: 'Email', flex: 2 },
     { field: 'address', headerName: 'Address', flex: 5 },
     { field: 'phone', headerName: 'Phone', flex: 1.3 },
-    { field: 'role', 
+    {
+      field: 'role',
       headerName: 'Role',
       headerAlign: 'center',
       align: 'center',
       flex: 1,
       renderCell: (params) => {
-        return (
-          getLabel(params.row.role)
-        )
+        return getLabel(params.row.role)
       }
     },
-    { field: 'isConfirmed', 
+    {
+      field: 'isConfirmed',
       headerName: 'Verify',
       align: 'center',
       justifyContent: 'center',
       headerAlign: 'center',
       flex: 1,
       renderCell: (params) => {
-        return (
-          params.row.isConfirmed == true ? getLabel('YES') : getLabel('NO')
-        )
+        return params.row.isConfirmed == true ? getLabel('YES') : getLabel('NO')
       }
     },
-    { field: 'isRestricted', 
+    {
+      field: 'isRestricted',
       headerName: 'Status',
       headerAlign: 'center',
       align: 'center',
       flex: 1,
       renderCell: (params) => {
-        return (
-          params.row.isRestricted ? getLabel("UNACTIVE") : getLabel("ACTIVE")
-        )
+        return params.row.isRestricted ? getLabel('UNACTIVE') : getLabel('ACTIVE')
       }
     },
     {
@@ -214,26 +199,23 @@ const UsersManagement = () => {
       flex: 1,
       sortable: false,
       disableClickEventBubbling: true,
-      
+
       renderCell: (params) => {
-          return (
-            <IconButton size="large" color="inherit" onClick={(e) => handleOpenMenu(e, params.row)}>
-              <MoreVertIcon/>
-            </IconButton>
-          );
-      },
+        return (
+          <IconButton size='large' color='inherit' onClick={(e) => handleOpenMenu(e, params.row)}>
+            <MoreVertIcon />
+          </IconButton>
+        )
+      }
     }
-  ];
+  ]
 
   return (
     <>
       <Snackbar />
-      <Container
-        sx={{ minWidth: 1500
-        }}
-      >
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
-          <Typography variant="h3" gutterBottom>
+      <Container sx={{ minWidth: 1500 }}>
+        <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
+          <Typography variant='h3' gutterBottom>
             Users management
           </Typography>
         </Stack>
@@ -243,19 +225,19 @@ const UsersManagement = () => {
             rows={users}
             columns={columns}
             sx={{
-            '& .MuiDataGrid-row': {
-                minHeight: '64px !important',
-            },
+              '& .MuiDataGrid-row': {
+                minHeight: '64px !important'
+              }
             }}
             initialState={{
-              pagination: { paginationModel: { pageSize: 20 } },
+              pagination: { paginationModel: { pageSize: 20 } }
             }}
             pageSizeOptions={[10, 20, 30, 50]}
             rowCount={totalDocs}
-            paginationMode="client"
+            paginationMode='client'
             loading={loading}
           />
-        </div>  
+        </div>
       </Container>
 
       <Popover
@@ -271,36 +253,35 @@ const UsersManagement = () => {
             '& .MuiMenuItem-root': {
               px: 1,
               typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
+              borderRadius: 0.75
+            }
+          }
         }}
       >
-        <MenuItem
-         onClick={handleClickEditBtn}
-        >
-          <EditIcon sx={{mr: 1}} />
+        <MenuItem onClick={handleClickEditBtn}>
+          <EditIcon sx={{ mr: 1 }} />
           Edit
         </MenuItem>
 
-        <MenuItem 
-          sx={{ color: 'warning.main' }}
-          onClick={hanldeClickLockAccount}
-        >
-          <LockIcon sx={{mr: 1}}/>
-          {currentRow && currentRow.isRestricted ? "Unlock" : "Lock"}
+        <MenuItem sx={{ color: 'warning.main' }} onClick={hanldeClickLockAccount}>
+          <LockIcon sx={{ mr: 1 }} />
+          {currentRow && currentRow.isRestricted ? 'Unlock' : 'Lock'}
         </MenuItem>
 
-        <MenuItem 
-          sx={{ color: 'error.main' }}
-          onClick={handleClickDeleteBtn}
-        >
-          <DeleteIcon sx={{mr: 1}}/>
+        <MenuItem sx={{ color: 'error.main' }} onClick={handleClickDeleteBtn}>
+          <DeleteIcon sx={{ mr: 1 }} />
           Delete
         </MenuItem>
       </Popover>
-      
-      {currentRow && < UserInfoModal open={openModal} handleCloseModal={handleCloseModal} user={currentRow} setRerender={handleSetRerender}/>}
+
+      {currentRow && (
+        <UserInfoModal
+          open={openModal}
+          handleCloseModal={handleCloseModal}
+          user={currentRow}
+          setRerender={handleSetRerender}
+        />
+      )}
     </>
   )
 }
