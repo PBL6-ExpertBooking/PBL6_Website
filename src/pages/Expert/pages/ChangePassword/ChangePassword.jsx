@@ -11,7 +11,7 @@ import {
   OutlinedInput,
   IconButton
 } from '@mui/material'
-import {useState} from 'react'
+import { useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import useSnackbar from '../../../../contexts/snackbar.context'
@@ -23,19 +23,18 @@ import path from '../../../../constants/path'
 
 const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const [currentPassword, setCurrentPassword] = useState("")
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const { snack, setSnack } = useSnackbar()
   const navigate = useNavigate()
-
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
   const handleResetForm = () => {
-    setCurrentPassword("")
-    setNewPassword("")
-    setConfirmPassword("")
+    setCurrentPassword('')
+    setNewPassword('')
+    setConfirmPassword('')
   }
 
   const handleUpdatePassword = async () => {
@@ -45,30 +44,31 @@ const ChangePassword = () => {
         message: 'New password and confirm password must match',
         type: 'error'
       })
-      handleResetForm();
-      return;
+      handleResetForm()
+      return
     }
 
     const res = await AxiosInterceptors.put(urlConfig.user.updatePassword, {
       current_password: currentPassword,
       new_password: newPassword,
       confirm_password: confirmPassword
-    }).then((res) => {
-      setSnack({
-        open: true,
-        message: 'Update password successfully',
-        type: 'success'
-      })
-      navigate(path.expertProfile)
-    }).catch((err) => {
-      console.log(err)
-      setSnack({
-        open: true,
-        message: `${err.response.data.message}`,
-        type: 'error'
-      })
     })
-
+      .then((res) => {
+        setSnack({
+          open: true,
+          message: 'Update password successfully',
+          type: 'success'
+        })
+        navigate(path.expertProfile)
+      })
+      .catch((err) => {
+        console.log(err)
+        setSnack({
+          open: true,
+          message: `${err.response.data.message}`,
+          type: 'error'
+        })
+      })
   }
 
   const handleMouseDownPassword = (event) => {
@@ -76,12 +76,12 @@ const ChangePassword = () => {
   }
   return (
     <div style={{ width: '100%' }}>
-      <Snackbar/>
+      <Snackbar />
       <Card
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: '#E8DDDD',
+          backgroundColor: '#D2E9E9 ',
           padding: '20px',
           margin: '20px 100px'
         }}
@@ -195,21 +195,21 @@ const ChangePassword = () => {
           - At least one number, symbol, or whitespace character
         </Typography>
         <Stack
-              spacing={1}
-              direction='row'
-              alignItems='center'
-              justifyContent='flex-end'
-              sx={{
-                marginRight: '2rem'
-              }}
-            >
-              <Button variant='contained' component='label' onClick={handleUpdatePassword}>
-                Save Change
-              </Button>
-              <Button variant='contained' component='label' color='error' onClick={handleResetForm}>
-                Reset
-              </Button>
-            </Stack>
+          spacing={1}
+          direction='row'
+          alignItems='center'
+          justifyContent='flex-end'
+          sx={{
+            marginRight: '2rem'
+          }}
+        >
+          <Button variant='contained' component='label' onClick={handleUpdatePassword}>
+            Save Change
+          </Button>
+          <Button variant='contained' component='label' color='error' onClick={handleResetForm}>
+            Reset
+          </Button>
+        </Stack>
       </Card>
     </div>
   )

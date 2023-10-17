@@ -14,6 +14,7 @@ import useSnackbar from '../../../../contexts/snackbar.context'
 import urlConfig from '../../../../config/UrlConfig'
 import _ from 'lodash'
 import LockIcon from '@mui/icons-material/Lock'
+import { Helmet } from 'react-helmet-async'
 
 const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
@@ -213,6 +214,9 @@ const UsersManagement = () => {
   return (
     <>
       <Snackbar />
+      <Helmet>
+        <title>Users Management</title>
+      </Helmet>
       <Container sx={{ minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>

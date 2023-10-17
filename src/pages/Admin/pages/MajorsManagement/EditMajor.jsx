@@ -5,20 +5,20 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
-const AddNewMajor = ({ open, handleClose, fetchData }) => {
+const EditMajor = ({ open, handleClose, fetchData, item }) => {
   const { snack, setSnack } = useSnackbar()
-  const [newMajor, setNewMajor] = useState({
-    name: '',
-    descriptions: ''
+  const [major, setMajor] = useState({
+    name: item.name,
+    descriptions: item.descriptions
   })
-  const handleAddNew = async () => {
-    await AxiosInterceptors.post(urlConfig.majors.createMajors, newMajor)
+  const handleEdit = async () => {
+    await AxiosInterceptors.put(urlConfig.majors.updateMajors + `/${item._id}`, major)
       .then((res) => {
         fetchData()
         setSnack({
           ...snack,
           open: true,
-          message: 'Add new major successfully!',
+          message: 'Edit major successfully!',
           type: 'success'
         })
       })
@@ -26,7 +26,7 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Add new major failed!',
+          message: 'Edit major failed!',
           type: 'error'
         })
       )
@@ -35,12 +35,12 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
     <>
       <Snackbar />
       <RootModal
-        variant='Create'
-        title='New Major'
+        variant='Edit'
+        title='Edit Major'
         open={open}
         handleClose={handleClose}
         handleOk={() => {
-          handleAddNew()
+          handleEdit()
           handleClose()
         }}
         closeOnly={false}
@@ -51,9 +51,10 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
             label='Major Name'
             variant='outlined'
             fullWidth
+            defaultValue={item.name}
             onChange={(e) =>
-              setNewMajor({
-                ...newMajor,
+              setMajor({
+                ...major,
                 name: e.target.value
               })
             }
@@ -63,9 +64,10 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
             label='Descriptions'
             variant='outlined'
             fullWidth
+            defaultValue={item.descriptions}
             onChange={(e) =>
-              setNewMajor({
-                ...newMajor,
+              setMajor({
+                ...major,
                 descriptions: e.target.value
               })
             }
@@ -76,4 +78,4 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
   )
 }
 
-export default AddNewMajor
+export default EditMajor

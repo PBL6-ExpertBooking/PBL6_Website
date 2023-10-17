@@ -22,11 +22,19 @@ import {
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 import AddNewMajor from './AddNewMajor'
+import EditMajor from './EditMajor'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
+import Snackbar from '../../../../common/components/SnackBar'
+import useSnackbar from '../../../../contexts/snackbar.context'
 
-const MajorsTable = ({ majorsOrder }) => {
+const MajorsTable = ({ majorsOrder, fetchData }) => {
   const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-  //   const [openAdd, setOpenAdd] = useState(false)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [openAdd, setOpenAdd] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
+  const [item, setItem] = useState({})
+  const { snack, setSnack } = useSnackbar()
   const theme = useTheme()
 
   const handlePageChange = (event, newPage) => {
@@ -36,14 +44,49 @@ const MajorsTable = ({ majorsOrder }) => {
   const handleLimitChange = (event) => {
     setRowsPerPage(parseInt(event.target.value))
   }
+
+  const handleDelete = async (id) => {
+    await AxiosInterceptors.delete(urlConfig.majors.deleteMajors + `/${id}`)
+      .then((res) => {
+        fetchData()
+        setSnack({
+          ...snack,
+          open: true,
+          message: 'Delete major successfully!',
+          type: 'success'
+        })
+      })
+      .catch((err) =>
+        setSnack({
+          ...snack,
+          open: true,
+          message: 'Delete major failed!',
+          type: 'error'
+        })
+      )
+  }
+
+  const handleEdit = (major) => {
+    setItem(major)
+  }
   return (
     <>
-      {/* {openAdd && <AddNewMajor open={openAdd} handleClose={() => setOpenAdd(false)} />} */}
+      <Snackbar />
+      {openAdd && <AddNewMajor open={openAdd} handleClose={() => setOpenAdd(false)} fetchData={fetchData} />}
+      {openEdit && (
+        <EditMajor open={openEdit} handleClose={() => setOpenEdit(false)} fetchData={fetchData} item={item} />
+      )}
       <Card>
         <CardHeader
           action={
             <Box width={150}>
-              <Button variant='contained' color='primary' fullWidth startIcon={<AddIcon />}>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() => setOpenAdd(true)}
+                fullWidth
+                startIcon={<AddIcon />}
+              >
                 Add Major
               </Button>
             </Box>
@@ -94,6 +137,10 @@ const MajorsTable = ({ majorsOrder }) => {
                           }}
                           color='inherit'
                           size='small'
+                          onClick={() => {
+                            handleEdit(majorsOrder)
+                            setOpenEdit(true)
+                          }}
                         >
                           <EditTwoToneIcon fontSize='small' />
                         </IconButton>
@@ -106,6 +153,7 @@ const MajorsTable = ({ majorsOrder }) => {
                           }}
                           color='inherit'
                           size='small'
+                          onClick={() => handleDelete(majorsOrder._id)}
                         >
                           <DeleteTwoToneIcon fontSize='small' />
                         </IconButton>

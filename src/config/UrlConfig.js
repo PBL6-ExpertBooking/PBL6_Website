@@ -16,7 +16,9 @@ const urlConfig = {
   },
   majors: {
     getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
-    createMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`
+    createMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
+    deleteMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
+    updateMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`
   }
 }
 
