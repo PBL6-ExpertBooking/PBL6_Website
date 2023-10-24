@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Box, Typography, TextField, InputAdornment, Stack, MenuItem, Button } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import province from '../../constants/location'
-import major from '../../constants/major'
+import { MajorContext } from '../../contexts/major.context'
 import TopExpert from '../../components/TopExpert'
 import { Helmet } from 'react-helmet-async'
 
 const DashBoard = () => {
   const [searchTerm, setSearchTerm] = useState('')
-
+  const { majors, loading, getMajors } = useContext(MajorContext)
+  useEffect(() => {
+    // Fetch majors when this component mounts
+    getMajors()
+  }, [])
   const handleChange = (event) => {
     setSearchTerm(event.target.value)
   }
@@ -47,10 +51,10 @@ const DashBoard = () => {
               )
             }}
           />
-          <TextField id='outlined-select-currency' select label='Major' defaultValue='IT'>
-            {major.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
+          <TextField id='outlined-select-currency' select label='Major' defaultValue=''>
+            {majors.majors?.map((option) => (
+              <MenuItem key={option._id} value={option._id}>
+                {option.name}
               </MenuItem>
             ))}
           </TextField>
