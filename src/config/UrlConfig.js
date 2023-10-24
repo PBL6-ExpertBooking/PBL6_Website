@@ -19,6 +19,12 @@ const urlConfig = {
     createMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
     deleteMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
     updateMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`
+  },
+  job_requests: {
+    getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
+    createJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
+    deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
+    updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
   }
 }
 
