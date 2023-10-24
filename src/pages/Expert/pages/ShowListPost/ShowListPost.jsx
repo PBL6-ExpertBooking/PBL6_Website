@@ -38,7 +38,7 @@ const ShowListPost = () => {
     if (!majors) {
       return;
     }
-    const res = await AxiosInterceptors.get(urlConfig.job_request.job_requests + `?major_id=${majors}`)
+    const res = await AxiosInterceptors.get(urlConfig.job_requests.getJobRequests + `?major_id=${majors}`)
               .then((res) => {
                 setJobRequests(res.data.pagination.job_requests);
                 setTotalPages(res.data.pagination.totalPages);
