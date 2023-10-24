@@ -12,14 +12,18 @@ const urlConfig = {
     updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`
   },
   expert: {
-    current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`
+    current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
+    expert: `${process.env.REACT_APP_API_ENDPOINT}/experts`
   },
   majors: {
     getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
     createMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
     deleteMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
     updateMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`
-  }
+  },
+	job_request: {
+		job_requests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
+	}
 }
 
 export default urlConfig

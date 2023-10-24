@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { CardActions, Box, Button, Card, CardContent,CardHeader, Divider, Stack, SvgIcon, Typography } from '@mui/material';
+import dayjs from 'dayjs';
+import moment from 'moment';
 
 export const PostCard = (props) => {
-  const { post } = props;
+  const { jobRequest } = props;
 
   return (
     <Card
@@ -18,7 +20,7 @@ export const PostCard = (props) => {
           gutterBottom
           variant="h4"
         >
-          {post.title}
+          {jobRequest && jobRequest.title ? jobRequest.title : ""}
         </Typography>
 
         <Typography
@@ -39,7 +41,7 @@ export const PostCard = (props) => {
           }}
         >
           Address:
-        </Typography> {post.address}
+        </Typography> {jobRequest && jobRequest.address ? jobRequest.address : ""}
         </Typography>
 
         <Typography
@@ -60,7 +62,7 @@ export const PostCard = (props) => {
           }}
         >
           Price:
-        </Typography> {post.price} VNĐ
+        </Typography> {jobRequest && jobRequest.budget ? jobRequest.budget : ""} VNĐ
         </Typography>
 
         <Typography
@@ -81,7 +83,7 @@ export const PostCard = (props) => {
           }}
         >
           Description:
-        </Typography> {post.description}
+        </Typography> {jobRequest && jobRequest.descriptions ? jobRequest.descriptions : ""}
         </Typography>
       </CardContent>
       <Box sx={{ flexGrow: 1 }} />
@@ -103,7 +105,7 @@ export const PostCard = (props) => {
             display="inline"
             variant="body2"
           >
-            Post 2h ago
+            {jobRequest && jobRequest.createdAt ? `Post at ${moment(Date.parse(jobRequest.createdAt)).format('DD/MM/YYYY, h:mm:ss a')}` : "" }
           </Typography>
         </Stack>
         <Stack
