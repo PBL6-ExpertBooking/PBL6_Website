@@ -12,94 +12,70 @@ import {
 import {PostCard} from '../../components/PostCard/PostCard'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react'
-
-const posts = [
-  {
-    id: '1',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },
-  {
-    id: '2',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '3',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '4',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '5',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '6',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '7',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '8',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },{
-    id: '9',
-    title: 'Tìm kiếm người sửa máy tính Win7',
-    address: 'K7/7-đường Ngô Sỹ Liên-phường Hòa Khánh Bắc-quận Liên Chiểu-thành phố Đà Nẵng',
-    price: 200000,
-    description: "Tôi muốn tìm một người sửa win 7 tại nhà nhanh gọn lẹ, đang cần gấp",
-    createdAt: ""
-  },
-];
-
+import { useState, useEffect } from 'react';
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors';
+import useSnackbar from '../../../../contexts/snackbar.context';
+import urlConfig from '../../../../config/UrlConfig';
 
 const ShowListPost = () => {
-  const [age, setAge] = React.useState('');
+  const [majors, setMajors] = useState('');
+  const [listMajors, setListMajors] = useState([]);
+  const [jobRequests, setJobRequests] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchDataMajors = async () => {
+    const expertProfile = await AxiosInterceptors.get(urlConfig.expert.current)
+
+    const url = urlConfig.expert.expert + `/${expertProfile.data.expert._id}/majors`
+    const res = await AxiosInterceptors.get(url)
+    if (res.status === 200) {
+      setListMajors(res.data.majors)
+      setMajors(res.data.majors[0]._id)
+    }
+  }
+
+  const fetchDataJobRequestByMajorId = async () => {
+    if (!majors) {
+      return;
+    }
+    const res = await AxiosInterceptors.get(urlConfig.job_requests.getJobRequests + `?major_id=${majors}`)
+              .then((res) => {
+                setJobRequests(res.data.pagination.job_requests);
+                setTotalPages(res.data.pagination.totalPages);
+              })
+              .catch((err) => {
+                setJobRequests([])
+              })
+  }
+
+  useEffect(() => {
+    fetchDataMajors();
+  }, [])
+
+  useEffect(() => {
+    fetchDataJobRequestByMajorId();
+  }, [majors])
 
   return(
   <>
     <Box
       component="main"
       sx={{
+        justifyContent: 'space-between',
         flexGrow: 1,
         py: 4
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="xl"
+        sx={{
+            minHeight: '80vh'
+          }}
+      >
         <Stack spacing={3}>
           <Stack
             direction="row"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="start"
             spacing={4}
             px="12px"
           >
@@ -117,12 +93,17 @@ const ShowListPost = () => {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={age}
-                label="Age"
+                value={majors}
+                label="Major"
+                onChange={(event) => {
+                  setMajors(event.target.value)
+                }}
               >
-                <MenuItem value={1}>IT</MenuItem>
-                <MenuItem value={2}>Fuho</MenuItem>
-                <MenuItem value={3}>Gamming</MenuItem>
+                {listMajors.length > 0 &&
+                 listMajors.map((item) => {
+                  return <MenuItem value={item._id}>{item.name}</MenuItem>
+                 })
+                }
               </Select>
             </FormControl>
             </Box>
@@ -131,30 +112,30 @@ const ShowListPost = () => {
             container
             spacing={3}
           >
-            {posts.map((post) => (
+            {jobRequests.length > 0 && jobRequests.map((jobRequest) => (
               <Grid
                 xs={12}
                 md={6}
                 lg={4}
-                key={post.id}
+                key={jobRequest.id}
               >
-                <PostCard post={post} />
+                <PostCard jobRequest={jobRequest} />
               </Grid>
             ))}
           </Grid>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <Pagination
-              count={4}
-              size="large"
-            />
-          </Box>
         </Stack>
       </Container>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
+        <Pagination
+          count={totalPages}
+          size="large"
+        />
+      </Box>
     </Box>
   </>
 )};
