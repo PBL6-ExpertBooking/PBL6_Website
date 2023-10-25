@@ -13,17 +13,72 @@ import {
 } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import SnackBar from '../../../../common/components/SnackBar'
+import useSnackbar from '../../../../contexts/snackbar.context'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 const ChangePassword = () => {
   const [showPassword, setShowPassword] = React.useState(false)
+  const [oldPassword, setOldPassword] = React.useState('')
+  const [newPassword, setNewPassword] = React.useState('')
+  const [confirmNewPassword, setConfirmNewPassword] = React.useState('')
+  const { snack, setSnack } = useSnackbar()
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
+  const handleReset = () => {
+    setOldPassword('')
+    setNewPassword('')
+    setConfirmNewPassword('')
+  }
+  const handleChangePassword = async () => {
+    if (confirmNewPassword !== newPassword) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Confirm password is not match!',
+        type: 'error'
+      })
+    } else if (newPassword === oldPassword) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'New password must be different from old password!',
+        type: 'error'
+      })
+    } else {
+      const res = await AxiosInterceptors.put(urlConfig.user.updatePassword, {
+        current_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmNewPassword
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            setSnack({
+              ...snack,
+              open: true,
+              message: 'Change password successfully!',
+              type: 'success'
+            })
+          }
+        })
+        .catch((err) => {
+          setSnack({
+            ...snack,
+            open: true,
+            message: 'Change password failed!',
+            type: 'error'
+          })
+        })
+    }
+  }
   return (
     <div style={{ width: '100%' }}>
+      <SnackBar />
       <Helmet>
         <title>Change Password</title>
       </Helmet>
@@ -46,9 +101,9 @@ const ChangePassword = () => {
             width: '48%'
           }}
         >
-          <InputLabel htmlFor='outlined-adornment-password'>Current Password</InputLabel>
+          <InputLabel htmlFor='outlined-old-password'>Current Password</InputLabel>
           <OutlinedInput
-            id='outlined-adornment-password'
+            id='outlined-old-password'
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position='end'>
@@ -63,6 +118,8 @@ const ChangePassword = () => {
               </InputAdornment>
             }
             label='Password'
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
           />
         </FormControl>
         <Box
@@ -80,9 +137,9 @@ const ChangePassword = () => {
               width: '48%'
             }}
           >
-            <InputLabel htmlFor='outlined-adornment-password'>New Password</InputLabel>
+            <InputLabel htmlFor='outlined-new-password'>New Password</InputLabel>
             <OutlinedInput
-              id='outlined-adornment-password'
+              id='outlined-new-password'
               type={showPassword ? 'text' : 'password'}
               endAdornment={
                 <InputAdornment position='end'>
@@ -97,6 +154,8 @@ const ChangePassword = () => {
                 </InputAdornment>
               }
               label='Password'
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
           </FormControl>
           <FormControl
@@ -106,9 +165,9 @@ const ChangePassword = () => {
               width: '48%'
             }}
           >
-            <InputLabel htmlFor='outlined-adornment-password'>Confirm New Password</InputLabel>
+            <InputLabel htmlFor='outlined-confirm-password'>Confirm New Password</InputLabel>
             <OutlinedInput
-              id='outlined-adornment-password'
+              id='outlined-confirm-password'
               type={showPassword ? 'text' : 'password'}
               endAdornment={
                 <InputAdornment position='end'>
@@ -123,6 +182,8 @@ const ChangePassword = () => {
                 </InputAdornment>
               }
               label='Password'
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
             />
           </FormControl>
         </Box>
@@ -147,10 +208,22 @@ const ChangePassword = () => {
             marginRight: '2rem'
           }}
         >
-          <Button variant='contained' component='label'>
+          <Button
+            variant='contained'
+            component='label'
+            onClick={() => handleChangePassword()}
+            sx={{
+              backgroundColor: '#F8F6F4',
+              color: 'black',
+              '&:hover': {
+                backgroundColor: '#F8F6F4',
+                color: 'black'
+              }
+            }}
+          >
             Save Change
           </Button>
-          <Button variant='contained' component='label' color='error'>
+          <Button variant='contained' component='label' color='error' onClick={() => handleReset()}>
             Reset
           </Button>
         </Stack>
