@@ -9,7 +9,8 @@ const urlConfig = {
   user: {
     info: `${process.env.REACT_APP_API_ENDPOINT}/users/current`,
     users: `${process.env.REACT_APP_API_ENDPOINT}/users`,
-    updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`
+    updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`,
+    getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/users/current/job_requests`
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
