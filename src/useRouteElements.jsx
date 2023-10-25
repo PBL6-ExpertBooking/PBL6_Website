@@ -23,6 +23,7 @@ const ShowListPost = lazy(() => import('./pages/Expert/pages/ShowListPost'))
 const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
+const JobRequest = lazy(() => import('./pages/User/pages/JobRequest'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 const ValidateEmail = lazy(() => import('./pages/ValidateEmail'))
 const HomePage = lazy(() => import('./pages/HomePage'))
@@ -158,6 +159,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <UserLayout>
                         <UserHistoryTransaction />
+                      </UserLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.jobRequest,
+                  element: (
+                    <Suspense>
+                      <UserLayout>
+                        <JobRequest />
                       </UserLayout>
                     </Suspense>
                   )

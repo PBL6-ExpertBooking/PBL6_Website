@@ -6,6 +6,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
+import WorkIcon from '@mui/icons-material/Work'
 
 export default function UserSideNav() {
   const { collapseSidebar } = useProSidebar()
@@ -27,6 +28,9 @@ export default function UserSideNav() {
         </Link>
         <Link to={path.historyTransaction} style={styleLink}>
           <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
+        </Link>
+        <Link to={path.jobRequest} style={styleLink}>
+          <MenuItem icon={<WorkIcon />}>Job Request</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}

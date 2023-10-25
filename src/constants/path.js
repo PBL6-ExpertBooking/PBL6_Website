@@ -6,6 +6,7 @@ const path = {
   profile: '/user/profile',
   changePassword: '/user/changepassword',
   historyTransaction: '/user/transaction-history',
+  jobRequest: '/user/job-request',
   login: '/login',
   register: '/register',
   logout: '/logout',
