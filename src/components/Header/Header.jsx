@@ -3,6 +3,7 @@ import { Box, Fab, Typography, Stack, TextField, MenuItem } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import { useNavigate } from 'react-router-dom'
 import RootModal from '../Modal/RootModal'
 import province from '../../constants/location'
@@ -15,7 +16,9 @@ import useSnackbar from '../../contexts/snackbar.context'
 const Header = () => {
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false)
+  const [openRecharge, setOpenRecharge] = React.useState(false)
   const { snack, setSnack } = useSnackbar()
+  const [money, setMoney] = React.useState(0)
   const [data, setData] = useState({
     major_id: '',
     title: '',
@@ -30,7 +33,7 @@ const Header = () => {
     getMajors()
   }, [])
   const handleOk = async () => {
-    const res = await AxiosInterceptors.post(urlConfig.job_requests.createJobRequests, data)
+    await AxiosInterceptors.post(urlConfig.job_requests.createJobRequests, data)
       .then((res) => {
         if (res.status === 200) {
           setSnack({
@@ -47,6 +50,25 @@ const Header = () => {
           ...snack,
           open: true,
           message: 'Create job request failed!',
+          type: 'error'
+        })
+      })
+  }
+
+  const handleRecharge = async () => {
+    await AxiosInterceptors.post(urlConfig.transaction.recharge, {
+      amount: Number(money)
+    })
+      .then((res) => {
+        // open new page to pay
+        window.open(res.data.paymentUrl, '_blank')
+        setOpenRecharge(false)
+      })
+      .catch((err) => {
+        setSnack({
+          ...snack,
+          open: true,
+          message: 'Recharge failed!',
           type: 'error'
         })
       })
@@ -135,6 +157,25 @@ const Header = () => {
           </Stack>
         </Box>
       </RootModal>
+      <RootModal
+        variant='Create'
+        title='Recharge'
+        open={openRecharge}
+        handleClose={() => setOpenRecharge(false)}
+        handleOk={() => handleRecharge()}
+        closeOnly={false}
+      >
+        <Box sx={{ my: 2 }}>
+          <TextField
+            id='outlined-basic'
+            label='Money Amount'
+            variant='outlined'
+            type='number'
+            fullWidth
+            onChange={(e) => setMoney(e.target.value)}
+          />
+        </Box>
+      </RootModal>
       <Box
         sx={{
           display: 'flex',
@@ -177,6 +218,16 @@ const Header = () => {
                 onClick={() => setOpen(true)}
               >
                 <AddIcon />
+              </Fab>
+              <Fab
+                size='small'
+                aria-label='recharge'
+                sx={{
+                  backgroundColor: '#D2E9E9 '
+                }}
+                onClick={() => setOpenRecharge(true)}
+              >
+                <AttachMoneyIcon />
               </Fab>
               <HeaderUserbox />
             </Box>
