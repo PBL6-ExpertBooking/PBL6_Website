@@ -27,6 +27,9 @@ const urlConfig = {
     createJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
+  },
+  transaction: {
+    recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`
   }
 }
 
