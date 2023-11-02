@@ -43,7 +43,7 @@ const ExpertProfile = () => {
   const [isValidated, setIsValidated] = useState(true)
   const [majors, setMajors] = useState([])
   const { snack, setSnack } = useSnackbar()
-
+  console.log(profile)
   const fetchData = async () => {
     const res = await AxiosInterceptors.get(urlConfig.expert.current)
     if (res.status === 200) {
@@ -129,7 +129,7 @@ const ExpertProfile = () => {
         </Card>
       </div>
     )) ||
-    (profile.role && (
+    (profile._id && (
       <div style={{ width: '100%', height: '100vh' }}>
         <Snackbar />
         <Card
