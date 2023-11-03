@@ -6,14 +6,15 @@ import { Box } from '@mui/material'
 function UserLayoutInner({ children }) {
   return (
     <div>
-      <Box sx={{
-        display: 'flex',
-        height: '93vh',
-        width: '100vw'
-      }} >
-      <UserSideNav />
-      {children}
-      <Outlet />
+      <Box
+        sx={{
+          display: 'flex',
+          height: '93vh'
+        }}
+      >
+        <UserSideNav />
+        {children}
+        <Outlet />
       </Box>
     </div>
   )

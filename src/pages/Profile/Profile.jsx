@@ -25,6 +25,7 @@ import dayjs from 'dayjs'
 import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import Axios from 'axios'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -39,10 +40,34 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Profile = () => {
-  const [information, setInformation] = useState({})
+  const [information, setInformation] = useState({
+    first_name: '',
+    last_name: '',
+    gender: true,
+    phone: '',
+    address: {
+      city: {
+        code: '',
+        name: ''
+      },
+      district: {
+        code: '',
+        name: ''
+      },
+      ward: {
+        name: '',
+        code: 0
+      }
+    },
+    DoB: dayjs(),
+    photo: ''
+  })
   const [formData, setFormData] = useState(new FormData())
   const [isValidated, setIsValidated] = useState(true)
   const { snack, setSnack } = useSnackbar()
+  const [tinh, setTinh] = useState({})
+  const [huyen, setHuyen] = useState({})
+  const [xa, setXa] = useState({})
   const fetchData = async () => {
     await AxiosInterceptors.get(urlConfig.user.info)
       .then((res) => setInformation(res.data.user))
@@ -50,7 +75,27 @@ const Profile = () => {
         setIsValidated(false)
       })
   }
-
+  const fetchTinh = async () => {
+    await Axios.get('https://provinces.open-api.vn/api/p/')
+      .then((res) => {
+        setTinh(res.data)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchHuyen = async () => {
+    await Axios.get(`https://provinces.open-api.vn/api/p/${information.address?.city.code}?depth=2`)
+      .then((res) => {
+        setHuyen(res.data.districts)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchXa = async () => {
+    await Axios.get(`https://provinces.open-api.vn/api/d/${information.address?.district.code}?depth=2`)
+      .then((res) => {
+        setXa(res.data.wards)
+      })
+      .catch((err) => console.log(err))
+  }
   const updateData = async () => {
     await AxiosInterceptors.put(
       urlConfig.user.info,
@@ -59,7 +104,7 @@ const Profile = () => {
         last_name: information.last_name,
         gender: information.gender,
         phone: information.phone,
-        address: information.address,
+        address: JSON.stringify(information.address),
         DoB: information.DoB,
         photo: formData.get('photo')
       },
@@ -87,7 +132,14 @@ const Profile = () => {
       )
   }
   useEffect(() => {
+    fetchHuyen()
+  }, [information.address?.city.code])
+  useEffect(() => {
+    fetchXa()
+  }, [information.address?.district.code])
+  useEffect(() => {
     fetchData()
+    fetchTinh()
   }, [])
   return (
     (!isValidated && (
@@ -292,17 +344,86 @@ const Profile = () => {
                   }}
                 >
                   <TextField
-                    required
-                    id='outlined-required'
-                    label='Address'
-                    defaultValue={information.address}
-                    onChange={(e) => {
-                      setInformation({
-                        ...information,
-                        address: e.target.value
-                      })
-                    }}
-                  />
+                    id='outlined-select-currency'
+                    select
+                    label='City'
+                    defaultValue={information.address.city.name}
+                  >
+                    {tinh.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setInformation({
+                            ...information,
+                            address: {
+                              ...information.address,
+                              city: {
+                                code: option.code,
+                                name: option.name
+                              }
+                            }
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='District'
+                    defaultValue={information.address.district.name}
+                  >
+                    {huyen?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setInformation({
+                            ...information,
+                            address: {
+                              ...information.address,
+                              district: {
+                                code: option.code,
+                                name: option.name
+                              }
+                            }
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='Ward'
+                    defaultValue={information.address.ward.name}
+                  >
+                    {xa?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setInformation({
+                            ...information,
+                            address: {
+                              ...information.address,
+                              ward: {
+                                code: option.code,
+                                name: option.name
+                              }
+                            }
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Box>
               </Box>
               <Stack
@@ -311,6 +432,7 @@ const Profile = () => {
                 alignItems='center'
                 justifyContent='flex-end'
                 sx={{
+                  mt: 2,
                   marginRight: '2rem'
                 }}
               >
