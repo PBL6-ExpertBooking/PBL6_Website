@@ -161,7 +161,7 @@ const Profile = () => {
       </div>
     )) ||
     (information.role && (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Helmet>
           <title>Profile</title>
         </Helmet>
