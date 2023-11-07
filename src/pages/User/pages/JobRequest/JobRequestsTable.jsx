@@ -9,13 +9,40 @@ import {
   TablePagination,
   TableRow,
   TableContainer,
-  Typography
+  useTheme,
+  Typography,
+  IconButton,
+  Tooltip
 } from '@mui/material'
+import Label from '../../../../components/Label'
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
+
+const getStatusLabel = (jobStatus) => {
+  const map = {
+    failed: {
+      text: 'Failed',
+      color: 'error'
+    },
+    completed: {
+      text: 'Completed',
+      color: 'success'
+    },
+    pending: {
+      text: 'Pending',
+      color: 'warning'
+    }
+  }
+
+  const { text, color } = map[jobStatus]
+
+  return <Label color={color}>{text}</Label>
+}
 
 const JobRequestTable = ({ majorsOrder, fetchData }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-
+  const theme = useTheme()
   const handlePageChange = (event, newPage) => {
     setPage(newPage)
   }
@@ -34,9 +61,10 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                 <TableCell>Job ID</TableCell>
                 <TableCell>Title</TableCell>
                 <TableCell>Descriptions</TableCell>
-                <TableCell>Min Budget</TableCell>
-                <TableCell>Max Budget</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Address</TableCell>
+                <TableCell align='right'>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -63,18 +91,46 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                     </TableCell>
                     <TableCell>
                       <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                        {majorsOrder.budget.min}
+                        {majorsOrder.price}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                        {majorsOrder.budget.max}
+                        {getStatusLabel(majorsOrder.status.toLowerCase())}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                        {majorsOrder.address}
+                        {majorsOrder.address.city.name}
                       </Typography>
+                    </TableCell>
+                    <TableCell align='right'>
+                      <Tooltip title='Edit Request' arrow>
+                        <IconButton
+                          sx={{
+                            '&:hover': {
+                              background: theme.palette.primary.lighter
+                            },
+                            color: theme.palette.primary.main
+                          }}
+                          color='inherit'
+                          size='small'
+                        >
+                          <EditTwoToneIcon fontSize='small' />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title='Delete Request' arrow>
+                        <IconButton
+                          sx={{
+                            '&:hover': { background: theme.palette.error.lighter },
+                            color: theme.palette.error.main
+                          }}
+                          color='inherit'
+                          size='small'
+                        >
+                          <DeleteTwoToneIcon fontSize='small' />
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 )

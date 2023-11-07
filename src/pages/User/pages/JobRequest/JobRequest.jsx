@@ -40,7 +40,7 @@ const JobRequest = () => {
           id='outlined-select-currency'
           select
           label='Major'
-          defaultValue=''
+          defaultValue='0'
           sx={{
             width: '30%',
             marginLeft: 'auto',
@@ -48,6 +48,9 @@ const JobRequest = () => {
           }}
           onChange={(e) => setMajor_id(e.target.value)}
         >
+          <MenuItem key='all' value='0'>
+            All
+          </MenuItem>
           {majors.majors?.map((option) => (
             <MenuItem key={option._id} value={option._id}>
               {option.name}
