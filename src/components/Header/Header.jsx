@@ -1,35 +1,80 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Box, Fab, Typography, Stack, TextField, MenuItem } from '@mui/material'
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import AddIcon from '@mui/icons-material/Add'
-import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import { useNavigate } from 'react-router-dom'
-import RootModal from '../Modal/RootModal'
-import province from '../../constants/location'
-import HeaderUserbox from './UserBox'
 import { MajorContext } from '../../contexts/major.context'
+import RootModal from '../Modal/RootModal'
+import Recharge from './Recharge'
+import Axios from 'axios'
+import HeaderUserbox from './UserBox'
 import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import urlConfig from '../../config/UrlConfig'
 import Snackbar from '../../common/components/SnackBar'
 import useSnackbar from '../../contexts/snackbar.context'
+// icon
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import AddIcon from '@mui/icons-material/Add'
+import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+
 const Header = () => {
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false)
   const [openRecharge, setOpenRecharge] = React.useState(false)
   const { snack, setSnack } = useSnackbar()
-  const [money, setMoney] = React.useState(0)
+  const [tinh, setTinh] = useState({})
+  const [huyen, setHuyen] = useState({})
+  const [xa, setXa] = useState({})
   const [data, setData] = useState({
     major_id: '',
     title: '',
     descriptions: '',
-    address: 'Đà Nẵng',
-    budget_min: 0,
-    budget_max: 0
+    address: {
+      city: {
+        code: '',
+        name: ''
+      },
+      district: {
+        code: '',
+        name: ''
+      },
+      ward: {
+        name: '',
+        code: 0
+      }
+    },
+    price: 0
   })
   const { majors, loading, getMajors } = useContext(MajorContext)
+  const fetchTinh = async () => {
+    await Axios.get('https://provinces.open-api.vn/api/p/')
+      .then((res) => {
+        setTinh(res.data)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchHuyen = async () => {
+    await Axios.get(`https://provinces.open-api.vn/api/p/${data.address?.city.code}?depth=2`)
+      .then((res) => {
+        setHuyen(res.data.districts)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchXa = async () => {
+    await Axios.get(`https://provinces.open-api.vn/api/d/${data.address?.district.code}?depth=2`)
+      .then((res) => {
+        setXa(res.data.wards)
+      })
+      .catch((err) => console.log(err))
+  }
+  useEffect(() => {
+    fetchHuyen()
+  }, [data.address?.city.code])
+  useEffect(() => {
+    fetchXa()
+  }, [data.address?.district.code])
   useEffect(() => {
     // Fetch majors when this component mounts
+    fetchTinh()
     getMajors()
   }, [])
   const handleOk = async () => {
@@ -55,127 +100,161 @@ const Header = () => {
       })
   }
 
-  const handleRecharge = async () => {
-    await AxiosInterceptors.post(urlConfig.transaction.recharge, {
-      amount: Number(money)
-    })
-      .then((res) => {
-        // open new page to pay
-        window.open(res.data.paymentUrl, '_blank')
-        setOpenRecharge(false)
-      })
-      .catch((err) => {
-        setSnack({
-          ...snack,
-          open: true,
-          message: 'Recharge failed!',
-          type: 'error'
-        })
-      })
-  }
-
   return (
     <div>
       <Snackbar />
-      <RootModal
-        variant='Create'
-        title='Create Request'
-        open={open}
-        handleClose={() => setOpen(false)}
-        handleOk={() => handleOk()}
-        closeOnly={false}
-      >
-        <Box sx={{ my: 2 }}>
-          <TextField
-            id='outlined-basic'
-            label='Title'
-            variant='outlined'
-            fullWidth
-            onChange={(e) => setData({ ...data, title: e.target.value })}
-          />
-          <TextField
-            id='outlined-basic'
-            label='Descriptions'
-            variant='outlined'
-            fullWidth
-            sx={{
-              mt: 2
-            }}
-            onChange={(e) => setData({ ...data, descriptions: e.target.value })}
-          />
-          <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
-            <TextField
-              id='outlined-select-currency'
-              select
-              label='Major'
-              defaultValue=''
-              sx={{
-                width: '50%'
-              }}
-              onChange={(e) => setData({ ...data, major_id: e.target.value })}
-            >
-              {majors.majors?.map((option) => (
-                <MenuItem key={option._id} value={option._id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id='outlined-select-currency'
-              select
-              label='Location'
-              defaultValue='Đà Nẵng'
-              sx={{
-                width: '50%'
-              }}
-              onChange={(e) => setData({ ...data, address: e.target.value })}
-            >
-              {province.map((option) => (
-                <MenuItem key={option.value} value={option.label}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Stack>
-          <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
+      {open && (
+        <RootModal
+          variant='Create'
+          title='Create Request'
+          open={open}
+          handleClose={() => setOpen(false)}
+          handleOk={() => handleOk()}
+          closeOnly={false}
+        >
+          <Box sx={{ my: 2 }}>
             <TextField
               id='outlined-basic'
-              label='Min Budget'
+              label='Title'
               variant='outlined'
               fullWidth
-              type='number'
-              onChange={(e) => setData({ ...data, budget_min: e.target.value })}
+              onChange={(e) => setData({ ...data, title: e.target.value })}
             />
             <TextField
               id='outlined-basic'
-              label='Max Budget'
+              label='Descriptions'
               variant='outlined'
               fullWidth
-              type='number'
-              onChange={(e) => setData({ ...data, budget_max: e.target.value })}
+              sx={{
+                mt: 2
+              }}
+              onChange={(e) => setData({ ...data, descriptions: e.target.value })}
             />
-          </Stack>
-        </Box>
-      </RootModal>
-      <RootModal
-        variant='Create'
-        title='Recharge'
-        open={openRecharge}
-        handleClose={() => setOpenRecharge(false)}
-        handleOk={() => handleRecharge()}
-        closeOnly={false}
-      >
-        <Box sx={{ my: 2 }}>
-          <TextField
-            id='outlined-basic'
-            label='Money Amount'
-            variant='outlined'
-            type='number'
-            fullWidth
-            onChange={(e) => setMoney(e.target.value)}
-          />
-        </Box>
-      </RootModal>
+            <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
+              <TextField
+                id='outlined-select-currency'
+                select
+                label='Major'
+                defaultValue=''
+                sx={{
+                  width: '50%'
+                }}
+                onChange={(e) => setData({ ...data, major_id: e.target.value })}
+              >
+                {majors.majors?.map((option) => (
+                  <MenuItem key={option._id} value={option._id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id='outlined-basic'
+                label='Price'
+                variant='outlined'
+                fullWidth
+                type='number'
+                onChange={(e) => setData({ ...data, price: e.target.value })}
+                sx={{
+                  width: '50%'
+                }}
+              />
+            </Stack>
+            <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
+              <TextField
+                id='outlined-select-currency'
+                select
+                label='City'
+                defaultValue={data.address.city.name}
+                sx={{
+                  width: '33%'
+                }}
+              >
+                {tinh.map((option) => (
+                  <MenuItem
+                    key={option.code}
+                    value={option.name}
+                    onClick={(e) => {
+                      setData({
+                        ...data,
+                        address: {
+                          ...data.address,
+                          city: {
+                            code: option.code,
+                            name: option.name
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id='outlined-select-currency'
+                select
+                label='District'
+                defaultValue={data.address.district.name}
+                sx={{
+                  width: '33%'
+                }}
+              >
+                {huyen?.map((option) => (
+                  <MenuItem
+                    key={option.code}
+                    value={option.name}
+                    onClick={(e) => {
+                      setData({
+                        ...data,
+                        address: {
+                          ...data.address,
+                          district: {
+                            code: option.code,
+                            name: option.name
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id='outlined-select-currency'
+                select
+                label='Ward'
+                defaultValue={data.address.ward.name}
+                sx={{
+                  width: '33%'
+                }}
+              >
+                {xa?.map((option) => (
+                  <MenuItem
+                    key={option.code}
+                    value={option.name}
+                    onClick={(e) => {
+                      setData({
+                        ...data,
+                        address: {
+                          ...data.address,
+                          ward: {
+                            code: option.code,
+                            name: option.name
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Stack>
+          </Box>
+        </RootModal>
+      )}
+      {openRecharge && <Recharge openRecharge={openRecharge} setOpenRecharge={setOpenRecharge} />}
       <Box
         sx={{
           display: 'flex',
