@@ -338,16 +338,15 @@ const Profile = () => {
                     />
                   </LocalizationProvider>
                 </Box>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '94%' }
-                  }}
-                >
+                <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
                   <TextField
                     id='outlined-select-currency'
                     select
                     label='City'
                     defaultValue={information.address.city.name}
+                    sx={{
+                      width: '30%'
+                    }}
                   >
                     {tinh.map((option) => (
                       <MenuItem
@@ -375,6 +374,9 @@ const Profile = () => {
                     select
                     label='District'
                     defaultValue={information.address.district.name}
+                    sx={{
+                      width: '30%'
+                    }}
                   >
                     {huyen?.map((option) => (
                       <MenuItem
@@ -402,6 +404,9 @@ const Profile = () => {
                     select
                     label='Ward'
                     defaultValue={information.address.ward.name}
+                    sx={{
+                      width: '30%'
+                    }}
                   >
                     {xa?.map((option) => (
                       <MenuItem
@@ -424,7 +429,7 @@ const Profile = () => {
                       </MenuItem>
                     ))}
                   </TextField>
-                </Box>
+                </Stack>
               </Box>
               <Stack
                 spacing={1}

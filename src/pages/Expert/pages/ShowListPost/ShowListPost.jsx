@@ -24,9 +24,7 @@ const ShowListPost = () => {
   const [refresh, setRefresh] = useState(false)
 
   const fetchDataMajors = async () => {
-    const expertProfile = await AxiosInterceptors.get(urlConfig.expert.current)
-    const url = urlConfig.expert.expert + `/${expertProfile.data.expert._id}/majors`
-    const res = await AxiosInterceptors.get(url)
+    const res = await AxiosInterceptors.get(urlConfig.expert.majors)
     if (res.status === 200) {
       setListMajors(res.data.majors)
       setMajors(res.data.majors[0]._id)
