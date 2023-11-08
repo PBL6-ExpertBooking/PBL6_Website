@@ -18,6 +18,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 
 const Header = () => {
   const navigate = useNavigate()
+  const user = JSON.parse(localStorage.getItem('profile'))
   const [open, setOpen] = React.useState(false)
   const [openRecharge, setOpenRecharge] = React.useState(false)
   const { snack, setSnack } = useSnackbar()
@@ -288,26 +289,30 @@ const Header = () => {
               >
                 <NotificationsIcon />
               </Fab>
-              <Fab
-                size='small'
-                aria-label='add'
-                sx={{
-                  backgroundColor: '#D2E9E9 '
-                }}
-                onClick={() => setOpen(true)}
-              >
-                <AddIcon />
-              </Fab>
-              <Fab
-                size='small'
-                aria-label='recharge'
-                sx={{
-                  backgroundColor: '#D2E9E9 '
-                }}
-                onClick={() => setOpenRecharge(true)}
-              >
-                <AttachMoneyIcon />
-              </Fab>
+              {user.role === 'USER' && (
+                <>
+                  <Fab
+                    size='small'
+                    aria-label='add'
+                    sx={{
+                      backgroundColor: '#D2E9E9 '
+                    }}
+                    onClick={() => setOpen(true)}
+                  >
+                    <AddIcon />
+                  </Fab>
+                  <Fab
+                    size='small'
+                    aria-label='recharge'
+                    sx={{
+                      backgroundColor: '#D2E9E9 '
+                    }}
+                    onClick={() => setOpenRecharge(true)}
+                  >
+                    <AttachMoneyIcon />
+                  </Fab>
+                </>
+              )}
               <HeaderUserbox />
             </Box>
           </Stack>

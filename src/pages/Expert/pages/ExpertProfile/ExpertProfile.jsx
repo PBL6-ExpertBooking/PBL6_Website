@@ -112,7 +112,7 @@ const ExpertProfile = () => {
 
   return (
     (!isValidated && (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Card
           sx={{
             display: 'flex',
@@ -130,7 +130,7 @@ const ExpertProfile = () => {
       </div>
     )) ||
     (profile._id && (
-      <div style={{ width: '100%', height: '100vh' }}>
+      <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Snackbar />
         <Card
           sx={{
