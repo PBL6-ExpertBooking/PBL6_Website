@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Card, Typography, TextField, InputAdornment, Stack, MenuItem, Button } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
-import province from '../../constants/location'
 import { MajorContext } from '../../contexts/major.context'
 import TopExpert from '../../components/TopExpert'
 import { Helmet } from 'react-helmet-async'
@@ -91,6 +90,7 @@ const DashBoard = () => {
               id='outlined-select-currency'
               select
               label='Major'
+              sx={{ width: 200 }}
               defaultValue={majors.majors[0]._id}
               onChange={(e) => setMajor_id(e.target.value)}
             >
@@ -101,13 +101,6 @@ const DashBoard = () => {
               ))}
             </TextField>
           )}
-          <TextField id='outlined-select-currency' select label='Location' defaultValue='15'>
-            {province.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
           <Button
             variant='contained'
             onClick={handleSearch}

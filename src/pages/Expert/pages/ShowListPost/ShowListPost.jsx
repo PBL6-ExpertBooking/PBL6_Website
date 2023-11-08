@@ -7,25 +7,24 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  Unstable_Grid2 as Grid,
-} from '@mui/material';
-import {PostCard} from '../../components/PostCard/PostCard'
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+  Unstable_Grid2 as Grid
+} from '@mui/material'
+import { PostCard } from '../../components/PostCard/PostCard'
+import Select from '@mui/material/Select'
 import React from 'react'
-import { useState, useEffect } from 'react';
-import AxiosInterceptors from '../../../../common/utils/axiosInterceptors';
-import useSnackbar from '../../../../contexts/snackbar.context';
-import urlConfig from '../../../../config/UrlConfig';
+import { useState, useEffect } from 'react'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
 
 const ShowListPost = () => {
-  const [majors, setMajors] = useState('');
-  const [listMajors, setListMajors] = useState([]);
-  const [jobRequests, setJobRequests] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
+  const [majors, setMajors] = useState('')
+  const [listMajors, setListMajors] = useState([])
+  const [jobRequests, setJobRequests] = useState([])
+  const [totalPages, setTotalPages] = useState(0)
+  const [refresh, setRefresh] = useState(false)
 
   const fetchDataMajors = async () => {
     const expertProfile = await AxiosInterceptors.get(urlConfig.expert.current)
-
     const url = urlConfig.expert.expert + `/${expertProfile.data.expert._id}/majors`
     const res = await AxiosInterceptors.get(url)
     if (res.status === 200) {
@@ -36,109 +35,93 @@ const ShowListPost = () => {
 
   const fetchDataJobRequestByMajorId = async () => {
     if (!majors) {
-      return;
+      return
     }
-    const res = await AxiosInterceptors.get(urlConfig.job_requests.getJobRequests + `?major_id=${majors}`)
-              .then((res) => {
-                setJobRequests(res.data.pagination.job_requests);
-                setTotalPages(res.data.pagination.totalPages);
-              })
-              .catch((err) => {
-                setJobRequests([])
-              })
+    await AxiosInterceptors.get(urlConfig.expert.getJobRequests + `?major_id=${majors}`)
+      .then((res) => {
+        setJobRequests(res.data.pagination.job_requests)
+        setTotalPages(res.data.pagination.totalPages)
+      })
+      .catch((err) => {
+        setJobRequests([])
+      })
   }
 
   useEffect(() => {
-    fetchDataMajors();
+    fetchDataMajors()
   }, [])
 
   useEffect(() => {
-    fetchDataJobRequestByMajorId();
-  }, [majors])
+    fetchDataJobRequestByMajorId()
+  }, [majors, refresh])
 
-  return(
-  <>
-    <Box
-      component="main"
-      sx={{
-        justifyContent: 'space-between',
-        flexGrow: 1,
-        py: 4
-      }}
-    >
-      <Container maxWidth="xl"
-        sx={{
-            minHeight: '80vh'
-          }}
-      >
-        <Stack spacing={3}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="start"
-            spacing={4}
-            px="12px"
-          >
-            <Stack spacing={1}>
-              <Typography variant="h3">
-                List Post
-              </Typography>
-            </Stack>
-
-            <Box sx={{ minWidth: 120 }}>
-            <FormControl
-            sx={{ minWidth: 240 }}
-            >
-              <InputLabel id="demo-simple-select-label">Choose Major</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={majors}
-                label="Major"
-                onChange={(event) => {
-                  setMajors(event.target.value)
-                }}
-              >
-                {listMajors.length > 0 &&
-                 listMajors.map((item) => {
-                  return <MenuItem value={item._id}>{item.name}</MenuItem>
-                 })
-                }
-              </Select>
-            </FormControl>
-            </Box>
-          </Stack>
-          <Grid
-            container
-            spacing={3}
-          >
-            {jobRequests.length > 0 && jobRequests.map((jobRequest) => (
-              <Grid
-                xs={12}
-                md={6}
-                lg={4}
-                key={jobRequest.id}
-              >
-                <PostCard jobRequest={jobRequest} />
-              </Grid>
-            ))}
-          </Grid>
-        </Stack>
-      </Container>
+  return (
+    <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
       <Box
+        component='main'
         sx={{
-          display: 'flex',
-          justifyContent: 'center'
+          justifyContent: 'space-between',
+          flexGrow: 1,
+          py: 4
         }}
       >
-        <Pagination
-          count={totalPages}
-          size="large"
-        />
+        <Container
+          maxWidth='xl'
+          sx={{
+            minHeight: '80vh'
+          }}
+        >
+          <Stack spacing={3}>
+            <Stack direction='row' justifyContent='space-between' alignItems='start' spacing={4} px='12px'>
+              <Stack spacing={1}>
+                <Typography variant='h3'>List Post</Typography>
+              </Stack>
+
+              <Box sx={{ minWidth: 120 }}>
+                <FormControl sx={{ minWidth: 240 }}>
+                  <InputLabel id='demo-simple-select-label'>Choose Major</InputLabel>
+                  <Select
+                    labelId='demo-simple-select-label'
+                    id='demo-simple-select'
+                    value={majors}
+                    label='Major'
+                    onChange={(event) => {
+                      setMajors(event.target.value)
+                    }}
+                  >
+                    {listMajors.length > 0 &&
+                      listMajors.map((item) => {
+                        return (
+                          <MenuItem key={item._id} value={item._id}>
+                            {item.name}
+                          </MenuItem>
+                        )
+                      })}
+                  </Select>
+                </FormControl>
+              </Box>
+            </Stack>
+            <Grid container spacing={3}>
+              {jobRequests.length > 0 &&
+                jobRequests.map((jobRequest) => (
+                  <Grid xs={12} md={6} lg={4} key={jobRequest._id}>
+                    <PostCard jobRequest={jobRequest} refresh={refresh} setRefresh={setRefresh} />
+                  </Grid>
+                ))}
+            </Grid>
+          </Stack>
+        </Container>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <Pagination count={totalPages} size='large' />
+        </Box>
       </Box>
-    </Box>
-  </>
-)};
+    </div>
+  )
+}
 
-
-export default ShowListPost;
+export default ShowListPost
