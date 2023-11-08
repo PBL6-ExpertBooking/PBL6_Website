@@ -20,17 +20,21 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
-    failed: {
-      text: 'Failed',
+    CANCELED: {
+      text: 'Canceled',
       color: 'error'
     },
-    completed: {
+    DONE: {
       text: 'Completed',
       color: 'success'
     },
-    pending: {
+    PENDING: {
       text: 'Pending',
       color: 'warning'
+    },
+    PROCESSING: {
+      text: 'Processing',
+      color: 'info'
     }
   }
 
@@ -96,7 +100,7 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                     </TableCell>
                     <TableCell>
                       <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                        {getStatusLabel(majorsOrder.status.toLowerCase())}
+                        {getStatusLabel(majorsOrder.status)}
                       </Typography>
                     </TableCell>
                     <TableCell>
