@@ -15,6 +15,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
+import { Helmet } from 'react-helmet-async'
 
 const ShowListPost = () => {
   const [majors, setMajors] = useState('')
@@ -55,6 +56,9 @@ const ShowListPost = () => {
 
   return (
     <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
+      <Helmet>
+        <title>Expert - List Job Requests</title>
+      </Helmet>
       <Box
         component='main'
         sx={{
@@ -72,7 +76,7 @@ const ShowListPost = () => {
           <Stack spacing={3}>
             <Stack direction='row' justifyContent='space-between' alignItems='start' spacing={4} px='12px'>
               <Stack spacing={1}>
-                <Typography variant='h3'>List Post</Typography>
+                <Typography variant='h3'>List Job Requests</Typography>
               </Stack>
 
               <Box sx={{ minWidth: 120 }}>

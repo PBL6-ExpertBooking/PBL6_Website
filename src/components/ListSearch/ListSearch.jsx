@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Typography, Grid, Card, Avatar, Stack, Rating } from '@mui/material'
+import { Box, Typography, Grid, Card, Avatar, Stack, Rating, Container } from '@mui/material'
+import svg from '../../assets/images/empty.png'
 import { useNavigate } from 'react-router-dom'
 const ListSearch = (props) => {
   const navigate = useNavigate()
@@ -42,6 +43,25 @@ const ListSearch = (props) => {
             </Card>
           </Grid>
         ))}
+        {props.listExpert.length === 0 && (
+          <div style={{ width: '100%', textAlign: 'center' }}>
+            <Container maxWidth='md'>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center'
+                }}
+              >
+                <img alt='404' height={200} src={svg} />
+                <Typography variant='h3' color='text.secondary' fontWeight='500' sx={{ mt: 2 }}>
+                  No results found!
+                </Typography>
+              </Box>
+            </Container>
+          </div>
+        )}
       </Grid>
     </Box>
   )

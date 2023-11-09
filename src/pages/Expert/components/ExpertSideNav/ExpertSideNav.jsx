@@ -6,8 +6,8 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ChecklistIcon from '@mui/icons-material/Checklist'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 
 export default function ExpertSideNav() {
   const { collapseSidebar } = useProSidebar()
@@ -31,10 +31,10 @@ export default function ExpertSideNav() {
           <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
         </Link>
         <Link to={path.expertShowListPost} style={styleLink}>
-          <MenuItem icon={<ChecklistIcon />}>Show list post</MenuItem>
+          <MenuItem icon={<ChecklistIcon />}>List Job Requests</MenuItem>
         </Link>
         <Link to={path.expertBookings} style={styleLink}>
-          <MenuItem icon={<ShoppingCartIcon />}>My orders</MenuItem>
+          <MenuItem icon={<ShoppingCartIcon />}>My Bookings</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}
