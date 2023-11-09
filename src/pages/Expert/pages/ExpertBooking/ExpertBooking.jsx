@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 
 const BookingDetailInfoModal = lazy(() => import('../../components/BookingDetailInfoModal'))
 
@@ -81,6 +82,9 @@ export default function ExpertBooking() {
 
   return (
     <>
+    <Helmet>
+        <title>My bookings</title>
+    </Helmet>
       <Container sx={{ minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>

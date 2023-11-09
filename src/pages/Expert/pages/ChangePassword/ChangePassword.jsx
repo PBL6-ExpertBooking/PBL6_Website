@@ -20,6 +20,7 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useNavigate } from 'react-router-dom'
 import path from '../../../../constants/path'
+import { Helmet } from 'react-helmet-async'
 
 const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -76,6 +77,9 @@ const ChangePassword = () => {
   }
   return (
     <div style={{ width: '100%' }}>
+      <Helmet>
+        <title>Change Password</title>
+      </Helmet>
       <Snackbar />
       <Card
         sx={{

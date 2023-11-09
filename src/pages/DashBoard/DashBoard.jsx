@@ -15,16 +15,34 @@ const DashBoard = () => {
   const [major_id, setMajor_id] = useState('')
   const { majors, loading, getMajors } = useContext(MajorContext)
   const [listExpert, setListExpert] = useState([])
+  const [topExpert, setTopExpert] = useState([])
   const { snack, setSnack } = useSnackbar()
+  const [isSearch, setIsSearch] = useState(false)
   useEffect(() => {
     // Fetch majors when this component mounts
     getMajors()
+
+    fetchTop()
     // setDefaultValue(majors.majors[0]._id)
   }, [])
   const handleChange = (event) => {
     setSearchTerm(event.target.value)
   }
+  const fetchTop = async () => {
+    await AxiosInterceptors.get(urlConfig.expert.topExpert + '?num=4')
+      .then((res) => {
+        if (res && res.status === 200) {
+          if (res.data.experts) {
+            setTopExpert(res.data.experts)
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   const handleSearch = async () => {
+    setIsSearch(true)
     await AxiosInterceptors.get(urlConfig.user.searchExpert + `?major_id=${major_id}&search=${searchTerm}`)
       .then((res) => {
         if (res && res.status === 200) {
@@ -91,7 +109,7 @@ const DashBoard = () => {
               select
               label='Major'
               sx={{ width: 200 }}
-              defaultValue={majors.majors[0]._id}
+              defaultValue=''
               onChange={(e) => setMajor_id(e.target.value)}
             >
               {majors.majors?.map((option) => (
@@ -113,7 +131,7 @@ const DashBoard = () => {
           </Button>
         </Stack>
       </Card>
-      {listExpert.length > 0 ? <ListSearch listExpert={listExpert} /> : <TopExpert />}
+      {isSearch ? <ListSearch listExpert={listExpert} /> : <TopExpert topExpert={topExpert} />}
     </>
   )
 }
