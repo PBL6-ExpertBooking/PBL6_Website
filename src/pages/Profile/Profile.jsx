@@ -26,7 +26,9 @@ import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Axios from 'axios'
+import { lazy } from 'react'
 
+const BecomeExpert = lazy(() => import('../User/components/BecomeExpert'))
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -40,6 +42,7 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Profile = () => {
+  const user = JSON.parse(localStorage.getItem('profile'))
   const [information, setInformation] = useState({
     first_name: '',
     last_name: '',
@@ -133,10 +136,10 @@ const Profile = () => {
   }
   useEffect(() => {
     fetchHuyen()
-  }, [information.address?.city.code])
+  }, [information.address?.city?.code])
   useEffect(() => {
     fetchXa()
-  }, [information.address?.district.code])
+  }, [information.address?.district?.code])
   useEffect(() => {
     fetchData()
     fetchTinh()
@@ -343,7 +346,7 @@ const Profile = () => {
                     id='outlined-select-currency'
                     select
                     label='City'
-                    defaultValue={information.address.city.name}
+                    defaultValue={information.address?.city?.name}
                     sx={{
                       width: '30%'
                     }}
@@ -373,7 +376,7 @@ const Profile = () => {
                     id='outlined-select-currency'
                     select
                     label='District'
-                    defaultValue={information.address.district.name}
+                    defaultValue={information.address?.district?.name}
                     sx={{
                       width: '30%'
                     }}
@@ -403,7 +406,7 @@ const Profile = () => {
                     id='outlined-select-currency'
                     select
                     label='Ward'
-                    defaultValue={information.address.ward.name}
+                    defaultValue={information.address?.ward?.name}
                     sx={{
                       width: '30%'
                     }}
@@ -463,6 +466,7 @@ const Profile = () => {
             </Box>
           </Stack>
         </Card>
+        {user.role === 'USER' && <BecomeExpert />}
         <Card
           sx={{
             display: 'flex',

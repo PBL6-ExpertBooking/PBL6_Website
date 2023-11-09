@@ -14,6 +14,7 @@ const path = {
   cart: '/cart',
   expertDetail: '/expertDetail/:nameId',
   validateEmail: '/validate-email/:token',
+  promoteToExpert: '/promote-to-expert',
 
   //Expert
   expert: '/expert',

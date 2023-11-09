@@ -11,14 +11,15 @@ const urlConfig = {
     users: `${process.env.REACT_APP_API_ENDPOINT}/users`,
     updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`,
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/users/current/job_requests`,
-    searchExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts`
+    searchExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
+    promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
     expert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
     acceptJobRequest: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/accepted-job-requests`,
-    majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`,
+    majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`
   },
   majors: {
     getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,

@@ -114,7 +114,9 @@ function HeaderUserbox() {
             <UserBoxLabel variant='body1'>
               {user.first_name} {user.last_name}
             </UserBoxLabel>
-            <UserBoxDescription variant='body2'>{user.role}</UserBoxDescription>
+            <UserBoxDescription variant='body2'>
+              {user.balance.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+            </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
