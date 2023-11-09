@@ -26,6 +26,7 @@ const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTran
 const JobRequest = lazy(() => import('./pages/User/pages/JobRequest'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 const ValidateEmail = lazy(() => import('./pages/ValidateEmail'))
+const Promote = lazy(() => import('./pages/Promote'))
 const HomePage = lazy(() => import('./pages/HomePage'))
 // admin page
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
@@ -292,6 +293,14 @@ export default function useRouteElements() {
           element: (
             <Suspense>
               <ValidateEmail />
+            </Suspense>
+          )
+        },
+        {
+          path: path.promoteToExpert,
+          element: (
+            <Suspense>
+              <Promote />
             </Suspense>
           )
         },
