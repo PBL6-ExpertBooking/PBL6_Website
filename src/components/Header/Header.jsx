@@ -15,12 +15,14 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import CertificateInformodal from '../../pages/Expert/components/CertificateInforModal/CertificateInformodal'
 
 const Header = () => {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem('profile'))
   const [open, setOpen] = React.useState(false)
   const [openRecharge, setOpenRecharge] = React.useState(false)
+  const [openAddCertificate, setOpenAddCertificate] = React.useState(false)
   const { snack, setSnack } = useSnackbar()
   const [tinh, setTinh] = useState({})
   const [huyen, setHuyen] = useState({})
@@ -99,6 +101,10 @@ const Header = () => {
           type: 'error'
         })
       })
+  }
+
+	const handleCloseCertificateModal = () => {
+    setOpenAddCertificate(false)
   }
 
   return (
@@ -256,6 +262,7 @@ const Header = () => {
         </RootModal>
       )}
       {openRecharge && <Recharge openRecharge={openRecharge} setOpenRecharge={setOpenRecharge} />}
+      {openAddCertificate && <CertificateInformodal openCertificate={openAddCertificate} setOpenCertificate={setOpenAddCertificate} />}
       <Box
         sx={{
           display: 'flex',
@@ -313,11 +320,40 @@ const Header = () => {
                   </Fab>
                 </>
               )}
+							{user.role === 'EXPERT' && (
+                <>
+                  <Fab
+                    size='small'
+                    aria-label='add'
+                    sx={{
+                      backgroundColor: '#D2E9E9 '
+                    }}
+                    onClick={() => setOpenAddCertificate(true)}
+                  >
+                    <AddIcon />
+                  </Fab>
+
+									<Fab
+                    size='small'
+                    aria-label='recharge'
+                    sx={{
+                      backgroundColor: '#D2E9E9 '
+                    }}
+                    onClick={() => setOpen(true)}
+                  >
+                    <AttachMoneyIcon />
+                  </Fab>
+                </>
+              )}
               <HeaderUserbox />
             </Box>
           </Stack>
         </div>
       </Box>
+			<CertificateInformodal
+					open={openAddCertificate}
+					handleCloseModal={handleCloseCertificateModal}
+				/>
     </div>
   )
 }

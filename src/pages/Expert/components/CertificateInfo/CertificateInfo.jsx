@@ -69,6 +69,7 @@ const CertificateInfo = (props) => {
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
+											disabled
                       value={certificate.major._id}
                       label='Major'
                       onChange={(e) =>
@@ -113,6 +114,7 @@ const CertificateInfo = (props) => {
                       required
                       id='outlined-required'
                       label='Certificate name'
+											disabled
                       value={certificate.name}
                       onChange={(e) =>
                         setCertificate({
@@ -136,41 +138,6 @@ const CertificateInfo = (props) => {
                         variant='square'
                         sx={{ width: '100%', height: 400 }}
                       />
-                      <Box>
-                        <Button
-                          component='label'
-                          variant='contained'
-                          startIcon={<CloudUploadIcon />}
-                          sx={{
-                            backgroundColor: '#F8F6F4',
-                            color: 'black',
-                            '&:hover': {
-                              backgroundColor: '#F8F6F4',
-                              color: 'black'
-                            }
-                          }}
-                        >
-                          Upload image
-                          <VisuallyHiddenInput
-                            type='file'
-                            accept='.jpg, .png'
-                            onChange={(e) => {
-                              const file = e.target.files[0]
-                              let newFormData = new FormData()
-                              newFormData.append('photo', file)
-                              setFormData(newFormData)
-                              const reader = new FileReader()
-                              reader.readAsDataURL(file)
-                              reader.onloadend = () => {
-                                setCertificate({
-                                  ...certificate,
-                                  photo_url: reader.result
-                                })
-                              }
-                            }}
-                          />
-                        </Button>
-                      </Box>
                     </Stack>
                   </Stack>
                 </Box>
@@ -195,7 +162,7 @@ const CertificateInfo = (props) => {
                 </Box>
               </Box>
               <Stack
-                spacing={1}
+                spacing={2}
                 direction='row'
                 alignItems='center'
                 justifyContent='flex-end'
@@ -217,6 +184,21 @@ const CertificateInfo = (props) => {
                   }}
                 >
                   Save Change
+                </Button>
+								 <Button
+                  variant='contained'
+                  component='label'
+                  onClick={handleSaveData}
+                  sx={{
+                    backgroundColor: '#FF4842',
+                    color: '#FFF',
+                    '&:hover': {
+                      backgroundColor: '#F8F6F4',
+                      color: 'black'
+                    }
+                  }}
+                >
+                  Delete
                 </Button>
               </Stack>
             </Box>
