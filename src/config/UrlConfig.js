@@ -19,7 +19,7 @@ const urlConfig = {
     topExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts/top`,
     expert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
-    deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,  
+    deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
     acceptJobRequest: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/accepted-job-requests`,
     majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`
   },
@@ -33,7 +33,8 @@ const urlConfig = {
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     createJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
-    updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
+    updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
+    doneJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
   },
   transaction: {
     recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`
