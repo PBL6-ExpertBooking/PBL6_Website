@@ -26,13 +26,13 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
         })
       })
   }
-  const handleCancel = async () => {
-    await AxiosInterceptors.post(urlConfig.job_requests.updateJobRequests + `/${jobRequest._id}/cancel`)
+  const handleDelete = async () => {
+    await AxiosInterceptors.delete(urlConfig.expert.deleteJobRequests + `/${jobRequest._id}`)
       .then((res) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Cancel job request successfully',
+          message: 'Delete job request successfully',
           type: 'success'
         })
         setRefresh(!refresh)
@@ -41,7 +41,7 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Cancel job request failed',
+          message: 'Delete job request failed',
           type: 'error'
         })
       })
@@ -141,7 +141,7 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
             <Button variant='contained' color='success' onClick={handleAccept}>
               Accept
             </Button>
-            <Button variant='contained' color='error'>
+            <Button variant='contained' color='error' onClick={handleDelete}>
               Cancel
             </Button>
           </Stack>
