@@ -18,10 +18,12 @@ import Label from '../../../../components/Label'
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone'
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import DetailJobRequest from './DetailJobRequest'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
@@ -50,6 +52,8 @@ const getStatusLabel = (jobStatus) => {
 
 const JobRequestTable = ({ majorsOrder, fetchData }) => {
   const { snack, setSnack } = useSnack()
+  const [open, setOpen] = useState(false)
+  const [id, setId] = useState('')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const theme = useTheme()
@@ -82,10 +86,21 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
           type: 'error'
         })
       )
+
+    await AxiosInterceptors.post(urlConfig.transaction.createPayment, {
+      job_request_id: id
+    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   return (
     <>
       <Snackbar />
+      {open && <DetailJobRequest open={open} setOpen={setOpen} id={id} />}
       <Card>
         <TableContainer>
           <Table>
@@ -164,6 +179,24 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                       )}
                       {majorsOrder.status === 'PROCESSING' && (
                         <>
+                          <Tooltip title='Detail Information' arrow>
+                            <IconButton
+                              sx={{
+                                '&:hover': {
+                                  background: theme.palette.primary.lighter
+                                },
+                                color: theme.palette.primary.main
+                              }}
+                              color='inherit'
+                              size='small'
+                              onClick={() => {
+                                setId(majorsOrder._id)
+                                setOpen(true)
+                              }}
+                            >
+                              <VisibilityTwoToneIcon fontSize='small' />
+                            </IconButton>
+                          </Tooltip>
                           <Tooltip title='Done!' arrow>
                             <IconButton
                               sx={{
@@ -177,6 +210,28 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                               onClick={() => handleDone(majorsOrder._id)}
                             >
                               <CheckCircleOutlineTwoToneIcon fontSize='small' />
+                            </IconButton>
+                          </Tooltip>
+                        </>
+                      )}
+                      {majorsOrder.status === 'DONE' && (
+                        <>
+                          <Tooltip title='Detail Information' arrow>
+                            <IconButton
+                              sx={{
+                                '&:hover': {
+                                  background: theme.palette.primary.lighter
+                                },
+                                color: theme.palette.primary.main
+                              }}
+                              color='inherit'
+                              size='small'
+                              onClick={() => {
+                                setId(majorsOrder._id)
+                                setOpen(true)
+                              }}
+                            >
+                              <VisibilityTwoToneIcon fontSize='small' />
                             </IconButton>
                           </Tooltip>
                         </>

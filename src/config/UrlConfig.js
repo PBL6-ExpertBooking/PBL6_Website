@@ -37,7 +37,8 @@ const urlConfig = {
     doneJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
   },
   transaction: {
-    recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`
+    recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`,
+    createPayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
   }
 }
 
