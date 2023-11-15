@@ -15,7 +15,6 @@ const JobRequest = () => {
     await AxiosInterceptors.get(urlConfig.user.getJobRequests + `?major_id=${major_id}`)
       .then((res) => {
         if (res && res.status === 200) {
-          console.log(res.data.pagination.job_requests)
           if (res.data.pagination.job_requests) {
             setJobRequests(res.data.pagination.job_requests)
           }
