@@ -3,7 +3,7 @@ import Rootmodal from '../../../../components/Modal/RootModal'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect } from 'react'
-import { Container, Typography, Box, CircularProgress } from '@mui/material'
+import { Container, Typography } from '@mui/material'
 import moment from 'moment'
 import Loading from '../../../../common/components/Loading/Loading'
 

@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { format } from 'date-fns'
-import numeral from 'numeral'
+import moment from 'moment'
 import {
   Tooltip,
   Divider,
@@ -8,7 +7,6 @@ import {
   FormControl,
   InputLabel,
   Card,
-  Checkbox,
   IconButton,
   Table,
   TableBody,
@@ -28,23 +26,27 @@ import Label from '../../../../components/Label'
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 
-const getStatusLabel = (cryptoOrderStatus) => {
+const getStatusLabel = (transaction) => {
   const map = {
-    failed: {
-      text: 'Failed',
+    CANCELED: {
+      text: 'Canceled',
       color: 'error'
     },
-    completed: {
+    DONE: {
       text: 'Completed',
       color: 'success'
     },
-    pending: {
+    PENDING: {
       text: 'Pending',
       color: 'warning'
+    },
+    PROCESSING: {
+      text: 'Processing',
+      color: 'info'
     }
   }
 
-  const { text, color } = map[cryptoOrderStatus]
+  const { text, color } = map[transaction]
 
   return <Label color={color}>{text}</Label>
 }
@@ -53,7 +55,7 @@ const applyFilters = (cryptoOrders, filters) => {
   return cryptoOrders.filter((cryptoOrder) => {
     let matches = true
 
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.status && cryptoOrder.transaction_status !== filters.status) {
       matches = false
     }
 
@@ -65,9 +67,7 @@ const applyPagination = (cryptoOrders, page, limit) => {
   return cryptoOrders.slice(page * limit, page * limit + limit)
 }
 
-const TransactionTable = ({ cryptoOrders }) => {
-  const [selectedCryptoOrders, setSelectedCryptoOrders] = useState([])
-  const selectedBulkActions = selectedCryptoOrders.length > 0
+const TransactionTable = ({ transaction }) => {
   const [page, setPage] = useState(0)
   const [limit, setLimit] = useState(5)
   const [filters, setFilters] = useState({
@@ -80,16 +80,20 @@ const TransactionTable = ({ cryptoOrders }) => {
       name: 'All'
     },
     {
-      id: 'completed',
+      id: 'DONE',
       name: 'Completed'
     },
     {
-      id: 'pending',
-      name: 'Pending'
+      id: 'PROCESSING',
+      name: 'Processing'
     },
     {
-      id: 'failed',
-      name: 'Failed'
+      id: 'CANCELED',
+      name: 'Canceled'
+    },
+    {
+      id: 'PENDING',
+      name: 'Pending'
     }
   ]
 
@@ -106,18 +110,6 @@ const TransactionTable = ({ cryptoOrders }) => {
     }))
   }
 
-  const handleSelectAllCryptoOrders = (event) => {
-    setSelectedCryptoOrders(event.target.checked ? cryptoOrders.map((cryptoOrder) => cryptoOrder.id) : [])
-  }
-
-  const handleSelectOneCryptoOrder = (event, cryptoOrderId) => {
-    if (!selectedCryptoOrders.includes(cryptoOrderId)) {
-      setSelectedCryptoOrders((prevSelected) => [...prevSelected, cryptoOrderId])
-    } else {
-      setSelectedCryptoOrders((prevSelected) => prevSelected.filter((id) => id !== cryptoOrderId))
-    }
-  }
-
   const handlePageChange = (event, newPage) => {
     setPage(newPage)
   }
@@ -126,49 +118,36 @@ const TransactionTable = ({ cryptoOrders }) => {
     setLimit(parseInt(event.target.value))
   }
 
-  const filteredCryptoOrders = applyFilters(cryptoOrders, filters)
+  const filteredCryptoOrders = applyFilters(transaction, filters)
   const paginatedCryptoOrders = applyPagination(filteredCryptoOrders, page, limit)
-  const selectedSomeCryptoOrders = selectedCryptoOrders.length > 0 && selectedCryptoOrders.length < cryptoOrders.length
-  const selectedAllCryptoOrders = selectedCryptoOrders.length === cryptoOrders.length
   const theme = useTheme()
-
   return (
     <Card>
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant='outlined'>
-                <InputLabel>Status</InputLabel>
-                <Select value={filters.status || 'all'} onChange={handleStatusChange} label='Status' autoWidth>
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title='Recent Transactions'
-        />
-      )}
+      <CardHeader
+        action={
+          <Box width={150}>
+            <FormControl fullWidth variant='outlined'>
+              <InputLabel>Status</InputLabel>
+              <Select value={filters.status || 'all'} onChange={handleStatusChange} label='Status' autoWidth>
+                {statusOptions.map((statusOption) => (
+                  <MenuItem key={statusOption.id} value={statusOption.id}>
+                    {statusOption.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        }
+        title='Recent Transactions'
+      />
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding='checkbox'>
-                <Checkbox
-                  color='primary'
-                  checked={selectedAllCryptoOrders}
-                  indeterminate={selectedSomeCryptoOrders}
-                  onChange={handleSelectAllCryptoOrders}
-                />
-              </TableCell>
-              <TableCell>Order Details</TableCell>
-              <TableCell>Order ID</TableCell>
-              <TableCell>Source</TableCell>
+              <TableCell>To</TableCell>
+              <TableCell>Time</TableCell>
+              <TableCell>Type</TableCell>
               <TableCell align='right'>Amount</TableCell>
               <TableCell align='right'>Status</TableCell>
               <TableCell align='right'>Actions</TableCell>
@@ -176,48 +155,39 @@ const TransactionTable = ({ cryptoOrders }) => {
           </TableHead>
           <TableBody>
             {paginatedCryptoOrders.map((cryptoOrder) => {
-              const isCryptoOrderSelected = selectedCryptoOrders.includes(cryptoOrder.id)
               return (
-                <TableRow hover key={cryptoOrder.id} selected={isCryptoOrderSelected}>
-                  <TableCell padding='checkbox'>
-                    <Checkbox
-                      color='primary'
-                      checked={isCryptoOrderSelected}
-                      onChange={(event) => handleSelectOneCryptoOrder(event, cryptoOrder.id)}
-                      value={isCryptoOrderSelected}
-                    />
+                <TableRow hover key={cryptoOrder.id}>
+                  <TableCell>
+                    {cryptoOrder.expert ? (
+                      <>
+                        <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                          {cryptoOrder.expert.first_name} {cryptoOrder.expert.last_name}
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                          Me
+                        </Typography>
+                      </>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                      {cryptoOrder.orderDetails}
-                    </Typography>
                     <Typography variant='body2' color='text.secondary' noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
+                      {moment(cryptoOrder.updatedAt).format('DD/MM/YYYY, h:mm:ss a')}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                      {cryptoOrder.orderID}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                      {cryptoOrder.sourceName}
-                    </Typography>
-                    <Typography variant='body2' color='text.secondary' noWrap>
-                      {cryptoOrder.sourceDesc}
+                      {cryptoOrder.transaction_type}
                     </Typography>
                   </TableCell>
                   <TableCell align='right'>
-                    <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                      {cryptoOrder.amountCrypto}
-                      {cryptoOrder.cryptoCurrency}
-                    </Typography>
                     <Typography variant='body2' color='text.secondary' noWrap>
-                      {numeral(cryptoOrder.amount).format(`${cryptoOrder.currency}0,0.00`)}
+                      {cryptoOrder.amount.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
                     </Typography>
                   </TableCell>
-                  <TableCell align='right'>{getStatusLabel(cryptoOrder.status)}</TableCell>
+                  <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction_status)}</TableCell>
                   <TableCell align='right'>
                     <Tooltip title='Edit Order' arrow>
                       <IconButton

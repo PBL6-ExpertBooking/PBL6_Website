@@ -51,6 +51,7 @@ const getStatusLabel = (jobStatus) => {
 }
 
 const JobRequestTable = ({ majorsOrder, fetchData }) => {
+  const user = JSON.parse(localStorage.getItem('profile'))
   const { snack, setSnack } = useSnack()
   const [open, setOpen] = useState(false)
   const [id, setId] = useState('')
@@ -207,7 +208,16 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                               }}
                               color='inherit'
                               size='small'
-                              onClick={() => handleDone(majorsOrder._id)}
+                              onClick={() => {
+                                if (user.balance < majorsOrder.price) {
+                                  setSnack({
+                                    ...snack,
+                                    open: true,
+                                    message: 'Your balance is not enough!',
+                                    type: 'error'
+                                  })
+                                } else handleDone(majorsOrder._id)
+                              }}
                             >
                               <CheckCircleOutlineTwoToneIcon fontSize='small' />
                             </IconButton>
