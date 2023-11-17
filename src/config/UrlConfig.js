@@ -12,7 +12,8 @@ const urlConfig = {
     updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`,
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/users/current/job_requests`,
     searchExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
-    promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`
+    promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`,
+    getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`,
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
