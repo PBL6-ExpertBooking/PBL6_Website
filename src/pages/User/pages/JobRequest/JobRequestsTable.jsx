@@ -19,11 +19,13 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
+import PaidTwoToneIcon from '@mui/icons-material/PaidTwoTone'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import DetailJobRequest from './DetailJobRequest'
+import PaymentConfirm from './PaymentConfirm'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
@@ -54,6 +56,7 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const { snack, setSnack } = useSnack()
   const [open, setOpen] = useState(false)
+  const [openPayment, setOpenPayment] = useState(false)
   const [id, setId] = useState('')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -65,7 +68,6 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
   const handleLimitChange = (event) => {
     setRowsPerPage(parseInt(event.target.value))
   }
-
   const handleDone = async (id) => {
     await AxiosInterceptors.post(urlConfig.job_requests.doneJobRequests + `/${id}/complete`)
       .then((res) => {
@@ -87,21 +89,12 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
           type: 'error'
         })
       )
-
-    await AxiosInterceptors.post(urlConfig.transaction.createPayment, {
-      job_request_id: id
-    })
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
   }
   return (
     <>
       <Snackbar />
       {open && <DetailJobRequest open={open} setOpen={setOpen} id={id} />}
+      {openPayment && <PaymentConfirm open={openPayment} setOpen={setOpenPayment} id={id} fetchData={fetchData} />}
       <Card>
         <TableContainer>
           <Table>
@@ -244,6 +237,26 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                               <VisibilityTwoToneIcon fontSize='small' />
                             </IconButton>
                           </Tooltip>
+                          {!majorsOrder.time_payment && (
+                            <Tooltip title='Pay Money' arrow>
+                              <IconButton
+                                sx={{
+                                  '&:hover': {
+                                    background: theme.palette.success.lighter
+                                  },
+                                  color: theme.palette.success.main
+                                }}
+                                color='inherit'
+                                size='small'
+                                onClick={() => {
+                                  setId(majorsOrder._id)
+                                  setOpenPayment(true)
+                                }}
+                              >
+                                <PaidTwoToneIcon fontSize='small' />
+                              </IconButton>
+                            </Tooltip>
+                          )}
                         </>
                       )}
                     </TableCell>
