@@ -12,32 +12,42 @@ import {
   MenuItem
 } from '@mui/material'
 import { React, useState, useEffect } from 'react'
-import { styled } from '@mui/material/styles'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1
-})
+import useSnackbar from '../../../../contexts/snackbar.context'
+import Snackbar from '../../../../common/components/SnackBar'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
 
 const CertificateInfo = (props) => {
-  const [formData, setFormData] = useState(new FormData())
   const [certificate, setCertificate] = useState(props.certificate)
   const [majors, setMajors] = useState(props.majors)
+  const { snack, setSnack } = useSnackbar()
 
-  const handleSaveData = () => {
-    console.log('Check data update ', certificate)
+  const handleDeleteCertificate = async () => {
+    await AxiosInterceptors.delete(urlConfig.certificate.deleteCertificate + `/${certificate._id}`)
+    .then((res) => {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Delete certificate successfully',
+        type: 'success'
+      })
+      props.setRefresh(!props.refresh)
+    })
+    .catch((err) => {
+      console.log(err)
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Delete certificate request failed',
+        type: 'error'
+      })
+    })
   }
 
   return (
-    certificate._id && (
+    certificate._id  && (
       <div style={{ width: '100%' }}>
+        <Snackbar />
         <Card
           sx={{
             display: 'flex',
@@ -69,6 +79,7 @@ const CertificateInfo = (props) => {
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
+                      disabled
                       value={certificate.major._id}
                       label='Major'
                       onChange={(e) =>
@@ -113,6 +124,7 @@ const CertificateInfo = (props) => {
                       required
                       id='outlined-required'
                       label='Certificate name'
+                      disabled
                       value={certificate.name}
                       onChange={(e) =>
                         setCertificate({
@@ -136,41 +148,6 @@ const CertificateInfo = (props) => {
                         variant='square'
                         sx={{ width: '100%', height: 400 }}
                       />
-                      <Box>
-                        <Button
-                          component='label'
-                          variant='contained'
-                          startIcon={<CloudUploadIcon />}
-                          sx={{
-                            backgroundColor: '#F8F6F4',
-                            color: 'black',
-                            '&:hover': {
-                              backgroundColor: '#F8F6F4',
-                              color: 'black'
-                            }
-                          }}
-                        >
-                          Upload image
-                          <VisuallyHiddenInput
-                            type='file'
-                            accept='.jpg, .png'
-                            onChange={(e) => {
-                              const file = e.target.files[0]
-                              let newFormData = new FormData()
-                              newFormData.append('photo', file)
-                              setFormData(newFormData)
-                              const reader = new FileReader()
-                              reader.readAsDataURL(file)
-                              reader.onloadend = () => {
-                                setCertificate({
-                                  ...certificate,
-                                  photo_url: reader.result
-                                })
-                              }
-                            }}
-                          />
-                        </Button>
-                      </Box>
                     </Stack>
                   </Stack>
                 </Box>
@@ -184,6 +161,7 @@ const CertificateInfo = (props) => {
                     label='Description'
                     multiline
                     rows={4}
+                    disabled
                     value={certificate.descriptions}
                     onChange={(e) =>
                       setCertificate({
@@ -195,7 +173,7 @@ const CertificateInfo = (props) => {
                 </Box>
               </Box>
               <Stack
-                spacing={1}
+                spacing={2}
                 direction='row'
                 alignItems='center'
                 justifyContent='flex-end'
@@ -203,20 +181,20 @@ const CertificateInfo = (props) => {
                   marginRight: '2rem'
                 }}
               >
-                <Button
+                 <Button
                   variant='contained'
                   component='label'
-                  onClick={handleSaveData}
+                  onClick={handleDeleteCertificate}
                   sx={{
-                    backgroundColor: '#F8F6F4',
-                    color: 'black',
+                    backgroundColor: '#FF4842',
+                    color: '#FFF',
                     '&:hover': {
                       backgroundColor: '#F8F6F4',
                       color: 'black'
                     }
                   }}
                 >
-                  Save Change
+                  Delete
                 </Button>
               </Stack>
             </Box>

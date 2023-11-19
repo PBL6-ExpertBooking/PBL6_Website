@@ -41,7 +41,11 @@ const urlConfig = {
     recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`,
     createPayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
     executePayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
-  }
+  },
+	certificate: {
+		createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
+		deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`
+	}
 }
 
 export default urlConfig
