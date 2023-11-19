@@ -47,10 +47,13 @@ const VisuallyHiddenInput = styled('input')({
 export default function CertificateInformodal({ openCertificate, setOpenCertificate }) {
   const { snack, setSnack } = useSnackbar()
   const [majors, setMajors] = useState([])
-	const [majorId, setMajorId] = useState(0)
+  const [majorId, setMajorId] = useState(0)
   const [formData, setFormData] = useState(new FormData())
+  const [photoUrl, setPhotoUrl] = useState('')
+  const [certificateName, setCertificateName] = useState('')
+  const [descriptions, setDescriptions] = useState('')
 
-	const fetchDataMajors = async () => {
+  const fetchDataMajors = async () => {
     const res = await AxiosInterceptors.get(urlConfig.majors.getMajors)
     if (res.status === 200) {
       if (res.data.majors) {
@@ -59,123 +62,150 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
     }
   }
 
-	useEffect(() => {
+  useEffect(() => {
     ;(async () => {
       await fetchDataMajors()
-			setMajorId(majors.length > 0 ? majors[0].id : 0)
+      setMajorId(majors.length > 0 ? majors[0].id : 0)
     })()
   }, [])
-  // const handleCancel = async () => {
-  //   await AxiosInterceptors.post(urlConfig.job_requests.updateJobRequests + `/${post._id}/cancel`)
-  //     .then((res) => {
-  //       setSnack({
-  //         ...snack,
-  //         open: true,
-  //         message: 'Cancel job request successfully',
-  //         type: 'success'
-  //       })
-  //       handleCloseModal()
-  //       setRefresh(!refresh)
-  //     })
-  //     .catch((err) => {
-  //       setSnack({
-  //         ...snack,
-  //         open: true,
-  //         message: 'Cancel job request failed',
-  //         type: 'error'
-  //       })
-  //     })
-  // }
+  const handleSaveCertificate = async () => {
+    console.log('in save certificate')
+    console.log({
+      name: certificateName,
+      major_id: majorId,
+      descriptions: descriptions,
+      photo: formData.get('photo')
+    })
+    await AxiosInterceptors.post(
+      urlConfig.certificate.createCertificate,
+      {
+        name: certificateName,
+        major_id: majorId,
+        descriptions: descriptions,
+        photo: formData.get('photo')
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      )
+      .then((res) => {
+        setSnack({
+          ...snack,
+          open: true,
+          message: 'Create certificate successfully',
+          type: 'success'
+        })
+        setOpenCertificate(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setSnack({
+          ...snack,
+          open: true,
+          message: 'Create certificate request failed',
+          type: 'error'
+        })
+      })
+  }
   return (
-		(majors.length > 0 && 
-		(
+    (majors.length > 0 && 
+    (
     <div>
       <Snackbar />
       <RootModal
           variant='Create'
-					title='Create Certificate'
-					open={openCertificate}
-					handleClose={() => setOpenCertificate(false)}
-					// handleOk={() => handleRecharge()}
-					closeOnly={false}
+          title='Create Certificate'
+          open={openCertificate}
+          handleClose={() => setOpenCertificate(false)}
+          handleOk={() => handleSaveCertificate()}
+          closeOnly={false}
         >
           <Box sx={{ my: 2 }}>
-					<FormControl sx={{ width: '100%'}}>
-						<InputLabel id='demo-simple-select-label'>Major</InputLabel>
-						<Select
-							labelId='demo-simple-select-label'
-							id='demo-simple-select'
-							value={majorId}
-							onChange={(e) => {setMajorId(e.target.value)}}
-							label='Major'
-						>
-							{majors &&
-								majors.length > 0 &&
-								majors.map((major) => {
-									return <MenuItem value={major._id}>{major.name}</MenuItem>
-								})}
-						</Select>
-					</FormControl>
+          <FormControl sx={{ width: '100%'}}>
+            <InputLabel id='demo-simple-select-label'>Major</InputLabel>
+            <Select
+              labelId='demo-simple-select-label'
+              id='demo-simple-select'
+              value={majorId}
+              onChange={(e) => {setMajorId(e.target.value)}}
+              label='Major'
+              required
+            >
+              {majors &&
+                majors.length > 0 &&
+                majors.map((major) => {
+                  return <MenuItem value={major._id}>{major.name}</MenuItem>
+                })}
+            </Select>
+          </FormControl>
             <TextField
               id='outlined-basic'
-              label='Certificatename'
+              label='Certificate name'
+              value={certificateName}
+              onChange={(e) => {setCertificateName(e.target.value)}}
               variant='outlined'
               fullWidth
+              required
               sx={{
                 mt: 2
               }}
             />
-						<TextField
+            <TextField
               id='outlined-basic'
               label='Description'
+              value={descriptions}
+              onChange={(e) => {setDescriptions(e.target.value)}}
               variant='outlined'
               fullWidth
-							multiline
+              multiline
               rows={4}
               sx={{
                 mt: 2
               }}
             />
-							<Avatar
-								alt='Remy Sharp'
-								// src={certificate.photo_url}
-								variant='square'
-								sx={{ width: '100%', height: 400, mt: 2 }}
-							/>
-							<Button
-								component='label'
-								variant='contained'
-								startIcon={<CloudUploadIcon />}
-								sx={{
-									backgroundColor: '#F8F6F4',
-									color: 'black',
-									'&:hover': {
-										backgroundColor: '#F8F6F4',
-										color: 'black'
-									},
-									mt: 2
-								}}
-							>
-								Upload Certificate Image
-								<VisuallyHiddenInput
-									type='file'
-									accept='.jpg, .png'
-									onChange={(e) => {
-										const file = e.target.files[0]
-										let newFormData = new FormData()
-										newFormData.append('photo', file)
-										setFormData(newFormData)
-										const reader = new FileReader()
-										reader.readAsDataURL(file)
-										reader.onloadend = () => {
-											console.log(reader.result)
-										}
-									}}
-								/>
-							</Button>
+              <Avatar
+                alt='Remy Sharp'
+                src={photoUrl}
+                variant='square'
+                sx={{ width: '100%', height: 400, mt: 2 }}
+              />
+              <Button
+                component='label'
+                variant='contained'
+                startIcon={<CloudUploadIcon />}
+                sx={{
+                  backgroundColor: '#F8F6F4',
+                  color: 'black',
+                  '&:hover': {
+                    backgroundColor: '#F8F6F4',
+                    color: 'black'
+                  },
+                  mt: 2,
+                  ml: 22
+                }}
+              >
+                Upload Certificate Image
+                <VisuallyHiddenInput
+                  type='file'
+                  accept='.jpg, .png'
+                  onChange={(e) => {
+                    const file = e.target.files[0]
+                    let newFormData = new FormData()
+                    newFormData.append('photo', file)
+                    setFormData(newFormData)
+                    const reader = new FileReader()
+                    reader.readAsDataURL(file)
+                    reader.onloadend = () => {
+                      setPhotoUrl(reader.result)
+                    }
+                  }}
+                />
+              </Button>
           </Box>
         </RootModal>
     </div>
   ))
-	)
+  )
 }

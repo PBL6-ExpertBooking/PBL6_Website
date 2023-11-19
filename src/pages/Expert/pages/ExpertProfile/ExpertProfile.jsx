@@ -23,6 +23,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import urlConfig from '../../../../config/UrlConfig'
+import { set } from 'date-fns'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -43,7 +44,8 @@ const ExpertProfile = () => {
   const [isValidated, setIsValidated] = useState(true)
   const [majors, setMajors] = useState([])
   const { snack, setSnack } = useSnackbar()
-  console.log(profile)
+  const [refresh, setRefresh] = useState(false)
+
   const fetchData = async () => {
     const res = await AxiosInterceptors.get(urlConfig.expert.current)
     if (res.status === 200) {
@@ -108,7 +110,7 @@ const ExpertProfile = () => {
       await fetchDataMajors()
       await fetchData()
     })()
-  }, [])
+  }, [refresh])
 
   return (
     (!isValidated && (
@@ -358,7 +360,7 @@ const ExpertProfile = () => {
 
         {certificates.length > 0 &&
           certificates.map((certificate) => {
-            return <CertificateInfo certificate={certificate} majors={majors} />
+            return <CertificateInfo certificate={certificate} majors={majors} refresh={refresh} setRefresh={setRefresh} />
           })}
       </div>
     ))

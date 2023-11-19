@@ -36,6 +36,10 @@ const urlConfig = {
   },
   transaction: {
     recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`
+  },
+  certificate: {
+    createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
+    deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
   }
 }
 

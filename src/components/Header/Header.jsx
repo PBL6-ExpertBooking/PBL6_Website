@@ -103,7 +103,7 @@ const Header = () => {
       })
   }
 
-	const handleCloseCertificateModal = () => {
+  const handleCloseCertificateModal = () => {
     setOpenAddCertificate(false)
   }
 
@@ -320,7 +320,7 @@ const Header = () => {
                   </Fab>
                 </>
               )}
-							{user.role === 'EXPERT' && (
+              {user.role === 'EXPERT' && (
                 <>
                   <Fab
                     size='small'
@@ -332,17 +332,6 @@ const Header = () => {
                   >
                     <AddIcon />
                   </Fab>
-
-									<Fab
-                    size='small'
-                    aria-label='recharge'
-                    sx={{
-                      backgroundColor: '#D2E9E9 '
-                    }}
-                    onClick={() => setOpen(true)}
-                  >
-                    <AttachMoneyIcon />
-                  </Fab>
                 </>
               )}
               <HeaderUserbox />
@@ -350,10 +339,10 @@ const Header = () => {
           </Stack>
         </div>
       </Box>
-			<CertificateInformodal
-					open={openAddCertificate}
-					handleCloseModal={handleCloseCertificateModal}
-				/>
+      <CertificateInformodal
+          open={openAddCertificate}
+          handleCloseModal={handleCloseCertificateModal}
+        />
     </div>
   )
 }

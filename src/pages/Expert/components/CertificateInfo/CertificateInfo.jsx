@@ -12,32 +12,42 @@ import {
   MenuItem
 } from '@mui/material'
 import { React, useState, useEffect } from 'react'
-import { styled } from '@mui/material/styles'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1
-})
+import useSnackbar from '../../../../contexts/snackbar.context'
+import Snackbar from '../../../../common/components/SnackBar'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
 
 const CertificateInfo = (props) => {
-  const [formData, setFormData] = useState(new FormData())
   const [certificate, setCertificate] = useState(props.certificate)
   const [majors, setMajors] = useState(props.majors)
+  const { snack, setSnack } = useSnackbar()
 
-  const handleSaveData = () => {
-    console.log('Check data update ', certificate)
+  const handleDeleteCertificate = async () => {
+    await AxiosInterceptors.delete(urlConfig.certificate.deleteCertificate + `/${certificate._id}`)
+    .then((res) => {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Delete certificate successfully',
+        type: 'success'
+      })
+      props.setRefresh(!props.refresh)
+    })
+    .catch((err) => {
+      console.log(err)
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Delete certificate request failed',
+        type: 'error'
+      })
+    })
   }
 
   return (
-    certificate._id && (
+    certificate._id  && (
       <div style={{ width: '100%' }}>
+        <Snackbar />
         <Card
           sx={{
             display: 'flex',
@@ -69,7 +79,7 @@ const CertificateInfo = (props) => {
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
-											disabled
+                      disabled
                       value={certificate.major._id}
                       label='Major'
                       onChange={(e) =>
@@ -114,7 +124,7 @@ const CertificateInfo = (props) => {
                       required
                       id='outlined-required'
                       label='Certificate name'
-											disabled
+                      disabled
                       value={certificate.name}
                       onChange={(e) =>
                         setCertificate({
@@ -151,6 +161,7 @@ const CertificateInfo = (props) => {
                     label='Description'
                     multiline
                     rows={4}
+                    disabled
                     value={certificate.descriptions}
                     onChange={(e) =>
                       setCertificate({
@@ -170,25 +181,10 @@ const CertificateInfo = (props) => {
                   marginRight: '2rem'
                 }}
               >
-                <Button
+                 <Button
                   variant='contained'
                   component='label'
-                  onClick={handleSaveData}
-                  sx={{
-                    backgroundColor: '#F8F6F4',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: '#F8F6F4',
-                      color: 'black'
-                    }
-                  }}
-                >
-                  Save Change
-                </Button>
-								 <Button
-                  variant='contained'
-                  component='label'
-                  onClick={handleSaveData}
+                  onClick={handleDeleteCertificate}
                   sx={{
                     backgroundColor: '#FF4842',
                     color: '#FFF',
