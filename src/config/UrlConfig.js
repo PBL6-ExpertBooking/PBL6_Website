@@ -12,13 +12,15 @@ const urlConfig = {
     updatePassword: `${process.env.REACT_APP_API_ENDPOINT}/users/current/password`,
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/users/current/job_requests`,
     searchExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
-    promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`
+    promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`,
+    getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`,
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
     topExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts/top`,
     expert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
+    deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
     acceptJobRequest: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/accepted-job-requests`,
     majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`
   },
@@ -32,15 +34,18 @@ const urlConfig = {
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     createJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
-    updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
+    updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
+    doneJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
   },
   transaction: {
-    recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`
+    recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`,
+    createPayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
+    executePayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
   },
-  certificate: {
-    createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
-    deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
-  }
+	certificate: {
+		createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
+		deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`
+	}
 }
 
 export default urlConfig
