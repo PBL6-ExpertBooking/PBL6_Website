@@ -23,7 +23,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import urlConfig from '../../../../config/UrlConfig'
-import { set } from 'date-fns'
+import Axios from 'axios'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -38,13 +38,37 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const ExpertProfile = () => {
-  const [profile, setProfile] = useState({})
+  const [profile, setProfile] = useState({
+    first_name: '',
+    last_name: '',
+    gender: true,
+    phone: '',
+    address: {
+      city: {
+        code: '',
+        name: ''
+      },
+      district: {
+        code: '',
+        name: ''
+      },
+      ward: {
+        name: '',
+        code: 0
+      }
+    },
+    DoB: dayjs(),
+    photo: ''
+  })
   const [certificates, setCertificates] = useState([])
   const [formData, setFormData] = useState(new FormData())
   const [isValidated, setIsValidated] = useState(true)
   const [majors, setMajors] = useState([])
   const { snack, setSnack } = useSnackbar()
   const [refresh, setRefresh] = useState(false)
+  const [tinh, setTinh] = useState({})
+  const [huyen, setHuyen] = useState({})
+  const [xa, setXa] = useState({})
 
   const fetchData = async () => {
     const res = await AxiosInterceptors.get(urlConfig.expert.current)
@@ -69,6 +93,31 @@ const ExpertProfile = () => {
     }
   }
 
+  const fetchTinh = async () => {
+    await Axios.get('https://provinces.open-api.vn/api/p/')
+      .then((res) => {
+        setTinh(res.data)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchHuyen = async () => {
+    console.log("URL huyen ", `https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
+    await Axios.get(`https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
+      .then((res) => {
+        setHuyen(res.data.districts)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchXa = async () => {
+    console.log("URL xa ", `https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
+
+    await Axios.get(`https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
+      .then((res) => {
+        setXa(res.data.wards)
+      })
+      .catch((err) => console.log(err))
+  }
+
   const handleUpdateProfile = async () => {
     const res = await AxiosInterceptors.put(
       urlConfig.user.info,
@@ -77,7 +126,7 @@ const ExpertProfile = () => {
         last_name: profile.last_name,
         gender: profile.gender,
         phone: profile.phone,
-        address: profile.address,
+        address: JSON.stringify(profile.address),
         DoB: profile.DoB,
         photo: formData.get('photo')
       },
@@ -111,7 +160,16 @@ const ExpertProfile = () => {
       await fetchData()
     })()
   }, [refresh])
-
+  useEffect(() => {
+    fetchHuyen()
+  }, [profile.address?.city?.code])
+  useEffect(() => {
+    fetchXa()
+  }, [profile.address?.district?.code])
+  useEffect(() => {
+    fetchData()
+    fetchTinh()
+  }, [])
   return (
     (!isValidated && (
       <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
@@ -307,24 +365,98 @@ const ExpertProfile = () => {
                     />
                   </LocalizationProvider>
                 </Box>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '94%' }
-                  }}
-                >
+                <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
                   <TextField
-                    required
-                    id='outlined-required'
-                    label='Address'
-                    defaultValue={profile.address}
-                    onChange={(e) => {
-                      setProfile({
-                        ...profile,
-                        address: e.target.value
-                      })
+                    id='outlined-select-currency'
+                    select
+                    label='City'
+                    defaultValue={profile.address?.city?.name}
+                    sx={{
+                      width: '30%'
                     }}
-                  />
-                </Box>
+                  >
+                    {tinh && tinh.length > 0 && tinh?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setProfile({
+                            ...profile,
+                            address: {
+                              ...profile.address,
+                              city: {
+                                code: option.code,
+                                name: option.name
+                              }
+                            }
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='District'
+                    defaultValue={profile.address?.district?.name}
+                    sx={{
+                      width: '30%'
+                    }}
+                  >
+                    {huyen && tinh.length > 0 && huyen?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setProfile({
+                            ...profile,
+                            address: {
+                              ...profile.address,
+                              district: {
+                                code: option.code,
+                                name: option.name
+                              }
+                            }
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='Ward'
+                    defaultValue={profile.address?.ward?.name}
+                    sx={{
+                      width: '30%'
+                    }}
+                  >
+                    {xa && xa.length > 0 && xa?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setProfile({
+                            ...profile,
+                            address: {
+                              ...profile.address,
+                              ward: {
+                                code: option.code,
+                                name: option.name
+                              }
+                            }
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Stack>
               </Box>
               <Stack
                 spacing={1}
