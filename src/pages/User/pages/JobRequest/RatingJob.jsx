@@ -15,7 +15,7 @@ const RatingJob = ({ id, open, setOpen }) => {
   const handleReview = async () => {
     await AxiosInterceptors.post(urlConfig.review.createReview, data)
       .then((res) => {
-        if (res && res.status === 200) {  
+        if (res && res.status === 200) {
           setSnack({
             ...snack,
             open: true,
@@ -56,7 +56,7 @@ const RatingJob = ({ id, open, setOpen }) => {
             label='Your review'
             multiline
             rows={4}
-            onChange={(e) => setData({ ...data, review: e.target.value })}
+            onChange={(e) => setData({ ...data, comment: e.target.value })}
           />
         </Stack>
       </RootModal>
