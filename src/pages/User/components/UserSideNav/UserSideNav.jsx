@@ -23,14 +23,14 @@ export default function UserSideNav() {
         <Link to={path.profile} style={styleLink}>
           <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
         </Link>
-        <Link to={path.changePassword} style={styleLink}>
-          <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
-        </Link>
         <Link to={path.historyTransaction} style={styleLink}>
           <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
         </Link>
         <Link to={path.jobRequest} style={styleLink}>
           <MenuItem icon={<WorkIcon />}>Job Request</MenuItem>
+        </Link>
+        <Link to={path.changePassword} style={styleLink}>
+          <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}

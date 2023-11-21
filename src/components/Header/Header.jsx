@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, Fab, Typography, Stack, TextField, MenuItem } from '@mui/material'
+import { Box, Fab, Typography, Stack, TextField, MenuItem, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { MajorContext } from '../../contexts/major.context'
 import RootModal from '../Modal/RootModal'
@@ -262,7 +262,9 @@ const Header = () => {
         </RootModal>
       )}
       {openRecharge && <Recharge openRecharge={openRecharge} setOpenRecharge={setOpenRecharge} />}
-      {openAddCertificate && <CertificateInformodal openCertificate={openAddCertificate} setOpenCertificate={setOpenAddCertificate} />}
+      {openAddCertificate && (
+        <CertificateInformodal openCertificate={openAddCertificate} setOpenCertificate={setOpenAddCertificate} />
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -287,51 +289,59 @@ const Header = () => {
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
-              <Fab
-                size='small'
-                aria-label='notifi'
-                sx={{
-                  backgroundColor: '#D2E9E9 '
-                }}
-              >
-                <NotificationsIcon />
-              </Fab>
+              <Tooltip title='Notification' arrow>
+                <Fab
+                  size='small'
+                  aria-label='notifi'
+                  sx={{
+                    backgroundColor: '#D2E9E9 '
+                  }}
+                >
+                  <NotificationsIcon />
+                </Fab>
+              </Tooltip>
               {user.role === 'USER' && (
                 <>
-                  <Fab
-                    size='small'
-                    aria-label='add'
-                    sx={{
-                      backgroundColor: '#D2E9E9 '
-                    }}
-                    onClick={() => setOpen(true)}
-                  >
-                    <AddIcon />
-                  </Fab>
-                  <Fab
-                    size='small'
-                    aria-label='recharge'
-                    sx={{
-                      backgroundColor: '#D2E9E9 '
-                    }}
-                    onClick={() => setOpenRecharge(true)}
-                  >
-                    <AttachMoneyIcon />
-                  </Fab>
+                  <Tooltip title='Create Request' arrow>
+                    <Fab
+                      size='small'
+                      aria-label='add'
+                      sx={{
+                        backgroundColor: '#D2E9E9 '
+                      }}
+                      onClick={() => setOpen(true)}
+                    >
+                      <AddIcon />
+                    </Fab>
+                  </Tooltip>
+                  <Tooltip title='Recharge' arrow>
+                    <Fab
+                      size='small'
+                      aria-label='recharge'
+                      sx={{
+                        backgroundColor: '#D2E9E9 '
+                      }}
+                      onClick={() => setOpenRecharge(true)}
+                    >
+                      <AttachMoneyIcon />
+                    </Fab>
+                  </Tooltip>
                 </>
               )}
               {user.role === 'EXPERT' && (
                 <>
-                  <Fab
-                    size='small'
-                    aria-label='add'
-                    sx={{
-                      backgroundColor: '#D2E9E9 '
-                    }}
-                    onClick={() => setOpenAddCertificate(true)}
-                  >
-                    <AddIcon />
-                  </Fab>
+                  <Tooltip title='Add Certificate' arrow>
+                    <Fab
+                      size='small'
+                      aria-label='add'
+                      sx={{
+                        backgroundColor: '#D2E9E9 '
+                      }}
+                      onClick={() => setOpenAddCertificate(true)}
+                    >
+                      <AddIcon />
+                    </Fab>
+                  </Tooltip>
                 </>
               )}
               <HeaderUserbox />
@@ -339,10 +349,7 @@ const Header = () => {
           </Stack>
         </div>
       </Box>
-      <CertificateInformodal
-          open={openAddCertificate}
-          handleCloseModal={handleCloseCertificateModal}
-        />
+      <CertificateInformodal open={openAddCertificate} handleCloseModal={handleCloseCertificateModal} />
     </div>
   )
 }

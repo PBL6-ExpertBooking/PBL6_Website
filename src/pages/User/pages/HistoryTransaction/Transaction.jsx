@@ -4,7 +4,7 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect } from 'react'
 import { useState } from 'react'
-
+import Loading from '../../../../common/components/Loading/Loading'
 function Transaction() {
   const [transaction, setTransaction] = useState([])
   const fetchData = async () => {
@@ -15,7 +15,7 @@ function Transaction() {
   useEffect(() => {
     fetchData()
   }, [])
-  return <Card>{transaction.length > 0 && <TransactionTable transaction={transaction} />}</Card>
+  return <Card>{transaction.length > 0 ? <TransactionTable transaction={transaction} /> : <Loading />}</Card>
 }
 
 export default Transaction
