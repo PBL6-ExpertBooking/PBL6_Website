@@ -24,6 +24,7 @@ import Loading from '../../common/components/Loading/Loading'
 const ExpertDetail = () => {
   const id = useParams()
   const [expert, setExpert] = useState({})
+  const [review, setReview] = useState([{}])
   const getData = async () => {
     await AxiosInterceptors.get(urlConfig.user.searchExpert + `/${id.nameId}`)
       .then((res) => {
@@ -35,10 +36,21 @@ const ExpertDetail = () => {
       })
       .catch((err) => console.log(err))
   }
+  const getReview = async () => {
+    await AxiosInterceptors.get(urlConfig.expert.expert + `/${id.nameId}/reviews`)
+      .then((res) => {
+        if (res && res.status === 200) {
+          if (res.data.pagination.reviews) {
+            setReview(res.data.pagination.reviews)
+          }
+        }
+      })
+      .catch((err) => console.log(err))
+  }
   useEffect(() => {
     getData()
+    getReview()
   }, [])
-
   return (
     <>
       <Helmet>
@@ -121,13 +133,25 @@ const ExpertDetail = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={7}>
-              <Card>
+              <Card
+                sx={{
+                  maxHeight: '400px',
+                  overflow: 'auto',
+                  overflowX: 'hidden'
+                }}
+              >
                 <CardHeader title='Đánh giá' />
                 <CardContent>
                   <Stack direction='column' spacing={1}>
-                    <RatingContent photoURL='https://i.seadn.io/s/raw/files/8a2ba20257690ce5e47cde115bce13e6.png?auto=format&dpr=1&w=1000' />
-                    <RatingContent photoURL='https://i.seadn.io/s/raw/files/ff24a5434aa00e6645bda8b6d0d4a991.png?auto=format&dpr=1&w=1000' />
-                    <RatingContent photoURL='https://i.seadn.io/gae/VHVse2oudUymb_bJPFoK09BAat6X6ArBX3DBiJHYN0wJYpAOP91H0HiCNT8qjiNnhn4WFykaQS5nZLx8x-AFOI5yvBoAylQVwEPzjqM?auto=format&dpr=1&w=1000' />
+                    {review.map((item) => (
+                      <RatingContent
+                        photoURL={item.user.photo_url}
+                        name={item.user.first_name + ' ' + item.user.last_name}
+                        date={item.createdAt}
+                        rating={item.rating}
+                        comment={item.comment}
+                      />
+                    ))}
                   </Stack>
                 </CardContent>
               </Card>

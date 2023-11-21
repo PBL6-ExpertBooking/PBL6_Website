@@ -10,12 +10,12 @@ const RatingJob = ({ id, open, setOpen }) => {
   const [data, setData] = React.useState({
     job_request_id: id,
     rating: 0,
-    review: ''
+    comment: ''
   })
   const handleReview = async () => {
     await AxiosInterceptors.post(urlConfig.review.createReview, data)
       .then((res) => {
-        if (res && res.status === 200) {
+        if (res && res.status === 200) {  
           setSnack({
             ...snack,
             open: true,
