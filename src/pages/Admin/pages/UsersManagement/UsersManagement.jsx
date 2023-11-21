@@ -161,7 +161,14 @@ const UsersManagement = () => {
       }
     },
     { field: 'email', headerName: 'Email', flex: 2 },
-    { field: 'address', headerName: 'Address', flex: 5 },
+    { 
+			field: 'address', 
+			headerName: 'Address', 
+			flex: 5,
+			renderCell: (params) => {
+				return `${params?.row?.address?.ward?.name} - ${params?.row?.address?.district?.name} - ${params?.row?.address?.city?.name}`
+			}
+		},
     { field: 'phone', headerName: 'Phone', flex: 1.3 },
     {
       field: 'role',

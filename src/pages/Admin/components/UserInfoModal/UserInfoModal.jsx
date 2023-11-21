@@ -11,6 +11,7 @@ import urlConfig from '../../../../config/UrlConfig';
 import useSnackbar from '../../../../contexts/snackbar.context';
 import Snackbar from '../../../../common/components/SnackBar'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors';
+import Axios from 'axios'
 
 const style = {
   position: 'absolute',
@@ -33,7 +34,23 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
   const [gender, setGender] = useState(0);
   const [DoB, setDoB] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [address, setAddress] = useState("");
+  const [tinh, setTinh] = useState({})
+  const [huyen, setHuyen] = useState({})
+  const [xa, setXa] = useState({})
+  const [address, setAddress] = useState({
+		city: {
+			code: '',
+			name: ''
+		},
+		district: {
+			code: '',
+			name: ''
+		},
+		ward: {
+			name: '',
+			code: 0
+		}
+	});
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState(0);
   const [isRestricted, setIsRestricted] = useState(false);
@@ -56,7 +73,20 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
     setGender(0)
     setDoB("")
     setIsConfirmed(false)
-    setAddress("")
+    setAddress({
+      city: {
+        code: '',
+        name: ''
+      },
+      district: {
+        code: '',
+        name: ''
+      },
+      ward: {
+        name: '',
+        code: 0
+      }
+    })
     setRole("USER")
     setIsRestricted(false)
   }
@@ -124,6 +154,38 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
     } 
   }
 
+  const fetchTinh = async () => {
+    await Axios.get('https://provinces.open-api.vn/api/p/')
+      .then((res) => {
+        setTinh(res.data)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchHuyen = async () => {
+    await Axios.get(`https://provinces.open-api.vn/api/p/${address?.city.code}?depth=2`)
+      .then((res) => {
+        setHuyen(res.data.districts)
+      })
+      .catch((err) => console.log(err))
+  }
+  const fetchXa = async () => {
+    await Axios.get(`https://provinces.open-api.vn/api/d/${address?.district.code}?depth=2`)
+      .then((res) => {
+        setXa(res.data.wards)
+      })
+      .catch((err) => console.log(err))
+  }
+
+	useEffect(() => {
+    fetchHuyen()
+  }, [address?.city?.code])
+  useEffect(() => {
+    fetchXa()
+  }, [address?.district?.code])
+  useEffect(() => {
+    fetchTinh()
+  }, [])
+
   const handleOnclickSaveChangesBtn = async () => {
     const url = urlConfig.user.users + `/${userId}`
     const res = await AxiosInterceptors.put(url, {
@@ -131,7 +193,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
       last_name: lastName,
       gender: gender,
       phone: phone,
-      address: address,
+      address: JSON.stringify(address),
       DoB: DoB,
     })
     if (res.status === 200) {
@@ -289,20 +351,90 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                     value={isRestricted ? "ACTIVE" : "UNACTIVE"}
                   />
                 </Box>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '94%' }
-                  }}
-                >
-                  <TextField 
-                    required id='outlined-required' 
-                    label='Address' 
-                    multiline
-                    rows={3}
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                </Box>
+                
+                <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='City'
+                    defaultValue={address?.city?.name}
+                    sx={{
+                      width: '30%'
+                    }}
+                  >
+                    {tinh && tinh.length > 0 && tinh.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setAddress({
+														...address,
+														city: {
+															code: option.code,
+															name: option.name
+														}
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='District'
+                    defaultValue={address?.district?.name}
+                    sx={{
+                      width: '30%'
+                    }}
+                  >
+                    { huyen && huyen.length > 0 && huyen?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setAddress({
+														...address,
+														district: {
+															code: option.code,
+															name: option.name
+														}
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    id='outlined-select-currency'
+                    select
+                    label='Ward'
+                    defaultValue={address?.ward?.name}
+                    sx={{
+                      width: '30%'
+                    }}
+                  >
+                    { xa && xa.length > 0 && xa?.map((option) => (
+                      <MenuItem
+                        key={option.code}
+                        value={option.name}
+                        onClick={(e) => {
+                          setAddress({
+														...address,
+														ward: {
+															code: option.code,
+															name: option.name
+														}
+                          })
+                        }}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Stack>
               </Box>
             </Box>
           </Stack>
