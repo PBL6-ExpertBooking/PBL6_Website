@@ -43,7 +43,7 @@ const DashBoard = () => {
   }
   const handleSearch = async () => {
     setIsSearch(true)
-    await AxiosInterceptors.get(urlConfig.user.searchExpert + `?major_id=${major_id}&search=${searchTerm}`)
+    await AxiosInterceptors.get(urlConfig.user.searchExpert + `?major_id=${major_id}&search=${searchTerm}&limit=100`)
       .then((res) => {
         if (res && res.status === 200) {
           if (res.data.pagination.experts) {
