@@ -27,6 +27,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Axios from 'axios'
 import { lazy } from 'react'
+import Loading from '../../common/components/Loading/Loading'
 
 const BecomeExpert = lazy(() => import('../User/components/BecomeExpert'))
 const VisuallyHiddenInput = styled('input')({
@@ -68,12 +69,16 @@ const Profile = () => {
   const [formData, setFormData] = useState(new FormData())
   const [isValidated, setIsValidated] = useState(true)
   const { snack, setSnack } = useSnackbar()
+  const [isLoading, setIsLoading] = useState(true)
   const [tinh, setTinh] = useState({})
   const [huyen, setHuyen] = useState({})
   const [xa, setXa] = useState({})
   const fetchData = async () => {
     await AxiosInterceptors.get(urlConfig.user.info)
-      .then((res) => setInformation(res.data.user))
+      .then((res) => {
+        setInformation(res.data.user)
+        setIsLoading(false)
+      })
       .catch((err) => {
         setIsValidated(false)
       })
@@ -163,7 +168,9 @@ const Profile = () => {
         </Card>
       </div>
     )) ||
-    (information.role && (
+    (isLoading ? (
+      <Loading />
+    ) : (
       <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Helmet>
           <title>Profile</title>

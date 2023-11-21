@@ -19,6 +19,7 @@ import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import urlConfig from '../../config/UrlConfig'
 import { useParams } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Loading from '../../common/components/Loading/Loading'
 
 const ExpertDetail = () => {
   const id = useParams()
@@ -27,7 +28,6 @@ const ExpertDetail = () => {
     await AxiosInterceptors.get(urlConfig.user.searchExpert + `/${id.nameId}`)
       .then((res) => {
         if (res && res.status === 200) {
-          console.log(res.data.expert)
           if (res.data.expert) {
             setExpert(res.data.expert)
           }
@@ -44,7 +44,7 @@ const ExpertDetail = () => {
       <Helmet>
         <title>Expert Detail</title>
       </Helmet>
-      {expert.user && (
+      {expert.user ? (
         <Box
           sx={{
             px: 20,
@@ -94,11 +94,13 @@ const ExpertDetail = () => {
           </Card>
           <Grid container spacing={5} sx={{ mt: 3 }}>
             <Grid item xs={12} sm={4}>
-              <Card sx={{
-                maxHeight: '400px',
-                overflow: 'auto',
-                overflowX: 'hidden'
-              }}>
+              <Card
+                sx={{
+                  maxHeight: '400px',
+                  overflow: 'auto',
+                  overflowX: 'hidden'
+                }}
+              >
                 <CardHeader title='Bằng cấp' />
                 <CardContent>
                   {expert.certificates?.map((certificate) => (
@@ -132,6 +134,8 @@ const ExpertDetail = () => {
             </Grid>
           </Grid>
         </Box>
+      ) : (
+        <Loading />
       )}
     </>
   )

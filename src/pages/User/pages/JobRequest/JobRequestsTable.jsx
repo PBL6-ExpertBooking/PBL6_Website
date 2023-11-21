@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import {
-  Box,
   Card,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   TableRow,
   TableContainer,
   useTheme,
@@ -20,12 +18,15 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import PaidTwoToneIcon from '@mui/icons-material/PaidTwoTone'
+import RateReviewTwoToneIcon from '@mui/icons-material/RateReviewTwoTone'
+
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import DetailJobRequest from './DetailJobRequest'
 import PaymentConfirm from './PaymentConfirm'
+import RatingJob from './RatingJob'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
@@ -52,22 +53,16 @@ const getStatusLabel = (jobStatus) => {
   return <Label color={color}>{text}</Label>
 }
 
-const JobRequestTable = ({ majorsOrder, fetchData }) => {
+const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const { snack, setSnack } = useSnack()
   const [open, setOpen] = useState(false)
   const [openPayment, setOpenPayment] = useState(false)
+  const [openReview, setOpenReview] = useState(false)
   const [id, setId] = useState('')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const theme = useTheme()
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleLimitChange = (event) => {
-    setRowsPerPage(parseInt(event.target.value))
-  }
   const handleDone = async (id) => {
     await AxiosInterceptors.post(urlConfig.job_requests.doneJobRequests + `/${id}/complete`)
       .then((res) => {
@@ -95,6 +90,7 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
       <Snackbar />
       {open && <DetailJobRequest open={open} setOpen={setOpen} id={id} />}
       {openPayment && <PaymentConfirm open={openPayment} setOpen={setOpenPayment} id={id} fetchData={fetchData} />}
+      {openReview && <RatingJob open={openReview} setOpen={setOpenReview} id={id} />}
       <Card>
         <TableContainer>
           <Table>
@@ -127,7 +123,7 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                     </TableCell>
                     <TableCell>
                       <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                        {majorsOrder.price}
+                        {majorsOrder.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -237,7 +233,7 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                               <VisibilityTwoToneIcon fontSize='small' />
                             </IconButton>
                           </Tooltip>
-                          {!majorsOrder.time_payment && (
+                          {!majorsOrder.time_payment ? (
                             <Tooltip title='Pay Money' arrow>
                               <IconButton
                                 sx={{
@@ -256,6 +252,27 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
                                 <PaidTwoToneIcon fontSize='small' />
                               </IconButton>
                             </Tooltip>
+                          ) : (
+                            !majorsOrder.is_reviewed && (
+                              <Tooltip title='Review' arrow>
+                                <IconButton
+                                  sx={{
+                                    '&:hover': {
+                                      background: theme.palette.warning.lighter
+                                    },
+                                    color: theme.palette.warning.main
+                                  }}
+                                  color='inherit'
+                                  size='small'
+                                  onClick={() => {
+                                    setId(majorsOrder._id)
+                                    setOpenReview(true)
+                                  }}
+                                >
+                                  <RateReviewTwoToneIcon fontSize='small' />
+                                </IconButton>
+                              </Tooltip>
+                            )
                           )}
                         </>
                       )}
@@ -266,17 +283,6 @@ const JobRequestTable = ({ majorsOrder, fetchData }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box p={2}>
-          <TablePagination
-            component='div'
-            count={majorsOrder.length}
-            onPageChange={handlePageChange}
-            onRowsPerPageChange={handleLimitChange}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[5, 10, 25, 30]}
-          />
-        </Box>
       </Card>
     </>
   )

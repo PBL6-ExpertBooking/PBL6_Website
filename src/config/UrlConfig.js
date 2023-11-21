@@ -13,7 +13,7 @@ const urlConfig = {
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/users/current/job_requests`,
     searchExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
     promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`,
-    getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`,
+    getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
@@ -40,12 +40,15 @@ const urlConfig = {
   transaction: {
     recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`,
     createPayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
-    executePayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`,
+    executePayment: `${process.env.REACT_APP_API_ENDPOINT}/transactions/payment`
   },
-	certificate: {
-		createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
-		deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`
-	}
+  certificate: {
+    createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
+    deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`
+  },
+  review: {
+    createReview: `${process.env.REACT_APP_API_ENDPOINT}/reviews`
+  }
 }
 
 export default urlConfig
