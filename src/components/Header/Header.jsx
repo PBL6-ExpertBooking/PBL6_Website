@@ -1,5 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Box, Fab, Typography, Stack, TextField, MenuItem, Tooltip } from '@mui/material'
+import {
+  Box,
+  Fab,
+  Typography,
+  Stack,
+  TextField,
+  MenuItem,
+  Tooltip,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment
+} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { MajorContext } from '../../contexts/major.context'
 import RootModal from '../Modal/RootModal'
@@ -10,14 +22,17 @@ import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import urlConfig from '../../config/UrlConfig'
 import Snackbar from '../../common/components/SnackBar'
 import useSnackbar from '../../contexts/snackbar.context'
+import LanguaguePopover from '../LanguagePopover/LanguagePopover'
 // icon
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CertificateInformodal from '../../pages/Expert/components/CertificateInforModal/CertificateInformodal'
+import { useTranslation } from 'react-i18next'
 
 const Header = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem('profile'))
   const [open, setOpen] = React.useState(false)
@@ -110,10 +125,13 @@ const Header = () => {
   return (
     <div>
       <Snackbar />
+      {openAddCertificate && (
+        <CertificateInformodal open={openAddCertificate} handleCloseModal={handleCloseCertificateModal} />
+      )}
       {open && (
         <RootModal
           variant='Create'
-          title='Create Request'
+          title={t('createRequest')}
           open={open}
           handleClose={() => setOpen(false)}
           handleOk={() => handleOk()}
@@ -122,14 +140,14 @@ const Header = () => {
           <Box sx={{ my: 2 }}>
             <TextField
               id='outlined-basic'
-              label='Title'
+              label={t('title')}
               variant='outlined'
               fullWidth
               onChange={(e) => setData({ ...data, title: e.target.value })}
             />
             <TextField
               id='outlined-basic'
-              label='Descriptions'
+              label={t('description')}
               variant='outlined'
               fullWidth
               sx={{
@@ -141,7 +159,7 @@ const Header = () => {
               <TextField
                 id='outlined-select-currency'
                 select
-                label='Major'
+                label={t('major')}
                 defaultValue=''
                 sx={{
                   width: '50%'
@@ -154,23 +172,22 @@ const Header = () => {
                   </MenuItem>
                 ))}
               </TextField>
-              <TextField
-                id='outlined-basic'
-                label='Price'
-                variant='outlined'
-                fullWidth
-                type='number'
-                onChange={(e) => setData({ ...data, price: e.target.value })}
-                sx={{
-                  width: '50%'
-                }}
-              />
+              <FormControl>
+                <InputLabel htmlFor='outlined-adornment-amount'>{t('price')}</InputLabel>
+                <OutlinedInput
+                  id='outlined-adornment-amount'
+                  startAdornment={<InputAdornment position='start'>đ</InputAdornment>}
+                  label={t('price')}
+                  type='number'
+                  onChange={(e) => setData({ ...data, price: e.target.value })}
+                />
+              </FormControl>
             </Stack>
             <Stack direction='row' spacing={3} sx={{ mt: 2 }}>
               <TextField
                 id='outlined-select-currency'
                 select
-                label='City'
+                label={t('city')}
                 defaultValue={data.address.city.name}
                 sx={{
                   width: '33%'
@@ -200,7 +217,7 @@ const Header = () => {
               <TextField
                 id='outlined-select-currency'
                 select
-                label='District'
+                label={t('district')}
                 defaultValue={data.address.district.name}
                 sx={{
                   width: '33%'
@@ -230,7 +247,7 @@ const Header = () => {
               <TextField
                 id='outlined-select-currency'
                 select
-                label='Ward'
+                label={t('ward')}
                 defaultValue={data.address.ward.name}
                 sx={{
                   width: '33%'
@@ -289,7 +306,7 @@ const Header = () => {
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
-              <Tooltip title='Notification' arrow>
+              <Tooltip title={t('notifications')} arrow>
                 <Fab
                   size='small'
                   aria-label='notifi'
@@ -302,7 +319,7 @@ const Header = () => {
               </Tooltip>
               {user.role === 'USER' && (
                 <>
-                  <Tooltip title='Create Request' arrow>
+                  <Tooltip title={t('createRequest')} arrow>
                     <Fab
                       size='small'
                       aria-label='add'
@@ -314,7 +331,7 @@ const Header = () => {
                       <AddIcon />
                     </Fab>
                   </Tooltip>
-                  <Tooltip title='Recharge' arrow>
+                  <Tooltip title={t('recharge')} arrow>
                     <Fab
                       size='small'
                       aria-label='recharge'
@@ -345,11 +362,11 @@ const Header = () => {
                 </>
               )}
               <HeaderUserbox />
+              <LanguaguePopover />
             </Box>
           </Stack>
         </div>
       </Box>
-      <CertificateInformodal open={openAddCertificate} handleCloseModal={handleCloseCertificateModal} />
     </div>
   )
 }

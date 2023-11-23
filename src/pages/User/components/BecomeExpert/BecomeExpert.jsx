@@ -6,8 +6,10 @@ import RootModal from '../../../../components/Modal/RootModal'
 import { useCookies } from 'react-cookie'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 
 const BecomeExpert = () => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [descriptions, setDecriptions] = useState('')
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
@@ -61,7 +63,7 @@ const BecomeExpert = () => {
       <Snackbar />
       <RootModal
         variant='Create'
-        title='Tell us about yourself'
+        title={t('promoteTitle')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={() => handlePromote()}
@@ -70,7 +72,7 @@ const BecomeExpert = () => {
         <Box sx={{ my: 3 }}>
           <TextField
             fullWidth
-            label='Descriptions'
+            label={t('description')}
             multiline
             rows={4}
             onChange={(e) => setDecriptions(e.target.value)}
@@ -87,11 +89,11 @@ const BecomeExpert = () => {
         }}
       >
         <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-          Become an Expert
+          {t('becomeExpert')}
         </Typography>
         <FormControlLabel
           control={<Checkbox checked={check} onChange={(e) => setCheck(e.target.checked)} />}
-          label='I agree to the terms and conditions'
+          label={t('agreeTerm')}
           sx={{ marginLeft: '1.5rem' }}
         />
         <Stack
@@ -104,7 +106,7 @@ const BecomeExpert = () => {
           }}
         >
           <Button variant='contained' component='label' color='primary' onClick={handleOpen}>
-            Promote
+            {t('promote')}
           </Button>
         </Stack>
       </Card>

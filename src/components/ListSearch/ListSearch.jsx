@@ -2,7 +2,10 @@ import React from 'react'
 import { Box, Typography, Grid, Card, Avatar, Stack, Rating, Container } from '@mui/material'
 import svg from '../../assets/images/empty.png'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import moment from 'moment'
 const ListSearch = (props) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   return (
     <Box
@@ -13,7 +16,7 @@ const ListSearch = (props) => {
       }}
     >
       <Typography variant='h4' sx={{ color: 'black' }}>
-        Search Result: {props.listExpert.length}
+        {t('searchResults')}: {props.listExpert.length}
       </Typography>
       <Grid container spacing={3} sx={{ mt: 2 }}>
         {props.listExpert.map((expert) => (
@@ -35,9 +38,11 @@ const ListSearch = (props) => {
                     {expert.user.first_name} {expert.user.last_name}
                   </Typography>
                   <Typography variant='h6'>{expert.descriptions}</Typography>
-                  <Typography variant='subtitle1'>Đà Nẵng</Typography>
+                  <Typography variant='subtitle1'>{moment(expert.createdAt).format('DD/MM/YYYY')}</Typography>
                   <Rating name='read-only' value={expert.average_rating} readOnly />
-                  <Typography variant='subtitle2'>{expert.rating_count} reviews</Typography>
+                  <Typography variant='subtitle2'>
+                    {expert.rating_count} {t('reviews')}
+                  </Typography>
                 </Stack>
               </Stack>
             </Card>
@@ -56,7 +61,7 @@ const ListSearch = (props) => {
               >
                 <img alt='404' height={200} src={svg} />
                 <Typography variant='h3' color='text.secondary' fontWeight='500' sx={{ mt: 2 }}>
-                  No results found!
+                  {t('noResults')}
                 </Typography>
               </Box>
             </Container>

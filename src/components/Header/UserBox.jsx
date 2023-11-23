@@ -8,7 +8,6 @@ import {
   Button,
   Divider,
   Fab,
-  Hidden,
   lighten,
   List,
   ListItem,
@@ -18,19 +17,12 @@ import {
 } from '@mui/material'
 import path from '../../constants/path'
 import { styled } from '@mui/material/styles'
-import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone'
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone'
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone'
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone'
 import { useCookies } from 'react-cookie'
-
-const UserBoxButton = styled(Button)(
-  ({ theme }) => `
-        padding-left: 12px;
-        padding-right:  12px;
-`
-)
+import { useTranslation } from 'react-i18next'
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
@@ -61,6 +53,7 @@ const UserBoxDescription = styled(Typography)(
 )
 
 function HeaderUserbox() {
+  const { t } = useTranslation()
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
   const logOut = async () => {
     removeCookie('access_token', { path: '/' })
@@ -125,15 +118,15 @@ function HeaderUserbox() {
             <>
               <ListItem button to={path.profile} component={NavLink}>
                 <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='My Profile' />
+                <ListItemText primary={t('myProfile')} />
               </ListItem>
               <ListItem button to={path.historyTransaction} component={NavLink}>
                 <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='History Transaction' />
+                <ListItemText primary={t('historyTransaction')} />
               </ListItem>
               <ListItem button to={path.changePassword} component={NavLink}>
                 <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='Change Password' />
+                <ListItemText primary={t('changePassword')} />
               </ListItem>
             </>
           )}
@@ -141,15 +134,15 @@ function HeaderUserbox() {
             <>
               <ListItem button to={path.adminProfile} component={NavLink}>
                 <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='My Profile' />
+                <ListItemText primary={t('myProfile')} />
               </ListItem>
               <ListItem button to={path.adminListUser} component={NavLink}>
                 <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='Users Management' />
+                <ListItemText primary={t('usersManagement')} />
               </ListItem>
               <ListItem button to={path.adminListMajor} component={NavLink}>
                 <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='Majors Management' />
+                <ListItemText primary={t('majorsManagement')} />
               </ListItem>
             </>
           )}
@@ -157,15 +150,15 @@ function HeaderUserbox() {
             <>
               <ListItem button to={path.expertProfile} component={NavLink}>
                 <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='My Profile' />
+                <ListItemText primary={t('myProfile')} />
               </ListItem>
               <ListItem button to={path.expertTransactionHistory} component={NavLink}>
                 <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='History Transaction' />
+                <ListItemText primary={t('historyTransaction')} />
               </ListItem>
               <ListItem button to={path.expertChangePassword} component={NavLink}>
                 <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary='Change Password' />
+                <ListItemText primary={t('changePassword')} />
               </ListItem>
             </>
           )}
@@ -181,7 +174,7 @@ function HeaderUserbox() {
             }}
           >
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
+            {t('signOut')}
           </Button>
         </Box>
       </Popover>

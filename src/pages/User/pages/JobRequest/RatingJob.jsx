@@ -5,7 +5,9 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
-const RatingJob = ({ id, open, setOpen }) => {
+import { useTranslation } from 'react-i18next'
+const RatingJob = ({ id, open, setOpen, fetchData }) => {
+  const { t } = useTranslation()
   const { snack, setSnack } = useSnackbar()
   const [data, setData] = React.useState({
     job_request_id: id,
@@ -22,6 +24,7 @@ const RatingJob = ({ id, open, setOpen }) => {
             message: 'Review successfully!',
             type: 'success'
           })
+          fetchData()
           setOpen(false)
         }
       })
@@ -32,7 +35,7 @@ const RatingJob = ({ id, open, setOpen }) => {
       <Snackbar />
       <RootModal
         variant='Create'
-        title='Review this job'
+        title={t('reviewJobRequest')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={handleReview}
@@ -41,7 +44,7 @@ const RatingJob = ({ id, open, setOpen }) => {
         <Stack my={3} direction='column' spacing={2}>
           <Stack direction='row' spacing={2}>
             <Typography variant='h6' gutterBottom component='div'>
-              Rating:
+              {t('rating')}:
             </Typography>
             <Rating
               name='simple-controlled'
@@ -53,7 +56,7 @@ const RatingJob = ({ id, open, setOpen }) => {
           </Stack>
           <TextField
             fullWidth
-            label='Your review'
+            label={t('comment')}
             multiline
             rows={4}
             onChange={(e) => setData({ ...data, comment: e.target.value })}

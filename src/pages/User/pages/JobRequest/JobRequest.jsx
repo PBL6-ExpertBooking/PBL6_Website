@@ -9,8 +9,10 @@ import Loading from '../../../../common/components/Loading/Loading'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import svg from '../../../../assets/images/empty.png'
+import { useTranslation } from 'react-i18next'
 
 const JobRequest = () => {
+  const { t } = useTranslation()
   const { majors, loading, getMajors } = useContext(MajorContext)
   const [jobRequests, setJobRequests] = React.useState([])
   const [refresh, setRefresh] = React.useState(false)
@@ -45,14 +47,14 @@ const JobRequest = () => {
   return (
     <div style={{ width: '100%', padding: '20px 100px' }}>
       <Helmet>
-        <title>Job Requests</title>
+        <title>{t('jobRequest')}</title>
       </Helmet>
       <Box direction='row' spacing={2} sx={{ marginBottom: '20px', display: 'flex' }}>
-        <h1>Job Requests</h1>
+        <h1>{t('jobRequest')}</h1>
         <TextField
           id='outlined-select-currency'
           select
-          label='Major'
+          label={t('major')}
           defaultValue='0'
           sx={{
             width: '30%',
@@ -62,7 +64,7 @@ const JobRequest = () => {
           onChange={(e) => setMajor_id(e.target.value)}
         >
           <MenuItem key='all' value='0'>
-            All
+            {t('all')}
           </MenuItem>
           {majors.majors?.map((option) => (
             <MenuItem key={option._id} value={option._id}>
@@ -93,7 +95,7 @@ const JobRequest = () => {
             >
               <img alt='404' height={200} src={svg} />
               <Typography variant='h3' color='text.secondary' fontWeight='500' sx={{ mt: 2 }}>
-                No results found!
+                {t('noResults')}
               </Typography>
             </Box>
           </Container>
@@ -107,7 +109,7 @@ const JobRequest = () => {
           float: 'right'
         }}
       >
-        <Tooltip title='Before' arrow>
+        <Tooltip title={t('previous')} arrow>
           <Fab
             size='small'
             aria-label='add'
@@ -120,7 +122,7 @@ const JobRequest = () => {
         <Fab size='small' aria-label='add' disabled>
           {pageCount}
         </Fab>
-        <Tooltip title='Next' arrow>
+        <Tooltip title={t('next')} arrow>
           <Fab size='small' aria-label='add' onClick={() => setPageCount(pageCount + 1)}>
             <NavigateNextIcon />
           </Fab>

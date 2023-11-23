@@ -2,7 +2,10 @@ import React from 'react'
 import { Box, Button, Typography, Stack } from '@mui/material'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import LanguagePopover from '../LanguagePopover/LanguagePopover'
 const HomeHeader = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   return (
     <div>
@@ -41,7 +44,7 @@ const HomeHeader = () => {
               }}
               onClick={() => navigate('/login')}
             >
-              Sign In
+              {t('signIn')}
             </Button>
             <Button
               variant='text'
@@ -55,8 +58,9 @@ const HomeHeader = () => {
               }}
               onClick={() => navigate('/register')}
             >
-              Register
+              {t('register')}
             </Button>
+            <LanguagePopover />
           </Stack>
         </div>
       </Box>

@@ -28,6 +28,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Axios from 'axios'
 import { lazy } from 'react'
 import Loading from '../../common/components/Loading/Loading'
+import { useTranslation } from 'react-i18next'
 
 const BecomeExpert = lazy(() => import('../User/components/BecomeExpert'))
 const VisuallyHiddenInput = styled('input')({
@@ -43,6 +44,7 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 const Profile = () => {
+  const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem('profile'))
   const [information, setInformation] = useState({
     first_name: '',
@@ -164,7 +166,7 @@ const Profile = () => {
             color: 'red'
           }}
         >
-          <h1>Please check your email to validate your account!</h1>
+          <h1>{t('validateMail')}</h1>
         </Card>
       </div>
     )) ||
@@ -173,7 +175,7 @@ const Profile = () => {
     ) : (
       <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Helmet>
-          <title>Profile</title>
+          <title>{t('profile')}</title>
         </Helmet>
         <Snackbar />
         <Card
@@ -216,7 +218,7 @@ const Profile = () => {
                     }
                   }}
                 >
-                  Upload Photo
+                  {t('uploadPhoto')}
                   <VisuallyHiddenInput
                     type='file'
                     accept='.jpg, .png'
@@ -240,7 +242,7 @@ const Profile = () => {
             </Stack>
             <Box sx={{ display: 'block', width: '100%' }}>
               <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-                Change Profile Information
+                {t('changeProfile')}
               </Typography>
               <Box component='form' noValidate autoComplete='off'>
                 <Box
@@ -252,7 +254,7 @@ const Profile = () => {
                     fullWidth
                     required
                     id='outlined-required'
-                    label='Username'
+                    label={t('username')}
                     defaultValue={information.username}
                     disabled
                   />
@@ -274,7 +276,7 @@ const Profile = () => {
                   <TextField
                     required
                     id='outlined-required'
-                    label='First Name'
+                    label={t('firstName')}
                     defaultValue={information.first_name}
                     onChange={(e) => {
                       setInformation({
@@ -286,7 +288,7 @@ const Profile = () => {
                   <TextField
                     required
                     id='outlined-required'
-                    label='Last Name'
+                    label={t('lastName')}
                     defaultValue={information.last_name}
                     onChange={(e) => {
                       setInformation({
@@ -303,7 +305,7 @@ const Profile = () => {
                 >
                   <TextField
                     id='outlined-number'
-                    label='Phone Number'
+                    label={t('phoneNumber')}
                     type='number'
                     InputLabelProps={{
                       shrink: true
@@ -321,7 +323,7 @@ const Profile = () => {
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
-                      label='Gender'
+                      label={t('gender')}
                       defaultValue={information.gender ? 1 : 0}
                       onChange={(e) => {
                         setInformation({
@@ -330,14 +332,14 @@ const Profile = () => {
                         })
                       }}
                     >
-                      <MenuItem value={0}>Male</MenuItem>
-                      <MenuItem value={1}>Female</MenuItem>
+                      <MenuItem value={0}>{t('male')}</MenuItem>
+                      <MenuItem value={1}>{t('female')}</MenuItem>
                     </Select>
                   </FormControl>
 
                   <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
                     <DateField
-                      label='Date of birthday'
+                      label={t('dateOfBirth')}
                       value={dayjs(information.DoB)}
                       onChange={(newValue) =>
                         setInformation({
@@ -352,7 +354,7 @@ const Profile = () => {
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='City'
+                    label={t('city')}
                     defaultValue={information.address?.city?.name}
                     sx={{
                       width: '30%'
@@ -382,7 +384,7 @@ const Profile = () => {
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='District'
+                    label={t('district')}
                     defaultValue={information.address?.district?.name}
                     sx={{
                       width: '30%'
@@ -412,7 +414,7 @@ const Profile = () => {
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='Ward'
+                    label={t('ward')}
                     defaultValue={information.address?.ward?.name}
                     sx={{
                       width: '30%'
@@ -464,10 +466,10 @@ const Profile = () => {
                     }
                   }}
                 >
-                  Save Change
+                  {t('saveChanges')}
                 </Button>
                 <Button variant='contained' component='label' color='error'>
-                  Reset
+                  {t('reset')}
                 </Button>
               </Stack>
             </Box>
@@ -484,15 +486,9 @@ const Profile = () => {
           }}
         >
           <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-            Delete Account
+            {t('deleteAccount')}
           </Typography>
-          <FormControlLabel
-            control={<Checkbox defaultChecked />}
-            label='
-          I understand that I will not be able to undo this action and that all my data will be deleted.
-        '
-            sx={{ marginLeft: '1.5rem' }}
-          />
+          <FormControlLabel control={<Checkbox />} label={t('deleteAccountMessage')} sx={{ marginLeft: '1.5rem' }} />
           <Stack
             spacing={1}
             direction='row'
@@ -503,7 +499,7 @@ const Profile = () => {
             }}
           >
             <Button variant='contained' component='label' color='error'>
-              Delete
+              {t('delete')}
             </Button>
           </Stack>
         </Card>

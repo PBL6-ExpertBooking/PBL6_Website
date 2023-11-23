@@ -1,6 +1,7 @@
 import { Box, Typography, Container, Button, styled } from '@mui/material'
 import svg from '../../assets/images/404.svg'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -15,6 +16,7 @@ const MainContent = styled(Box)(
 )
 
 function NotFound() {
+  const { t } = useTranslation()
   return (
     <>
       <Helmet>
@@ -32,15 +34,17 @@ function NotFound() {
           >
             <img alt='404' height={180} src={svg} />
             <Typography variant='h2' sx={{ my: 2 }}>
+              {t('notFound')}
               The page you were looking for doesn't exist.
             </Typography>
             <Typography variant='h4' color='text.secondary' fontWeight='normal' sx={{ mb: 4 }}>
+              {t('notFoundMessage')}
               You may have mistyped the address or the page may have moved.
             </Typography>
           </Box>
           <Container maxWidth='sm' sx={{ textAlign: 'center', mt: 3, p: 4 }}>
             <Button href='/' variant='outlined'>
-              Go to homepage
+              {t('goToHome')}
             </Button>
           </Container>
         </Container>

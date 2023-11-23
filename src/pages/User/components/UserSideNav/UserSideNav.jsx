@@ -7,8 +7,10 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
 import WorkIcon from '@mui/icons-material/Work'
+import { useTranslation } from 'react-i18next'
 
 export default function UserSideNav() {
+  const { t } = useTranslation()
   const { collapseSidebar } = useProSidebar()
   const styleLink = {
     textDecoration: 'none',
@@ -18,19 +20,19 @@ export default function UserSideNav() {
     <Sidebar style={{ height: '100%' }}>
       <Menu>
         <Link to={path.dashboard} style={styleLink}>
-          <MenuItem icon={<HomeRoundedIcon />}>DashBoard</MenuItem>
+          <MenuItem icon={<HomeRoundedIcon />}>{t('dashboard')}</MenuItem>
         </Link>
         <Link to={path.profile} style={styleLink}>
-          <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />}>{t('profile')}</MenuItem>
         </Link>
         <Link to={path.historyTransaction} style={styleLink}>
-          <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
+          <MenuItem icon={<CalendarMonthRoundedIcon />}>{t('historyTransaction')}</MenuItem>
         </Link>
         <Link to={path.jobRequest} style={styleLink}>
-          <MenuItem icon={<WorkIcon />}>Job Request</MenuItem>
+          <MenuItem icon={<WorkIcon />}>{t('jobRequest')}</MenuItem>
         </Link>
         <Link to={path.changePassword} style={styleLink}>
-          <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
+          <MenuItem icon={<SyncLockIcon />}>{t('changePassword')}</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}
@@ -39,7 +41,7 @@ export default function UserSideNav() {
           }}
           style={styleLink}
         >
-          Collapse
+          {t('collapse')}
         </MenuItem>
       </Menu>
     </Sidebar>

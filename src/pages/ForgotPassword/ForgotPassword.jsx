@@ -1,18 +1,12 @@
 import { styled } from '@mui/material/styles'
-import {
-  Link,
-  Container,
-  Typography,
-  Stack,
-  Button,
-  TextField,
-} from '@mui/material'
+import { Link, Container, Typography, Stack, Button, TextField } from '@mui/material'
 // hooks
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import Forgot_Photo from '../../assets/images/forgot_password.png'
+import { useTranslation } from 'react-i18next'
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -44,6 +38,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ForgotPassword() {
+  const { t } = useTranslation()
   const session = null
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
@@ -57,7 +52,7 @@ export default function ForgotPassword() {
     return (
       <>
         <Helmet>
-          <title>Forgot Password</title>
+          <title>{t('forgotPassword')}</title>
         </Helmet>
         <StyledRoot>
           {mdUp && (
@@ -67,15 +62,22 @@ export default function ForgotPassword() {
           )}
           <Container maxWidth='sm'>
             <StyledContent>
-              <Typography variant='h4' gutterBottom>
-                FORGOT PASSWORD
+              <Typography
+                variant='h4'
+                gutterBottom
+                sx={{
+                  textTransform: 'uppercase'
+                }}
+              >
+                {t('forgotPassword')}
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>
-                Enter your email address below and we'll send you a link to reset your password.
-              </Typography>
-              <Stack spacing={3} sx={{ 
-                my: 5,
-               }}>
+              <Typography sx={{ color: 'text.secondary' }}>{t('forgotPasswordReminder')}</Typography>
+              <Stack
+                spacing={3}
+                sx={{
+                  my: 5
+                }}
+              >
                 <TextField
                   name='email'
                   label='Email'
@@ -85,12 +87,12 @@ export default function ForgotPassword() {
                 />
               </Stack>
               <Button size='large' color='inherit' variant='outlined' onClick={login}>
-                Send reset link
+                {t('sendResetLink')}
               </Button>
               <Typography variant='body2' sx={{ my: 5 }}>
-                Don’t have an account?{' '}
+                {t('dontHaveAccount')}{' '}
                 <Link variant='subtitle2' href='/register'>
-                  Register Here
+                  {t('registerNow')}
                 </Link>
               </Typography>
             </StyledContent>

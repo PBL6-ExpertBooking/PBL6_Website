@@ -5,7 +5,9 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 const AddNewMajor = ({ open, handleClose, fetchData }) => {
+  const { t } = useTranslation()
   const { snack, setSnack } = useSnackbar()
   const [newMajor, setNewMajor] = useState({
     name: '',
@@ -36,7 +38,7 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
       <Snackbar />
       <RootModal
         variant='Create'
-        title='New Major'
+        title={t('newMajor')}
         open={open}
         handleClose={handleClose}
         handleOk={() => {
@@ -48,7 +50,7 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
         <Stack spacing={2} direction='row' sx={{ width: '100%', my: 2 }}>
           <TextField
             id='outlined-basic'
-            label='Major Name'
+            label={t('majorName')}
             variant='outlined'
             fullWidth
             onChange={(e) =>
@@ -60,7 +62,7 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
           />
           <TextField
             id='outlined-basic'
-            label='Descriptions'
+            label={t('description')}
             variant='outlined'
             fullWidth
             onChange={(e) =>
