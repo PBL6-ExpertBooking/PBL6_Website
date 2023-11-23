@@ -3,11 +3,13 @@ import Rootmodal from '../../../../components/Modal/RootModal'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect } from 'react'
-import { Container, Typography } from '@mui/material'
+import { Container, Typography, Rating } from '@mui/material'
 import moment from 'moment'
 import Loading from '../../../../common/components/Loading/Loading'
+import { useTranslation } from 'react-i18next'
 
 const DetailJobRequest = ({ open, setOpen, id }) => {
+  const { t } = useTranslation()
   const [data, setData] = useState({})
   const fetchData = async () => {
     await AxiosInterceptors.get(urlConfig.job_requests.getJobRequests + `/${id}`)
@@ -26,7 +28,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
       {data.expert ? (
         <Rootmodal
           variant='Info'
-          title='Detail Job Request'
+          title={t('detailJobRequest')}
           open={open}
           handleClose={() => setOpen(false)}
           handleOk={() => setOpen()}
@@ -39,7 +41,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
             }}
           >
             <Typography variant='h6' gutterBottom component='div'>
-              Job Title:
+              {t('title')}:
               <Typography
                 variant='h6'
                 gutterBottom
@@ -53,7 +55,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
               </Typography>
             </Typography>
             <Typography variant='h6' gutterBottom component='div'>
-              Job Description:
+              {t('description')}:
               <Typography
                 variant='h6'
                 gutterBottom
@@ -67,7 +69,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
               </Typography>
             </Typography>
             <Typography variant='h6' gutterBottom component='div'>
-              Price:{' '}
+              {t('price')}:{' '}
               <Typography
                 variant='h6'
                 gutterBottom
@@ -81,7 +83,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
               </Typography>
             </Typography>
             <Typography variant='h6' gutterBottom component='div'>
-              Expert Accept:
+              {t('expertAccept')}:{' '}
               <Typography
                 variant='h6'
                 gutterBottom
@@ -91,11 +93,14 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
                   ml: 1
                 }}
               >
-                {data.expert.user.first_name} {data.expert.user.last_name} Rating: {data.expert.average_rating}
+                {data.expert.user.first_name} {data.expert.user.last_name}
               </Typography>
             </Typography>
             <Typography variant='h6' gutterBottom component='div'>
-              Phone Number:
+              {t('rating')}: <Rating name='simple-controlled' value={data.expert.average_rating} readOnly />
+            </Typography>
+            <Typography variant='h6' gutterBottom component='div'>
+              {t('phoneNumber')}:{' '}
               <Typography
                 variant='h6'
                 gutterBottom
@@ -109,7 +114,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
               </Typography>
             </Typography>
             <Typography variant='h6' gutterBottom component='div'>
-              Phone Number:
+              Email:
               <Typography
                 variant='h6'
                 gutterBottom
@@ -123,7 +128,7 @@ const DetailJobRequest = ({ open, setOpen, id }) => {
               </Typography>
             </Typography>
             <Typography variant='h6' gutterBottom component='div'>
-              Time Accept:
+              {t('timeBooking')}:{' '}
               <Typography
                 variant='h6'
                 gutterBottom

@@ -1,7 +1,10 @@
 import React from 'react'
 import { Box, Typography, Grid, Card, Avatar, Stack, Rating } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import moment from 'moment'
 const TopExpert = ({ topExpert }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   return (
     <Box
@@ -12,7 +15,7 @@ const TopExpert = ({ topExpert }) => {
       }}
     >
       <Typography variant='h4' sx={{ color: 'black' }}>
-        Top Experts
+        {t('topExpert')}
       </Typography>
       <Grid container spacing={3} sx={{ mt: 2 }}>
         {topExpert.map((expert) => (
@@ -34,9 +37,11 @@ const TopExpert = ({ topExpert }) => {
                     {expert.user.first_name} {expert.user.last_name}
                   </Typography>
                   <Typography variant='h6'>{expert.descriptions}</Typography>
-                  <Typography variant='subtitle1'>Đà Nẵng</Typography>
+                  <Typography variant='subtitle1'>{moment(expert.createdAt).format('DD/MM/YYYY')}</Typography>
                   <Rating name='read-only' value={expert.average_rating} readOnly />
-                  <Typography variant='subtitle2'>{expert.rating_count} reviews</Typography>
+                  <Typography variant='subtitle2'>
+                    {expert.rating_count} {t('reviews')}
+                  </Typography>
                 </Stack>
               </Stack>
             </Card>

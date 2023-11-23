@@ -18,7 +18,9 @@ import useSnackbar from '../../../../contexts/snackbar.context'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 const ChangePassword = () => {
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = React.useState(false)
   const [oldPassword, setOldPassword] = React.useState('')
   const [newPassword, setNewPassword] = React.useState('')
@@ -80,7 +82,7 @@ const ChangePassword = () => {
     <div style={{ width: '100%' }}>
       <SnackBar />
       <Helmet>
-        <title>Change Password</title>
+        <title>{t('changePassword')}</title>
       </Helmet>
       <Card
         sx={{
@@ -92,7 +94,7 @@ const ChangePassword = () => {
         }}
       >
         <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-          Change Password
+          {t('changePassword')}
         </Typography>
         <FormControl
           variant='outlined'
@@ -101,7 +103,7 @@ const ChangePassword = () => {
             width: '48%'
           }}
         >
-          <InputLabel htmlFor='outlined-old-password'>Current Password</InputLabel>
+          <InputLabel htmlFor='outlined-old-password'>{t('currentPassword')}</InputLabel>
           <OutlinedInput
             id='outlined-old-password'
             type={showPassword ? 'text' : 'password'}
@@ -137,7 +139,7 @@ const ChangePassword = () => {
               width: '48%'
             }}
           >
-            <InputLabel htmlFor='outlined-new-password'>New Password</InputLabel>
+            <InputLabel htmlFor='outlined-new-password'>{t('newPassword')}</InputLabel>
             <OutlinedInput
               id='outlined-new-password'
               type={showPassword ? 'text' : 'password'}
@@ -165,7 +167,7 @@ const ChangePassword = () => {
               width: '48%'
             }}
           >
-            <InputLabel htmlFor='outlined-confirm-password'>Confirm New Password</InputLabel>
+            <InputLabel htmlFor='outlined-confirm-password'>{t('confirmNewPassword')}</InputLabel>
             <OutlinedInput
               id='outlined-confirm-password'
               type={showPassword ? 'text' : 'password'}
@@ -188,16 +190,16 @@ const ChangePassword = () => {
           </FormControl>
         </Box>
         <Typography variant='subtitle1' sx={{ margin: '1rem' }}>
-          Password Requirements:
+          {t('passwordRequirements')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - Minimum 8 characters long - the more, the better
+          - {t('passwordRequirements.1')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - At least one lowercase & one uppercase character
+          - {t('passwordRequirements.2')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - At least one number, symbol, or whitespace character
+          - {t('passwordRequirements.3')}
         </Typography>
         <Stack
           spacing={1}
@@ -221,10 +223,10 @@ const ChangePassword = () => {
               }
             }}
           >
-            Save Change
+            {t('saveChanges')}
           </Button>
           <Button variant='contained' component='label' color='error' onClick={() => handleReset()}>
-            Reset
+            {t('reset')}
           </Button>
         </Stack>
       </Card>

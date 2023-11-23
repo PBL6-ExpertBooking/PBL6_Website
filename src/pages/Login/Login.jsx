@@ -11,6 +11,7 @@ import Snackbar from '../../common/components/SnackBar'
 import { setProfileToLS } from '../../utils/auth'
 import { useCookies } from 'react-cookie'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const session = null
   const navigate = useNavigate()
   const [cookies, setCookie] = useCookies(['user'])
@@ -79,7 +81,7 @@ export default function LoginPage() {
     return (
       <>
         <Helmet>
-          <title>Login</title>
+          <title>{t('signIn')}</title>
         </Helmet>
         <Snackbar />
         <StyledRoot>
@@ -90,13 +92,19 @@ export default function LoginPage() {
           )}
           <Container maxWidth='sm'>
             <StyledContent>
-              <Typography variant='h4' gutterBottom>
-                SIGN IN
+              <Typography
+                variant='h4'
+                gutterBottom
+                sx={{
+                  textTransform: 'uppercase'
+                }}
+              >
+                {t('signIn')}
               </Typography>
               <Stack spacing={3}>
                 <TextField
                   name='username'
-                  label='Username'
+                  label={t('username')}
                   onChange={(e) => {
                     setUsername(e.target.value)
                   }}
@@ -104,7 +112,7 @@ export default function LoginPage() {
 
                 <TextField
                   name='password'
-                  label='Password'
+                  label={t('password')}
                   type='password'
                   onChange={(e) => {
                     setPassword(e.target.value)
@@ -118,18 +126,18 @@ export default function LoginPage() {
               </Stack>
 
               <Stack direction='row' alignItems='center' justifyContent='space-between' sx={{ my: 2 }}>
-                <FormControlLabel control={<Checkbox defaultChecked />} label='Remember me' />
+                <FormControlLabel control={<Checkbox defaultChecked />} label={t('rememberMe')} />
                 <Link variant='subtitle2' underline='hover' href='/forgotpassword'>
-                  Forgot password?
+                  {t('forgotPassword')}?
                 </Link>
               </Stack>
               <Button size='large' color='inherit' variant='outlined' onClick={login}>
-                Login
+                {t('login')}
               </Button>
               <Typography variant='body2' sx={{ mb: 5 }}>
-                Don’t have an account?{' '}
+                {t('dontHaveAccount')}{' '}
                 <Link variant='subtitle2' href='/register'>
-                  Register Here
+                  {t('registerNow')}
                 </Link>
               </Typography>
             </StyledContent>

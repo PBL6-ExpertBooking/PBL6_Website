@@ -1,6 +1,7 @@
 import * as React from 'react'
 import RootModal from '../../../../components/Modal/RootModal'
-import { Box,
+import {
+  Box,
   Stack,
   Avatar,
   Button,
@@ -10,7 +11,8 @@ import { Box,
   FormControl,
   InputLabel,
   Select,
-  MenuItem } from '@mui/material'
+  MenuItem
+} from '@mui/material'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
@@ -69,13 +71,6 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
     })()
   }, [])
   const handleSaveCertificate = async () => {
-    console.log('in save certificate')
-    console.log({
-      name: certificateName,
-      major_id: majorId,
-      descriptions: descriptions,
-      photo: formData.get('photo')
-    })
     await AxiosInterceptors.post(
       urlConfig.certificate.createCertificate,
       {
@@ -89,7 +84,7 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
           'Content-Type': 'multipart/form-data'
         }
       }
-      )
+    )
       .then((res) => {
         setSnack({
           ...snack,
@@ -110,11 +105,10 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
       })
   }
   return (
-    (majors.length > 0 && 
-    (
-    <div>
-      <Snackbar />
-      <RootModal
+    majors.length > 0 && (
+      <div>
+        <Snackbar />
+        <RootModal
           variant='Create'
           title='Create Certificate'
           open={openCertificate}
@@ -123,28 +117,32 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
           closeOnly={false}
         >
           <Box sx={{ my: 2 }}>
-          <FormControl sx={{ width: '100%'}}>
-            <InputLabel id='demo-simple-select-label'>Major</InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={majorId}
-              onChange={(e) => {setMajorId(e.target.value)}}
-              label='Major'
-              required
-            >
-              {majors &&
-                majors.length > 0 &&
-                majors.map((major) => {
-                  return <MenuItem value={major._id}>{major.name}</MenuItem>
-                })}
-            </Select>
-          </FormControl>
+            <FormControl sx={{ width: '100%' }}>
+              <InputLabel id='demo-simple-select-label'>Major</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={majorId}
+                onChange={(e) => {
+                  setMajorId(e.target.value)
+                }}
+                label='Major'
+                required
+              >
+                {majors &&
+                  majors.length > 0 &&
+                  majors.map((major) => {
+                    return <MenuItem value={major._id}>{major.name}</MenuItem>
+                  })}
+              </Select>
+            </FormControl>
             <TextField
               id='outlined-basic'
               label='Certificate name'
               value={certificateName}
-              onChange={(e) => {setCertificateName(e.target.value)}}
+              onChange={(e) => {
+                setCertificateName(e.target.value)
+              }}
               variant='outlined'
               fullWidth
               required
@@ -156,7 +154,9 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
               id='outlined-basic'
               label='Description'
               value={descriptions}
-              onChange={(e) => {setDescriptions(e.target.value)}}
+              onChange={(e) => {
+                setDescriptions(e.target.value)
+              }}
               variant='outlined'
               fullWidth
               multiline
@@ -165,47 +165,42 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
                 mt: 2
               }}
             />
-              <Avatar
-                alt='Remy Sharp'
-                src={photoUrl}
-                variant='square'
-                sx={{ width: '100%', height: 400, mt: 2 }}
-              />
-              <Button
-                component='label'
-                variant='contained'
-                startIcon={<CloudUploadIcon />}
-                sx={{
+            <Avatar alt='Remy Sharp' src={photoUrl} variant='square' sx={{ width: '100%', height: 400, mt: 2 }} />
+            <Button
+              component='label'
+              variant='contained'
+              startIcon={<CloudUploadIcon />}
+              sx={{
+                backgroundColor: '#F8F6F4',
+                color: 'black',
+                '&:hover': {
                   backgroundColor: '#F8F6F4',
-                  color: 'black',
-                  '&:hover': {
-                    backgroundColor: '#F8F6F4',
-                    color: 'black'
-                  },
-                  mt: 2,
-                  ml: 22
+                  color: 'black'
+                },
+                mt: 2,
+                ml: 22
+              }}
+            >
+              Upload Certificate Image
+              <VisuallyHiddenInput
+                type='file'
+                accept='.jpg, .png'
+                onChange={(e) => {
+                  const file = e.target.files[0]
+                  let newFormData = new FormData()
+                  newFormData.append('photo', file)
+                  setFormData(newFormData)
+                  const reader = new FileReader()
+                  reader.readAsDataURL(file)
+                  reader.onloadend = () => {
+                    setPhotoUrl(reader.result)
+                  }
                 }}
-              >
-                Upload Certificate Image
-                <VisuallyHiddenInput
-                  type='file'
-                  accept='.jpg, .png'
-                  onChange={(e) => {
-                    const file = e.target.files[0]
-                    let newFormData = new FormData()
-                    newFormData.append('photo', file)
-                    setFormData(newFormData)
-                    const reader = new FileReader()
-                    reader.readAsDataURL(file)
-                    reader.onloadend = () => {
-                      setPhotoUrl(reader.result)
-                    }
-                  }}
-                />
-              </Button>
+              />
+            </Button>
           </Box>
         </RootModal>
-    </div>
-  ))
+      </div>
+    )
   )
 }

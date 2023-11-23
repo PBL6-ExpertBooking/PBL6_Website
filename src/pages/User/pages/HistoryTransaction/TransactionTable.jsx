@@ -25,6 +25,7 @@ import {
 import Label from '../../../../components/Label'
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
+import { useTranslation } from 'react-i18next'
 
 const getStatusLabel = (transaction) => {
   const map = {
@@ -68,8 +69,9 @@ const applyPagination = (cryptoOrders, page, limit) => {
 }
 
 const TransactionTable = ({ transaction }) => {
+  const { t } = useTranslation()
   const [page, setPage] = useState(0)
-  const [limit, setLimit] = useState(5)
+  const [limit, setLimit] = useState(10)
   const [filters, setFilters] = useState({
     status: null
   })
@@ -127,7 +129,7 @@ const TransactionTable = ({ transaction }) => {
         action={
           <Box width={150}>
             <FormControl fullWidth variant='outlined'>
-              <InputLabel>Status</InputLabel>
+              <InputLabel>{t('status')}</InputLabel>
               <Select value={filters.status || 'all'} onChange={handleStatusChange} label='Status' autoWidth>
                 {statusOptions.map((statusOption) => (
                   <MenuItem key={statusOption.id} value={statusOption.id}>
@@ -138,19 +140,19 @@ const TransactionTable = ({ transaction }) => {
             </FormControl>
           </Box>
         }
-        title='Recent Transactions'
+        title={t('recentTransaction')}
       />
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>To</TableCell>
-              <TableCell>Time</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell align='right'>Amount</TableCell>
-              <TableCell align='right'>Status</TableCell>
-              <TableCell align='right'>Actions</TableCell>
+              <TableCell>{t('to')}</TableCell>
+              <TableCell>{t('time')}</TableCell>
+              <TableCell>{t('type')}</TableCell>
+              <TableCell align='right'>{t('moneyAmount')}</TableCell>
+              <TableCell align='right'>{t('status')}</TableCell>
+              <TableCell align='right'>{t('action')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -167,7 +169,7 @@ const TransactionTable = ({ transaction }) => {
                     ) : (
                       <>
                         <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                          Me
+                          {t('me')}
                         </Typography>
                       </>
                     )}
@@ -189,7 +191,7 @@ const TransactionTable = ({ transaction }) => {
                   </TableCell>
                   <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction_status)}</TableCell>
                   <TableCell align='right'>
-                    <Tooltip title='Edit Order' arrow>
+                    <Tooltip title={t('edit')} arrow>
                       <IconButton
                         sx={{
                           '&:hover': {
@@ -203,7 +205,7 @@ const TransactionTable = ({ transaction }) => {
                         <EditTwoToneIcon fontSize='small' />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title='Delete Order' arrow>
+                    <Tooltip title={t('delete')} arrow>
                       <IconButton
                         sx={{
                           '&:hover': { background: theme.palette.error.lighter },
@@ -222,17 +224,6 @@ const TransactionTable = ({ transaction }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box p={2}>
-        <TablePagination
-          component='div'
-          count={filteredCryptoOrders.length}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
-          page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
-        />
-      </Box>
     </Card>
   )
 }

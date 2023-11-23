@@ -27,6 +27,7 @@ import Snackbar from '../../../../common/components/SnackBar'
 import DetailJobRequest from './DetailJobRequest'
 import PaymentConfirm from './PaymentConfirm'
 import RatingJob from './RatingJob'
+import { useTranslation } from 'react-i18next'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
@@ -54,6 +55,7 @@ const getStatusLabel = (jobStatus) => {
 }
 
 const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) => {
+  const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem('profile'))
   const { snack, setSnack } = useSnack()
   const [open, setOpen] = useState(false)
@@ -90,18 +92,18 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
       <Snackbar />
       {open && <DetailJobRequest open={open} setOpen={setOpen} id={id} />}
       {openPayment && <PaymentConfirm open={openPayment} setOpen={setOpenPayment} id={id} fetchData={fetchData} />}
-      {openReview && <RatingJob open={openReview} setOpen={setOpenReview} id={id} />}
+      {openReview && <RatingJob open={openReview} setOpen={setOpenReview} id={id} fetchData={fetchData} />}
       <Card>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Descriptions</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell>{t('title')}</TableCell>
+                <TableCell>{t('description')}</TableCell>
+                <TableCell>{t('price')}</TableCell>
+                <TableCell>{t('status')}</TableCell>
+                <TableCell>{t('address')}</TableCell>
+                <TableCell align='right'>{t('action')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -139,7 +141,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                     <TableCell align='right'>
                       {majorsOrder.status === 'PENDING' && (
                         <>
-                          <Tooltip title='Edit Request' arrow>
+                          <Tooltip title={t('edit')} arrow>
                             <IconButton
                               sx={{
                                 '&:hover': {
@@ -153,7 +155,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                               <EditTwoToneIcon fontSize='small' />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title='Delete Request' arrow>
+                          <Tooltip title={t('delete')} arrow>
                             <IconButton
                               sx={{
                                 '&:hover': { background: theme.palette.error.lighter },
@@ -169,7 +171,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                       )}
                       {majorsOrder.status === 'PROCESSING' && (
                         <>
-                          <Tooltip title='Detail Information' arrow>
+                          <Tooltip title={t('detailInfo')} arrow>
                             <IconButton
                               sx={{
                                 '&:hover': {
@@ -187,7 +189,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                               <VisibilityTwoToneIcon fontSize='small' />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title='Done!' arrow>
+                          <Tooltip title={t('done')} arrow>
                             <IconButton
                               sx={{
                                 '&:hover': {
@@ -215,7 +217,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                       )}
                       {majorsOrder.status === 'DONE' && (
                         <>
-                          <Tooltip title='Detail Information' arrow>
+                          <Tooltip title={t('detailInfo')} arrow>
                             <IconButton
                               sx={{
                                 '&:hover': {
@@ -234,7 +236,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                             </IconButton>
                           </Tooltip>
                           {!majorsOrder.time_payment ? (
-                            <Tooltip title='Pay Money' arrow>
+                            <Tooltip title={t('payMoney')} arrow>
                               <IconButton
                                 sx={{
                                   '&:hover': {
@@ -254,7 +256,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                             </Tooltip>
                           ) : (
                             !majorsOrder.is_reviewed && (
-                              <Tooltip title='Review' arrow>
+                              <Tooltip title={t('reviews')} arrow>
                                 <IconButton
                                   sx={{
                                     '&:hover': {

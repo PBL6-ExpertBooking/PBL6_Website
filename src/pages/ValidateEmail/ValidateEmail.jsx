@@ -5,6 +5,7 @@ import urlConfig from '../../config/UrlConfig'
 import { Box, Typography, Container, Button, styled } from '@mui/material'
 import confirmemail from '../../assets/images/confirmemail.png'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -19,6 +20,7 @@ const MainContent = styled(Box)(
 )
 
 function ValidateEmail() {
+  const { t } = useTranslation()
   const { token } = useParams()
   const [message, setMessage] = useState('')
   const validateEmail = async () => {
@@ -35,7 +37,7 @@ function ValidateEmail() {
   return (
     <>
       <Helmet>
-        <title>Validate Email</title>
+        <title>{t('validateEmail')}</title>
       </Helmet>
       <MainContent>
         <Container maxWidth='md'>
@@ -54,7 +56,7 @@ function ValidateEmail() {
           </Box>
           <Container maxWidth='sm' sx={{ textAlign: 'center', mt: 3, p: 4 }}>
             <Button href='/' variant='outlined'>
-              Go to homepage
+              {t('goToHome')}
             </Button>
           </Container>
         </Container>

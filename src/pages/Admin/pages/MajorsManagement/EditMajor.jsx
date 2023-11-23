@@ -5,7 +5,9 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 const EditMajor = ({ open, handleClose, fetchData, item }) => {
+  const { t } = useTranslation()
   const { snack, setSnack } = useSnackbar()
   const [major, setMajor] = useState({
     name: item.name,
@@ -36,7 +38,7 @@ const EditMajor = ({ open, handleClose, fetchData, item }) => {
       <Snackbar />
       <RootModal
         variant='Edit'
-        title='Edit Major'
+        title={t('editMajor')}
         open={open}
         handleClose={handleClose}
         handleOk={() => {
@@ -48,7 +50,7 @@ const EditMajor = ({ open, handleClose, fetchData, item }) => {
         <Stack spacing={2} direction='row' sx={{ width: '100%', my: 2 }}>
           <TextField
             id='outlined-basic'
-            label='Major Name'
+            label={t('majorName')}
             variant='outlined'
             fullWidth
             defaultValue={item.name}
@@ -61,7 +63,7 @@ const EditMajor = ({ open, handleClose, fetchData, item }) => {
           />
           <TextField
             id='outlined-basic'
-            label='Descriptions'
+            label={t('description')}
             variant='outlined'
             fullWidth
             defaultValue={item.descriptions}

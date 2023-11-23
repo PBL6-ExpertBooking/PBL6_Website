@@ -6,7 +6,9 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
+import { useTranslation } from 'react-i18next'
 export default function AdminSideNav() {
+  const { t } = useTranslation()
   const { collapseSidebar } = useProSidebar()
   const styleLink = {
     textDecoration: 'none',
@@ -16,16 +18,16 @@ export default function AdminSideNav() {
     <Sidebar style={{ height: '100%' }}>
       <Menu>
         <Link to={path.dashboard} style={styleLink}>
-          <MenuItem icon={<HomeRoundedIcon />}>DashBoard</MenuItem>
+          <MenuItem icon={<HomeRoundedIcon />}>{t('dashboard')}</MenuItem>
         </Link>
         <Link to={path.adminProfile} style={styleLink}>
-          <MenuItem icon={<AccountBoxIcon />}>Profile</MenuItem>
+          <MenuItem icon={<AccountBoxIcon />}>{t('profile')}</MenuItem>
         </Link>
         <Link to={path.adminListUser} style={styleLink}>
-          <MenuItem icon={<ManageAccountsIcon />}>Users Management</MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />}>{t('usersManagement')}</MenuItem>
         </Link>
         <Link to={path.adminListMajor} style={styleLink}>
-          <MenuItem icon={<ManageSearchIcon />}>Majors Management</MenuItem>
+          <MenuItem icon={<ManageSearchIcon />}>{t('majorsManagement')}</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}
@@ -34,7 +36,7 @@ export default function AdminSideNav() {
           }}
           style={styleLink}
         >
-          Collapse
+          {t('collapse')}
         </MenuItem>
       </Menu>
     </Sidebar>

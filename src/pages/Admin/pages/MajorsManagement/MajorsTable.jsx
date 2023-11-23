@@ -27,8 +27,10 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import Snackbar from '../../../../common/components/SnackBar'
 import useSnackbar from '../../../../contexts/snackbar.context'
+import { useTranslation } from 'react-i18next'
 
 const MajorsTable = ({ majorsOrder, fetchData }) => {
+  const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [openAdd, setOpenAdd] = useState(false)
@@ -87,21 +89,21 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
                 fullWidth
                 startIcon={<AddIcon />}
               >
-                Add Major
+                {t('addMajor')}
               </Button>
             </Box>
           }
-          title='Majors Management'
+          title={t('majorsManagement')}
         />
         <Divider />
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Major ID</TableCell>
-                <TableCell>Major Name</TableCell>
-                <TableCell>Descriptions</TableCell>
-                <TableCell align='right'>Actions</TableCell>
+                <TableCell>{t('majorId')}</TableCell>
+                <TableCell>{t('majorName')}</TableCell>
+                <TableCell>{t('description')}</TableCell>
+                <TableCell align='right'>{t('action')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -127,7 +129,7 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
                       </Typography>
                     </TableCell>
                     <TableCell align='right'>
-                      <Tooltip title='Edit Major' arrow>
+                      <Tooltip title={t('edit')} arrow>
                         <IconButton
                           sx={{
                             '&:hover': {
@@ -145,7 +147,7 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
                           <EditTwoToneIcon fontSize='small' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title='Delete Major' arrow>
+                      <Tooltip title={t('delete')} arrow>
                         <IconButton
                           sx={{
                             '&:hover': { background: theme.palette.error.lighter },

@@ -1,6 +1,7 @@
 import { Box, Typography, Container, Button, styled } from '@mui/material'
 import svg from '../../assets/images/promote.png'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -15,10 +16,11 @@ const MainContent = styled(Box)(
 )
 
 function NotFound() {
+  const { t } = useTranslation()
   return (
     <>
       <Helmet>
-        <title>Promote To Expert</title>
+        <title>{t('promoteExpert')}</title>
       </Helmet>
       <MainContent>
         <Container maxWidth='md'>
@@ -32,15 +34,15 @@ function NotFound() {
           >
             <img alt='404' height={400} src={svg} />
             <Typography variant='h2' sx={{ my: 2 }}>
-              Congrate! You are now an expert.
+              {t('promoteSuccess')}
             </Typography>
             <Typography variant='h4' color='text.secondary' fontWeight='normal' sx={{ mb: 4 }}>
-              Now you can accept job request from user and earn money.
+              {t('promoteMessage')}
             </Typography>
           </Box>
           <Container maxWidth='sm' sx={{ textAlign: 'center', mt: 3, p: 4 }}>
             <Button href='/login' variant='outlined'>
-              Go to login page
+              {t('goToLogin')}
             </Button>
           </Container>
         </Container>

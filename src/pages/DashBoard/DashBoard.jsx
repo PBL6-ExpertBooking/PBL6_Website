@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Card, Typography, TextField, InputAdornment, Stack, MenuItem, Button } from '@mui/material'
+import { Card, Typography, TextField, InputAdornment, Stack, MenuItem, Button, Box } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
 import SearchIcon from '@mui/icons-material/Search'
 import { MajorContext } from '../../contexts/major.context'
 import TopExpert from '../../components/TopExpert'
@@ -9,8 +10,10 @@ import urlConfig from '../../config/UrlConfig'
 import ListSearch from '../../components/ListSearch'
 import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 
 const DashBoard = () => {
+  const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
   const [major_id, setMajor_id] = useState('')
   const { majors, loading, getMajors } = useContext(MajorContext)
@@ -18,12 +21,10 @@ const DashBoard = () => {
   const [topExpert, setTopExpert] = useState([])
   const { snack, setSnack } = useSnackbar()
   const [isSearch, setIsSearch] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
-    // Fetch majors when this component mounts
     getMajors()
-
     fetchTop()
-    // setDefaultValue(majors.majors[0]._id)
   }, [])
   const handleChange = (event) => {
     setSearchTerm(event.target.value)
@@ -42,6 +43,7 @@ const DashBoard = () => {
       })
   }
   const handleSearch = async () => {
+    setIsLoading(true)
     setIsSearch(true)
     await AxiosInterceptors.get(urlConfig.user.searchExpert + `?major_id=${major_id}&search=${searchTerm}&limit=100`)
       .then((res) => {
@@ -54,6 +56,7 @@ const DashBoard = () => {
               message: 'Search successfully!',
               type: 'success'
             })
+            setIsLoading(false)
           }
         }
       })
@@ -70,7 +73,7 @@ const DashBoard = () => {
     <>
       <Snackbar />
       <Helmet>
-        <title>Dashboard</title>
+        <title>{t('dashboard')}</title>
       </Helmet>
       <Card
         sx={{
@@ -85,13 +88,13 @@ const DashBoard = () => {
         }}
       >
         <Typography variant='h1' sx={{ color: 'black' }}>
-          Discorver Top Experts
+          {t('discover')}
         </Typography>
         <Stack direction='row' spacing={3} sx={{ mt: 5, color: 'black' }}>
           <TextField
             id='search'
             type='search'
-            label='Find an expert'
+            label={t('searchTitle')}
             value={searchTerm}
             onChange={handleChange}
             sx={{ width: 600 }}
@@ -107,7 +110,7 @@ const DashBoard = () => {
             <TextField
               id='outlined-select-currency'
               select
-              label='Major'
+              label={t('major')}
               sx={{ width: 200 }}
               defaultValue=''
               onChange={(e) => setMajor_id(e.target.value)}
@@ -127,11 +130,30 @@ const DashBoard = () => {
               backgroundColor: 'black'
             }}
           >
-            Search
+            {t('search')}
           </Button>
         </Stack>
       </Card>
-      {isSearch ? <ListSearch listExpert={listExpert} /> : <TopExpert topExpert={topExpert} />}
+      {isSearch ? (
+        !isLoading ? (
+          <ListSearch listExpert={listExpert} />
+        ) : (
+          <Box
+            sx={{
+              width: '100%',
+              px: 10,
+              py: 20,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )
+      ) : (
+        <TopExpert topExpert={topExpert} />
+      )}
     </>
   )
 }

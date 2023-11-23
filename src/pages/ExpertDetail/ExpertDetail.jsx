@@ -20,8 +20,10 @@ import urlConfig from '../../config/UrlConfig'
 import { useParams } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Loading from '../../common/components/Loading/Loading'
+import { useTranslation } from 'react-i18next'
 
 const ExpertDetail = () => {
+  const { t } = useTranslation()
   const id = useParams()
   const [expert, setExpert] = useState({})
   const [review, setReview] = useState([{}])
@@ -54,7 +56,7 @@ const ExpertDetail = () => {
   return (
     <>
       <Helmet>
-        <title>Expert Detail</title>
+        <title>{t('expertDetails')}</title>
       </Helmet>
       {expert.user ? (
         <Box
@@ -90,12 +92,14 @@ const ExpertDetail = () => {
                   </div>
                   <div>
                     <Typography variant='h6' sx={{ mt: 2 }}>
-                      Average Rating
+                      {t('averageRating')}
                     </Typography>
                     <Typography variant='body1' sx={{ mt: 2 }}>
                       <Rating name='read-only' value={expert?.average_rating} readOnly />
                     </Typography>
-                    <Typography variant='subtitle2'>{expert.rating_count} đánh giá</Typography>
+                    <Typography variant='subtitle2'>
+                      {expert.rating_count} {t('reviews')}
+                    </Typography>
                   </div>
                 </Stack>
               </Grid>
@@ -113,7 +117,7 @@ const ExpertDetail = () => {
                   overflowX: 'hidden'
                 }}
               >
-                <CardHeader title='Bằng cấp' />
+                <CardHeader title={t('certificate')} />
                 <CardContent>
                   {expert.certificates?.map((certificate) => (
                     <Accordion>
@@ -140,7 +144,7 @@ const ExpertDetail = () => {
                   overflowX: 'hidden'
                 }}
               >
-                <CardHeader title='Đánh giá' />
+                <CardHeader title={t('reviews')} />
                 <CardContent>
                   <Stack direction='column' spacing={1}>
                     {review.map((item) => (

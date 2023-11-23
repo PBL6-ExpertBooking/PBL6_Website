@@ -5,8 +5,10 @@ import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
 import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import urlConfig from '../../config/UrlConfig'
+import { useTranslation } from 'react-i18next'
 
 const Recharge = ({ openRecharge, setOpenRecharge }) => {
+  const { t } = useTranslation()
   const { snack, setSnack } = useSnackbar()
   const [money, setMoney] = React.useState(0)
   const handleRecharge = async () => {
@@ -32,7 +34,7 @@ const Recharge = ({ openRecharge, setOpenRecharge }) => {
       <Snackbar />
       <RootModal
         variant='Create'
-        title='Recharge'
+        title={t('recharge')}
         open={openRecharge}
         handleClose={() => setOpenRecharge(false)}
         handleOk={() => handleRecharge()}
@@ -40,11 +42,11 @@ const Recharge = ({ openRecharge, setOpenRecharge }) => {
       >
         <Box sx={{ my: 3 }}>
           <FormControl fullWidth>
-            <InputLabel htmlFor='outlined-adornment-amount'>Money Amount</InputLabel>
+            <InputLabel htmlFor='outlined-adornment-amount'>{t('moneyAmount')}</InputLabel>
             <OutlinedInput
               id='outlined-adornment-amount'
               startAdornment={<InputAdornment position='start'>đ</InputAdornment>}
-              label='Money Amount'
+              label={t('moneyAmount')}
               type='number'
               onChange={(e) => setMoney(e.target.value)}
             />

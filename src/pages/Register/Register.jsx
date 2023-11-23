@@ -11,6 +11,7 @@ import image from '../../assets/images/login.png'
 import axios from 'axios'
 import urlConfig from '../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ const StyledContent = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function RegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [firstname, setFirstname] = useState('')
@@ -79,7 +81,7 @@ export default function RegisterPage() {
   return (
     <>
       <Helmet>
-        <title>Register</title>
+        <title>{t('register')}</title>
       </Helmet>
       <Snackbar />
       <StyledRoot>
@@ -90,13 +92,19 @@ export default function RegisterPage() {
         )}
         <Container maxWidth='sm'>
           <StyledContent>
-            <Typography variant='h4' gutterBottom>
-              SIGN UP
+            <Typography
+              variant='h4'
+              gutterBottom
+              sx={{
+                textTransform: 'uppercase'
+              }}
+            >
+              {t('signUp')}
             </Typography>
             <Stack spacing={3}>
               <TextField
                 name='username'
-                label='Username'
+                label={t('username')}
                 required
                 onChange={(e) => {
                   setUsername(e.target.value)
@@ -105,7 +113,7 @@ export default function RegisterPage() {
               <Stack direction='row' alignItems='center' justifyContent='space-between' sx={{ my: 2 }}>
                 <TextField
                   name='name'
-                  label='First Name'
+                  label={t('firstName')}
                   required
                   onChange={(e) => {
                     setFirstname(e.target.value)
@@ -113,7 +121,7 @@ export default function RegisterPage() {
                 />
                 <TextField
                   name='surname'
-                  label='Last Name'
+                  label={t('lastName')}
                   required
                   onChange={(e) => {
                     setLastname(e.target.value)
@@ -130,7 +138,7 @@ export default function RegisterPage() {
               />
               <TextField
                 name='password'
-                label='Password'
+                label={t('password')}
                 type='password'
                 onChange={(e) => {
                   setPassword(e.target.value)
@@ -138,7 +146,7 @@ export default function RegisterPage() {
               />
               <TextField
                 name='passwordconfirm'
-                label='Password Confirm'
+                label={t('passwordConfirm')}
                 type='password'
                 onChange={(e) => {
                   setConfirmPassword(e.target.value)
@@ -146,12 +154,12 @@ export default function RegisterPage() {
               />
             </Stack>
             <Button size='large' color='inherit' variant='outlined' sx={{ my: 2 }} onClick={register}>
-              Register
+              {t('register')}
             </Button>
             <Typography variant='body2' sx={{ mb: 5 }}>
-              Already a member?{' '}
+              {t('alreadyMember')}{' '}
               <Link variant='subtitle2' href='/login'>
-                Sign In
+                {t('signIn')}
               </Link>
             </Typography>
           </StyledContent>

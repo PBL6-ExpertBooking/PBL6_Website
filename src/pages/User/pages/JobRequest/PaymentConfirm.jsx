@@ -1,12 +1,14 @@
 import React from 'react'
 import Rootmodal from '../../../../components/Modal/RootModal'
-import { Container, Typography } from '@mui/material'
+import { Container } from '@mui/material'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 
 const PaymentConfirm = ({ id, open, setOpen, fetchData }) => {
+  const { t } = useTranslation()
   const { snack, setSnack } = useSnack()
   const handlePayment = async (id) => {
     let id_transaction = ''
@@ -45,10 +47,10 @@ const PaymentConfirm = ({ id, open, setOpen, fetchData }) => {
   }
   return (
     <>
-      <Snackbar />
+      <Snackbar />  
       <Rootmodal
         variant='Info'
-        title='Do you want to confirm this payment?'
+        title={t('paymentConfirm')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={() => handlePayment(id)}
