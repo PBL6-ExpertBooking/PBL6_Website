@@ -307,39 +307,19 @@ const Header = () => {
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
               <Tooltip title={t('notifications')} arrow>
-                <Fab
-                  size='small'
-                  aria-label='notifi'
-                  sx={{
-                    backgroundColor: '#D2E9E9 '
-                  }}
-                >
+                <Fab size='small' aria-label='notifi'>
                   <NotificationsIcon />
                 </Fab>
               </Tooltip>
               {user.role === 'USER' && (
                 <>
                   <Tooltip title={t('createRequest')} arrow>
-                    <Fab
-                      size='small'
-                      aria-label='add'
-                      sx={{
-                        backgroundColor: '#D2E9E9 '
-                      }}
-                      onClick={() => setOpen(true)}
-                    >
+                    <Fab size='small' aria-label='add' onClick={() => setOpen(true)}>
                       <AddIcon />
                     </Fab>
                   </Tooltip>
                   <Tooltip title={t('recharge')} arrow>
-                    <Fab
-                      size='small'
-                      aria-label='recharge'
-                      sx={{
-                        backgroundColor: '#D2E9E9 '
-                      }}
-                      onClick={() => setOpenRecharge(true)}
-                    >
+                    <Fab size='small' aria-label='recharge' onClick={() => setOpenRecharge(true)}>
                       <AttachMoneyIcon />
                     </Fab>
                   </Tooltip>
@@ -348,21 +328,14 @@ const Header = () => {
               {user.role === 'EXPERT' && (
                 <>
                   <Tooltip title='Add Certificate' arrow>
-                    <Fab
-                      size='small'
-                      aria-label='add'
-                      sx={{
-                        backgroundColor: '#D2E9E9 '
-                      }}
-                      onClick={() => setOpenAddCertificate(true)}
-                    >
+                    <Fab size='small' aria-label='add' onClick={() => setOpenAddCertificate(true)}>
                       <AddIcon />
                     </Fab>
                   </Tooltip>
                 </>
               )}
-              <HeaderUserbox />
               <LanguaguePopover />
+              <HeaderUserbox />
             </Box>
           </Stack>
         </div>

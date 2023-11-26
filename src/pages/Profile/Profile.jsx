@@ -1,21 +1,17 @@
 import {
   Box,
   Stack,
-  Avatar,
   Button,
   TextField,
   Typography,
   Card,
-  FormControlLabel,
-  Checkbox,
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Grid
 } from '@mui/material'
 import React, { useState, useEffect } from 'react'
-import { styled } from '@mui/material/styles'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import urlConfig from '../../config/UrlConfig'
 import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
@@ -29,19 +25,9 @@ import Axios from 'axios'
 import { lazy } from 'react'
 import Loading from '../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
+import UploadAvatar from '../../components/UploadAvatar/UploadAvatar'
 
 const BecomeExpert = lazy(() => import('../User/components/BecomeExpert'))
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1
-})
 
 const Profile = () => {
   const { t } = useTranslation()
@@ -178,331 +164,300 @@ const Profile = () => {
           <title>{t('profile')}</title>
         </Helmet>
         <Snackbar />
-        <Card
+        <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            backgroundColor: '#D2E9E9 ',
-            padding: '20px',
-            margin: '20px 100px'
+            margin: '20px 100px',
+            backgroundColor: 'transparent'
           }}
         >
-          <Stack
-            spacing={2}
-            direction='row'
-            sx={{
-              width: '100%'
-            }}
-          >
-            <Stack
-              spacing={5}
-              direction='column'
-              alignItems='center'
-              justifyContent='center'
-              sx={{
-                width: '50%'
-              }}
-            >
-              <Avatar alt='Remy Sharp' src={information.photo_url} sx={{ width: 250, height: 250 }} />
-              <Box>
-                <Button
-                  component='label'
-                  variant='contained'
-                  startIcon={<CloudUploadIcon />}
-                  sx={{
-                    backgroundColor: '#F8F6F4',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: '#F8F6F4',
-                      color: 'black'
-                    }
-                  }}
-                >
-                  {t('uploadPhoto')}
-                  <VisuallyHiddenInput
-                    type='file'
-                    accept='.jpg, .png'
-                    onChange={(e) => {
-                      const file = e.target.files[0]
-                      let newFormData = new FormData()
-                      newFormData.append('photo', file)
-                      setFormData(newFormData)
-                      const reader = new FileReader()
-                      reader.readAsDataURL(file)
-                      reader.onloadend = () => {
-                        setInformation({
-                          ...information,
-                          photo_url: reader.result
-                        })
-                      }
-                    }}
-                  />
-                </Button>
-              </Box>
-            </Stack>
-            <Box sx={{ display: 'block', width: '100%' }}>
-              <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-                {t('changeProfile')}
-              </Typography>
-              <Box component='form' noValidate autoComplete='off'>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
-                  }}
-                >
-                  <TextField
-                    fullWidth
-                    required
-                    id='outlined-required'
-                    label={t('username')}
-                    defaultValue={information.username}
-                    disabled
-                  />
-                  <TextField
-                    fullWidth
-                    required
-                    id='outlined-required'
-                    label='Email'
-                    defaultValue={information.email}
-                    disabled
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
-                  }}
-                >
-                  <TextField
-                    required
-                    id='outlined-required'
-                    label={t('firstName')}
-                    defaultValue={information.first_name}
-                    onChange={(e) => {
-                      setInformation({
-                        ...information,
-                        first_name: e.target.value
-                      })
-                    }}
-                  />
-                  <TextField
-                    required
-                    id='outlined-required'
-                    label={t('lastName')}
-                    defaultValue={information.last_name}
-                    onChange={(e) => {
-                      setInformation({
-                        ...information,
-                        last_name: e.target.value
-                      })
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '29%' }
-                  }}
-                >
-                  <TextField
-                    id='outlined-number'
-                    label={t('phoneNumber')}
-                    type='number'
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    defaultValue={information.phone}
-                    onChange={(e) => {
-                      setInformation({
-                        ...information,
-                        phone: e.target.value
-                      })
-                    }}
-                  />
-                  <FormControl sx={{ width: '29%', m: 2 }}>
-                    <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
-                    <Select
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      label={t('gender')}
-                      defaultValue={information.gender ? 1 : 0}
-                      onChange={(e) => {
-                        setInformation({
-                          ...information,
-                          gender: e.target.value === 1 ? true : false
-                        })
-                      }}
-                    >
-                      <MenuItem value={0}>{t('male')}</MenuItem>
-                      <MenuItem value={1}>{t('female')}</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
-                    <DateField
-                      label={t('dateOfBirth')}
-                      value={dayjs(information.DoB)}
-                      onChange={(newValue) =>
-                        setInformation({
-                          ...information,
-                          DoB: newValue
-                        })
-                      }
-                    />
-                  </LocalizationProvider>
-                </Box>
-                <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
-                  <TextField
-                    id='outlined-select-currency'
-                    select
-                    label={t('city')}
-                    defaultValue={information.address?.city?.name}
-                    sx={{
-                      width: '30%'
-                    }}
-                  >
-                    {tinh.map((option) => (
-                      <MenuItem
-                        key={option.code}
-                        value={option.name}
-                        onClick={(e) => {
-                          setInformation({
-                            ...information,
-                            address: {
-                              ...information.address,
-                              city: {
-                                code: option.code,
-                                name: option.name
-                              }
-                            }
-                          })
-                        }}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    id='outlined-select-currency'
-                    select
-                    label={t('district')}
-                    defaultValue={information.address?.district?.name}
-                    sx={{
-                      width: '30%'
-                    }}
-                  >
-                    {huyen?.map((option) => (
-                      <MenuItem
-                        key={option.code}
-                        value={option.name}
-                        onClick={(e) => {
-                          setInformation({
-                            ...information,
-                            address: {
-                              ...information.address,
-                              district: {
-                                code: option.code,
-                                name: option.name
-                              }
-                            }
-                          })
-                        }}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    id='outlined-select-currency'
-                    select
-                    label={t('ward')}
-                    defaultValue={information.address?.ward?.name}
-                    sx={{
-                      width: '30%'
-                    }}
-                  >
-                    {xa?.map((option) => (
-                      <MenuItem
-                        key={option.code}
-                        value={option.name}
-                        onClick={(e) => {
-                          setInformation({
-                            ...information,
-                            address: {
-                              ...information.address,
-                              ward: {
-                                code: option.code,
-                                name: option.name
-                              }
-                            }
-                          })
-                        }}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Stack>
-              </Box>
-              <Stack
-                spacing={1}
-                direction='row'
-                alignItems='center'
-                justifyContent='flex-end'
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card
                 sx={{
-                  mt: 2,
-                  marginRight: '2rem'
+                  py: 10,
+                  px: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  backgroundColor: '#D2E9E9 '
                 }}
               >
+                <UploadAvatar
+                  file={information.photo_url}
+                  setFormData={setFormData}
+                  information={information}
+                  setInformation={setInformation}
+                />
+                <Typography
+                  variant='caption'
+                  sx={{
+                    mt: 2,
+                    mx: 'auto',
+                    display: 'block',
+                    textAlign: 'center',
+                    color: 'text.secondary'
+                  }}
+                >
+                  Allowed *.jpg, *.png
+                  <br /> max size of 3.5MB
+                </Typography>
                 <Button
                   variant='contained'
                   component='label'
-                  onClick={updateData}
+                  color='error'
                   sx={{
-                    backgroundColor: '#F8F6F4',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: '#F8F6F4',
-                      color: 'black'
-                    }
+                    mt: 2,
+                    mx: 'auto'
                   }}
                 >
-                  {t('saveChanges')}
+                  {t('deleteAccount')}
                 </Button>
-                <Button variant='contained' component='label' color='error'>
-                  {t('reset')}
-                </Button>
-              </Stack>
-            </Box>
-          </Stack>
-        </Card>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Card sx={{ p: 3, height: '100%', backgroundColor: '#D2E9E9 ' }}>
+                <Box sx={{ display: 'block', width: '100%' }}>
+                  <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
+                    {t('changeProfile')}
+                  </Typography>
+                  <Box component='form' noValidate autoComplete='off'>
+                    <Box
+                      sx={{
+                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        required
+                        id='outlined-required'
+                        label={t('username')}
+                        defaultValue={information.username}
+                        disabled
+                      />
+                      <TextField
+                        fullWidth
+                        required
+                        id='outlined-required'
+                        label='Email'
+                        defaultValue={information.email}
+                        disabled
+                      />
+                    </Box>
+
+                    <Box
+                      sx={{
+                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                      }}
+                    >
+                      <TextField
+                        required
+                        id='outlined-required'
+                        label={t('firstName')}
+                        defaultValue={information.first_name}
+                        onChange={(e) => {
+                          setInformation({
+                            ...information,
+                            first_name: e.target.value
+                          })
+                        }}
+                      />
+                      <TextField
+                        required
+                        id='outlined-required'
+                        label={t('lastName')}
+                        defaultValue={information.last_name}
+                        onChange={(e) => {
+                          setInformation({
+                            ...information,
+                            last_name: e.target.value
+                          })
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        '& .MuiTextField-root': { m: 2, width: '29%' }
+                      }}
+                    >
+                      <TextField
+                        id='outlined-number'
+                        label={t('phoneNumber')}
+                        type='number'
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        defaultValue={information.phone}
+                        onChange={(e) => {
+                          setInformation({
+                            ...information,
+                            phone: e.target.value
+                          })
+                        }}
+                      />
+                      <FormControl sx={{ width: '29%', m: 2 }}>
+                        <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          label={t('gender')}
+                          defaultValue={information.gender ? 1 : 0}
+                          onChange={(e) => {
+                            setInformation({
+                              ...information,
+                              gender: e.target.value === 1 ? true : false
+                            })
+                          }}
+                        >
+                          <MenuItem value={0}>{t('male')}</MenuItem>
+                          <MenuItem value={1}>{t('female')}</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                      <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
+                        <DateField
+                          label={t('dateOfBirth')}
+                          value={dayjs(information.DoB)}
+                          onChange={(newValue) =>
+                            setInformation({
+                              ...information,
+                              DoB: newValue
+                            })
+                          }
+                        />
+                      </LocalizationProvider>
+                    </Box>
+                    <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
+                      <TextField
+                        id='outlined-select-currency'
+                        select
+                        label={t('city')}
+                        defaultValue={information.address?.city?.name}
+                        sx={{
+                          width: '30%'
+                        }}
+                      >
+                        {tinh.map((option) => (
+                          <MenuItem
+                            key={option.code}
+                            value={option.name}
+                            onClick={(e) => {
+                              setInformation({
+                                ...information,
+                                address: {
+                                  ...information.address,
+                                  city: {
+                                    code: option.code,
+                                    name: option.name
+                                  }
+                                }
+                              })
+                            }}
+                          >
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <TextField
+                        id='outlined-select-currency'
+                        select
+                        label={t('district')}
+                        defaultValue={information.address?.district?.name}
+                        sx={{
+                          width: '30%'
+                        }}
+                      >
+                        {huyen?.map((option) => (
+                          <MenuItem
+                            key={option.code}
+                            value={option.name}
+                            onClick={(e) => {
+                              setInformation({
+                                ...information,
+                                address: {
+                                  ...information.address,
+                                  district: {
+                                    code: option.code,
+                                    name: option.name
+                                  }
+                                }
+                              })
+                            }}
+                          >
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <TextField
+                        id='outlined-select-currency'
+                        select
+                        label={t('ward')}
+                        defaultValue={information.address?.ward?.name}
+                        sx={{
+                          width: '30%'
+                        }}
+                      >
+                        {xa?.map((option) => (
+                          <MenuItem
+                            key={option.code}
+                            value={option.name}
+                            onClick={(e) => {
+                              setInformation({
+                                ...information,
+                                address: {
+                                  ...information.address,
+                                  ward: {
+                                    code: option.code,
+                                    name: option.name
+                                  }
+                                }
+                              })
+                            }}
+                          >
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Stack>
+                  </Box>
+                  <Stack
+                    spacing={1}
+                    direction='row'
+                    alignItems='center'
+                    justifyContent='flex-end'
+                    sx={{
+                      mt: 3,
+                      marginRight: '2rem'
+                    }}
+                  >
+                    <Button
+                      variant='contained'
+                      component='label'
+                      onClick={updateData}
+                      sx={{
+                        backgroundColor: '#F8F6F4',
+                        color: 'black',
+                        '&:hover': {
+                          backgroundColor: '#F8F6F4',
+                          color: 'black'
+                        }
+                      }}
+                    >
+                      {t('saveChanges')}
+                    </Button>
+                    <Button variant='contained' component='label' color='error'>
+                      {t('reset')}
+                    </Button>
+                  </Stack>
+                </Box>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
         {user.role === 'USER' && <BecomeExpert />}
-        <Card
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#D2E9E9 ',
-            padding: '20px',
-            margin: '20px 100px'
-          }}
-        >
-          <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-            {t('deleteAccount')}
-          </Typography>
-          <FormControlLabel control={<Checkbox />} label={t('deleteAccountMessage')} sx={{ marginLeft: '1.5rem' }} />
-          <Stack
-            spacing={1}
-            direction='row'
-            alignItems='center'
-            justifyContent='flex-end'
-            sx={{
-              marginRight: '2rem'
-            }}
-          >
-            <Button variant='contained' component='label' color='error'>
-              {t('delete')}
-            </Button>
-          </Stack>
-        </Card>
       </div>
     ))
   )

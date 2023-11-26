@@ -59,7 +59,8 @@ export default function LanguagePopover() {
           width: 48,
           height: 48,
           mr: isMobile ? 1 : 2,
-          backgroundColor: '#D2E9E9 '
+          boxShadow:
+            '0px 3px 5px -1px rgba(145, 158, 171, 0.2), 0px 6px 10px 0px rgba(145, 158, 171, 0.14), 0px 1px 18px 0px rgba(145, 158, 171, 0.12)'
         }}
       >
         <img src={currentLang.value === 'vi' ? vnIcon : enIcon} alt={currentLang.label} width={28} height={20} />
