@@ -77,7 +77,9 @@ const DashBoard = () => {
       </Helmet>
       <Card
         sx={{
-          backgroundImage: 'conic-gradient(white, gray, #D2E9E9, white)',
+          backgroundImage: 'url(https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_7.jpg)',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
