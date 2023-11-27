@@ -20,7 +20,7 @@ const EditMajor = ({ open, handleClose, fetchData, item }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Edit major successfully!',
+          message: t('editMajorSuccess'),
           type: 'success'
         })
       })
@@ -28,7 +28,7 @@ const EditMajor = ({ open, handleClose, fetchData, item }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Edit major failed!',
+          message: t('editMajorFail'),
           type: 'error'
         })
       )

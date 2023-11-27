@@ -21,8 +21,10 @@ import urlConfig from '../../../../config/UrlConfig'
 import { useNavigate } from 'react-router-dom'
 import path from '../../../../constants/path'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const ChangePassword = () => {
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -42,7 +44,7 @@ const ChangePassword = () => {
     if (newPassword !== confirmPassword) {
       setSnack({
         open: true,
-        message: 'New password and confirm password must match',
+        message: t('passwordMustMatch'),
         type: 'error'
       })
       handleResetForm()
@@ -57,7 +59,7 @@ const ChangePassword = () => {
       .then((res) => {
         setSnack({
           open: true,
-          message: 'Update password successfully',
+          message: t('updatePasswordSuccess'),
           type: 'success'
         })
         navigate(path.expertProfile)
@@ -66,7 +68,7 @@ const ChangePassword = () => {
         console.log(err)
         setSnack({
           open: true,
-          message: `${err.response.data.message}`,
+          message: t('updatePasswordFail'),
           type: 'error'
         })
       })
@@ -91,7 +93,7 @@ const ChangePassword = () => {
         }}
       >
         <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-          Change Password
+        {t('changePassword')}
         </Typography>
         <FormControl
           variant='outlined'
@@ -100,7 +102,7 @@ const ChangePassword = () => {
             width: '48%'
           }}
         >
-          <InputLabel htmlFor='outlined-adornment-password'>Current Password</InputLabel>
+          <InputLabel htmlFor='outlined-adornment-password'>{t('currentPassword')}</InputLabel>
           <OutlinedInput
             id='outlined-adornment-password'
             type={showPassword ? 'text' : 'password'}
@@ -136,7 +138,7 @@ const ChangePassword = () => {
               width: '48%'
             }}
           >
-            <InputLabel htmlFor='outlined-adornment-password'>New Password</InputLabel>
+            <InputLabel htmlFor='outlined-adornment-password'>{t('newPassword')}</InputLabel>
             <OutlinedInput
               id='outlined-adornment-password'
               type={showPassword ? 'text' : 'password'}
@@ -164,7 +166,7 @@ const ChangePassword = () => {
               width: '48%'
             }}
           >
-            <InputLabel htmlFor='outlined-adornment-password'>Confirm New Password</InputLabel>
+            <InputLabel htmlFor='outlined-adornment-password'>{t('confirmNewPassword')}</InputLabel>
             <OutlinedInput
               id='outlined-adornment-password'
               type={showPassword ? 'text' : 'password'}
@@ -187,16 +189,16 @@ const ChangePassword = () => {
           </FormControl>
         </Box>
         <Typography variant='subtitle1' sx={{ margin: '1rem' }}>
-          Password Requirements:
+          {t('passwordRequirements')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - Minimum 8 characters long - the more, the better
+          - {t('passwordRequirements.1')}         
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - At least one lowercase & one uppercase character
+          - {t('passwordRequirements.2')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - At least one number, symbol, or whitespace character
+          - {t('passwordRequirements.3')}
         </Typography>
         <Stack
           spacing={1}
@@ -208,10 +210,10 @@ const ChangePassword = () => {
           }}
         >
           <Button variant='contained' component='label' onClick={handleUpdatePassword}>
-            Save Change
+            {t('saveChanges')}
           </Button>
           <Button variant='contained' component='label' color='error' onClick={handleResetForm}>
-            Reset
+            {t('reset')}
           </Button>
         </Stack>
       </Card>

@@ -21,6 +21,7 @@
   "registerNow": "Đăng ký ngay",
   "firstName": "Tên",
   "lastName": "Họ",
+  "fullName": "Họ và tên",
   "passwordConfirm": "Xác nhận mật khẩu",
   "alreadyMember": "Đã có tài khoản?",
   "major": "Chuyên ngành",
@@ -123,5 +124,102 @@
   "to": "Đến",
   "time": "Thời gian",
   "type": "Loại",
-  "me": "Tôi"
+  "me": "Tôi",
+
+  "listJobRequests": "Danh sách yêu cầu",
+  "myBookings": "Công việc đã nhận",
+  "certificateInformation": "Thông tin bằng cấp",
+  "certificateName": "Tên bằng cấp",
+  "confirmed": "Đã xác nhận",
+  "unconfirmed": "Chưa xác nhận",
+
+  "adminProfile": "Thông tin quản trị viên",
+  "userProfile": "Thông tin người dùng",
+  "expertProfile": "Thông tin chuyên gia",
+  "chooseMajor": "Chọn chuyên ngành",
+  "showDetail": "Xem chi tiết",
+  "role": "Quyền hạn",
+  "verify": "Xác nhận",
+  "userManagement": "Quản lý người dùng",
+  "unlock": "Mở khóa",
+  "lock": "Khóa",
+  "active": "Đã kích hoạt",
+  "unactive": "Chưa kích hoạt",
+  "cancel": "Hủy",
+
+  "USER": "Người dùng",
+  "EXPERT": "Chuyên gia",
+  "ADMIN": "Quản trị viên",
+  "YES": "Đã xác nhận",
+  "NO": "Chưa xác nhận",
+
+  "createJobRequestSuccess": "Tạo yêu cầu công việc thành công!",
+  "createJobRequestFail": "Tạo yêu cầu công việc không thành công!",
+
+  "acceptJobRequestSuccess": "Chấp nhận yêu cầu công việc thành công!",
+  "acceptJobRequestFail": "Chấp nhận yêu cầu công việc không thành công!",
+
+  "deleteJobRequestSuccess": "Xóa yêu cầu công việc thành công!",
+  "deleteJobRequestFail": "Xóa yêu cầu công việc không thành công!",
+
+  "rechargeFailed": "Nạp tiền không thành công!",
+
+  "updateAccountSuccess": "Cập nhật thông tin tài khoản thành công!",
+  "updateAccountFail": "Cập nhật thông tin tài khoản không thành công!",
+
+  "addNewMajorSuccess": "Thêm mới chuyên ngành thành công!",
+  "addNewMajorFail": "Thêm mới chuyên ngành không thành công!",
+
+  "editMajorSuccess": "Cập nhật thông tin chuyên ngành thành công!",
+  "editMajorFail": "Cập nhật thông tin chuyên ngành không thành công!",
+
+  "deleteMajorSuccess": "Xóa chuyên ngành thành công!",
+  "deleteMajorFail": "Xóa chuyên ngành không thành công!",
+
+  "unlockedAccountSuccess": "Mở khóa tài khoản thành công!",
+  "unlockedAccountFail": "Mở khóa tài khoản không thành công!",
+
+  "lockedAccountSuccess": "Khóa tài khoản thành công!",
+  "lockedAccountFail": "Khóa tài khoản không thành công!",
+
+  "searchSuccess": "Tìm kiếm thành công!",
+  "searchFail": "Tìm kiếm không thành công!",
+
+  "cancelJobRequestSuccess": "Hủy yêu cầu công việc thành công!",
+  "cancelJobRequestFail": "Hủy yêu cầu công việc không thành công!",
+
+  "deleteCertificateSuccess": "Xóa thông tin bằng cấp thành công!",
+  "deleteCertificateFail": "Xóa thông tin bằng cấp không thành công!",
+
+  "createCertificateSuccess": "Tạo thông tin bằng cấp thành công!",
+  "createCertificateFail": "Tạo thông tin bằng cấp không thành công!",
+
+  "passwordMustMatch": "Mật khẩu mới và mật khẩu xác nhận phải trùng khớp!",
+
+  "updatePasswordSuccess": "Cập nhật mật khẩu thành công!",
+  "updatePasswordFail": "Cập nhật mật khẩu không thành công!",
+
+  "updateProfileSuccess": "Cập nhật thông tin cá nhân thành công!",
+  "updateProfileFail": "Cập nhật thông tin cá nhân không thành công!",
+
+  "promoteToExpertSuccess": "Chúc mừng bạn trở thành chuyên gia thành công!",
+  "promoteToExpertFail": "Có một vài lỗi đã xảy ra, vui lòng thử lại sau!",
+
+  "pleaseAgreeToTheTermAndCondition": "Vui lòng đồng ý với các điều khoản và điều kiện",
+
+  "confirmPasswordIsNotMatch": "Mật khẩu xác nhận không khớp!",
+  "newPasswordMustBeDiffFromOldPassword": "Mật khẩu mới phải khác với mật khẩu cũ!",
+
+  "changePasswordSuccess": "Đổi mật khẩu thành công!",
+  "changePasswordFail": "Đổi mật khẩu không thành công!",
+
+  "changeStatusSuccess": "Thay đổi trạng thái thành công!",
+  "changeStatusFail": "Thay đổi trạng thái không thành công!",
+
+  "yourBalanceIsNotEnough": "Số dư của bạn không đủ!",
+
+  "paymentSuccess": "Thanh toán thành công!",
+  "paymentFail": "Thanh toán không thành công!",
+
+  "reviewSuccess": "Nhận xét thành công!"
 }

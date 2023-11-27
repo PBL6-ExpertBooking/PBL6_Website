@@ -25,7 +25,7 @@ const PaymentConfirm = ({ id, open, setOpen, fetchData }) => {
               setSnack({
                 ...snack,
                 open: true,
-                message: 'Payment successfully!',
+                message: t('paymentSuccess'),
                 type: 'success'
               })
               setOpen(false)
@@ -36,7 +36,7 @@ const PaymentConfirm = ({ id, open, setOpen, fetchData }) => {
             setSnack({
               ...snack,
               open: true,
-              message: 'Payment failed!',
+              message: t('paymentFail'),
               type: 'error'
             })
           })

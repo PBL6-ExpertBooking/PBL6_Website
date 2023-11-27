@@ -16,11 +16,13 @@ import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
+import { useTranslation } from 'react-i18next'
 
 const CertificateInfo = (props) => {
   const [certificate, setCertificate] = useState(props.certificate)
   const [majors, setMajors] = useState(props.majors)
   const { snack, setSnack } = useSnackbar()
+  const { t } = useTranslation()
 
   const handleDeleteCertificate = async () => {
     await AxiosInterceptors.delete(urlConfig.certificate.deleteCertificate + `/${certificate._id}`)
@@ -28,7 +30,7 @@ const CertificateInfo = (props) => {
       setSnack({
         ...snack,
         open: true,
-        message: 'Delete certificate successfully',
+        message: t('deleteCertificateSuccess'),
         type: 'success'
       })
       props.setRefresh(!props.refresh)
@@ -38,7 +40,7 @@ const CertificateInfo = (props) => {
       setSnack({
         ...snack,
         open: true,
-        message: 'Delete certificate request failed',
+        message: t('deleteCertificateFail'),
         type: 'error'
       })
     })
@@ -66,7 +68,7 @@ const CertificateInfo = (props) => {
           >
             <Box sx={{ display: 'block', width: '100%' }}>
               <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-                Certificate Information
+                {t('certificateInformation')}
               </Typography>
               <Box component='form' noValidate autoComplete='off'>
                 <Box
@@ -74,8 +76,8 @@ const CertificateInfo = (props) => {
                     '& .MuiTextField-root': { m: 2, width: '45%' }
                   }}
                 >
-                  <FormControl sx={{ width: '45%', m: 2 }}>
-                    <InputLabel id='demo-simple-select-label'>Major</InputLabel>
+                  <FormControl sx={{ width: '49%', m: 2 }}>
+                    <InputLabel id='demo-simple-select-label'>{t('major')}</InputLabel>
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
@@ -102,15 +104,15 @@ const CertificateInfo = (props) => {
                     fullWidth
                     required
                     id='outlined-required'
-                    label='Status'
+                    label={t('status')}
                     disabled
-                    defaultValue={certificate.isVerified ? 'Confirmed' : 'Unconfirmed'}
+                    defaultValue={certificate.isVerified ? t('confirmed') : t('unconfirmed')}
                   />
                 </Box>
 
                 <Box
                   sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
+                    '& .MuiTextField-root': { m: 2, width: '49%' }
                   }}
                 >
                   <Stack
@@ -123,7 +125,7 @@ const CertificateInfo = (props) => {
                     <TextField
                       required
                       id='outlined-required'
-                      label='Certificate name'
+                      label={t('certificateName')}
                       disabled
                       value={certificate.name}
                       onChange={(e) =>
@@ -153,12 +155,12 @@ const CertificateInfo = (props) => {
                 </Box>
                 <Box
                   sx={{
-                    '& .MuiTextField-root': { m: 2, width: '100%' }
+                    '& .MuiTextField-root': { m: 2, width: '96.5%' }
                   }}
                 >
                   <TextField
                     id='outlined-multiline-static'
-                    label='Description'
+                    label={t('description')}
                     multiline
                     rows={4}
                     disabled
@@ -194,7 +196,7 @@ const CertificateInfo = (props) => {
                     }
                   }}
                 >
-                  Delete
+                  {t('delete')}
                 </Button>
               </Stack>
             </Box>

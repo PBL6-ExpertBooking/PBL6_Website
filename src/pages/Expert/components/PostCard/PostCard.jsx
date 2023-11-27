@@ -4,15 +4,19 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
+
 export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
   const { snack, setSnack } = useSnackbar()
+  const { t } = useTranslation()
+
   const handleAccept = async () => {
     await AxiosInterceptors.post(urlConfig.job_requests.updateJobRequests + `/${jobRequest._id}/accept`)
       .then((res) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Accept job request successfully',
+          message: t('acceptJobRequestSuccess'),
           type: 'success'
         })
         setRefresh(!refresh)
@@ -21,7 +25,7 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Accept job request failed',
+          message: t('acceptJobRequestFail'),
           type: 'error'
         })
       })
@@ -32,7 +36,7 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Delete job request successfully',
+          message: t('deleteJobRequestSuccess'),
           type: 'success'
         })
         setRefresh(!refresh)
@@ -41,7 +45,7 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Delete job request failed',
+          message: t('deleteJobRequestFail'),
           type: 'error'
         })
       })

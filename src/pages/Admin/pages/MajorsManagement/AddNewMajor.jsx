@@ -20,7 +20,7 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Add new major successfully!',
+          message: t('addNewMajorSuccess'),
           type: 'success'
         })
       })
@@ -28,7 +28,7 @@ const AddNewMajor = ({ open, handleClose, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Add new major failed!',
+          message: t('addNewMajorFail'),
           type: 'error'
         })
       )

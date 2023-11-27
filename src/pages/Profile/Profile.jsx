@@ -115,14 +115,14 @@ const Profile = () => {
         localStorage.setItem('profile', JSON.stringify(res.data.user))
         setSnack({
           open: true,
-          message: 'Update Profile Successfully',
+          message: t('updateProfileSuccess'),
           type: 'success'
         })
       })
       .catch((err) =>
         setSnack({
           open: true,
-          message: `${err.response.data.message}`,
+          message: t('updateProfileFail'),
           type: 'error'
         })
       )
@@ -339,7 +339,7 @@ const Profile = () => {
                           width: '30%'
                         }}
                       >
-                        {tinh.map((option) => (
+                        {tinh?.map((option) => (
                           <MenuItem
                             key={option.code}
                             value={option.name}

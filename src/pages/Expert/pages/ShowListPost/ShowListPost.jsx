@@ -16,8 +16,10 @@ import { useState, useEffect } from 'react'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const ShowListPost = () => {
+  const { t } = useTranslation()
   const [majors, setMajors] = useState('')
   const [listMajors, setListMajors] = useState([])
   const [jobRequests, setJobRequests] = useState([])
@@ -28,7 +30,7 @@ const ShowListPost = () => {
     const res = await AxiosInterceptors.get(urlConfig.expert.majors)
     if (res.status === 200) {
       setListMajors(res.data.majors)
-      setMajors(res.data.majors[0]._id)
+      setMajors(res.data.majors[0]?._id)
     }
   }
 
@@ -57,7 +59,7 @@ const ShowListPost = () => {
   return (
     <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
       <Helmet>
-        <title>Expert - List Job Requests</title>
+        <title></title>
       </Helmet>
       <Box
         component='main'
@@ -76,12 +78,12 @@ const ShowListPost = () => {
           <Stack spacing={3}>
             <Stack direction='row' justifyContent='space-between' alignItems='start' spacing={4} px='12px'>
               <Stack spacing={1}>
-                <Typography variant='h3'>List Job Requests</Typography>
+                <Typography variant='h3'>{t('listJobRequests')}</Typography>
               </Stack>
 
               <Box sx={{ minWidth: 120 }}>
                 <FormControl sx={{ minWidth: 240 }}>
-                  <InputLabel id='demo-simple-select-label'>Choose Major</InputLabel>
+                  <InputLabel id='demo-simple-select-label'>{t('chooseMajor')}</InputLabel>
                   <Select
                     labelId='demo-simple-select-label'
                     id='demo-simple-select'

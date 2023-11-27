@@ -31,7 +31,7 @@ const BecomeExpert = () => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Promote to expert successfully',
+          message: t('promoteToExpertSuccess'),
           type: 'success'
         })
         logOut()
@@ -40,7 +40,7 @@ const BecomeExpert = () => {
         setSnack({
           ...snack,
           open: true,
-          message: err.response.data.message,
+          message: t('promoteToExpertFail'),
           type: 'error'
         })
       })
@@ -50,7 +50,7 @@ const BecomeExpert = () => {
       setSnack({
         ...snack,
         open: true,
-        message: 'Please agree to the terms and conditions',
+        message: t('pleaseAgreeToTheTermAndCondition'),
         type: 'error'
       })
       return

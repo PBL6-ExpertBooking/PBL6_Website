@@ -6,10 +6,12 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const BookingDetailInfoModal = lazy(() => import('../../components/BookingDetailInfoModal'))
 
 export default function ExpertBooking() {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [jobRequests, setJobRequests] = useState([])
   const [item, setItem] = useState({})
@@ -34,21 +36,21 @@ export default function ExpertBooking() {
     fetchData()
   }, [])
   const columns = [
-    { field: 'major', headerName: 'Major', flex: 1 },
-    { field: 'title', headerName: 'Title', flex: 2 },
-    { field: 'time_booking', headerName: 'Time Booking', flex: 3 },
+    { field: 'major', headerName: t('major'), flex: 1 },
+    { field: 'title', headerName: t('title'), flex: 2 },
+    { field: 'time_booking', headerName: t('timeBooking'), flex: 3 },
     {
       field: 'price',
-      headerName: 'Price',
+      headerName: t('price'),
       flex: 1,
       renderCell: (params) => {
         return <Typography variant='body2'>{params.value} VNĐ</Typography>
       }
     },
-    { field: 'status', headerName: 'Status', flex: 1 },
+    { field: 'status', headerName: t('status'), flex: 1 },
     {
       field: 'action',
-      headerName: 'Action',
+      headerName: t('action'),
       width: 180,
       sortable: false,
       disableClickEventBubbling: true,
@@ -64,7 +66,7 @@ export default function ExpertBooking() {
                 handleOpenModal(e, params.row)
               }}
             >
-              Show detail
+              {t('showDetail')}
             </Button>
           </Stack>
         )
@@ -83,12 +85,12 @@ export default function ExpertBooking() {
   return (
     <>
     <Helmet>
-        <title>My bookings</title>
+        <title>{t('myBookings')}</title>
     </Helmet>
       <Container sx={{ minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>
-            My bookings
+            {t('myBookings')}
           </Typography>
         </Stack>
         <div style={{ height: 700, width: '100%' }}>

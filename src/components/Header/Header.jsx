@@ -102,7 +102,7 @@ const Header = () => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Create job request successfully!',
+            message: t('createJobRequestSuccess'),
             type: 'success'
           })
           setOpen(false)
@@ -112,7 +112,7 @@ const Header = () => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Create job request failed!',
+          message: t('createJobRequestFail'),
           type: 'error'
         })
       })
@@ -193,7 +193,7 @@ const Header = () => {
                   width: '33%'
                 }}
               >
-                {tinh.map((option) => (
+                {tinh?.map((option) => (
                   <MenuItem
                     key={option.code}
                     value={option.name}

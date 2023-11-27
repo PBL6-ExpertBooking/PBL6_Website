@@ -20,6 +20,7 @@ import Snackbar from '../../../../common/components/SnackBar'
 import { useState, useEffect } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
+import { useTranslation } from 'react-i18next'
 
 const style = {
   position: 'absolute',
@@ -54,6 +55,7 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
   const [photoUrl, setPhotoUrl] = useState('')
   const [certificateName, setCertificateName] = useState('')
   const [descriptions, setDescriptions] = useState('')
+  const { t } = useTranslation()
 
   const fetchDataMajors = async () => {
     const res = await AxiosInterceptors.get(urlConfig.majors.getMajors)
@@ -89,7 +91,7 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
         setSnack({
           ...snack,
           open: true,
-          message: 'Create certificate successfully',
+          message: t('createCertificateSuccess'),
           type: 'success'
         })
         setOpenCertificate(false)
@@ -99,7 +101,7 @@ export default function CertificateInformodal({ openCertificate, setOpenCertific
         setSnack({
           ...snack,
           open: true,
-          message: 'Create certificate request failed',
+          message: t('createCertificateFail'),
           type: 'error'
         })
       })

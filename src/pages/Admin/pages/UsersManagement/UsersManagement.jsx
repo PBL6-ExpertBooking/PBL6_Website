@@ -15,6 +15,7 @@ import urlConfig from '../../../../config/UrlConfig'
 import _ from 'lodash'
 import LockIcon from '@mui/icons-material/Lock'
 import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
@@ -28,6 +29,7 @@ const UsersManagement = () => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [totalDocs, setTotalDocs] = useState(1)
+  const { t } = useTranslation()
 
   const fetchUsers = async (limit = 100000) => {
     const res = await AxiosInterceptors.get(urlConfig.user.users + `?limit=${limit}`)
@@ -85,13 +87,13 @@ const UsersManagement = () => {
         setRerender(true)
         setSnack({
           open: true,
-          message: 'Unlocked account successfully',
+          message: t('unlockedAccountSuccess'),
           type: 'success'
         })
       } else {
         setSnack({
           open: true,
-          message: res.message,
+          message: t('unlockedAccountFail'),
           type: 'error'
         })
       }
@@ -101,13 +103,13 @@ const UsersManagement = () => {
         setRerender(true)
         setSnack({
           open: true,
-          message: 'Locked account successfully',
+          message: t('lockedAccountSuccess'),
           type: 'success'
         })
       } else {
         setSnack({
           open: true,
-          message: res.message,
+          message: t('lockedAccountFail'),
           type: 'error'
         })
       }
@@ -154,7 +156,7 @@ const UsersManagement = () => {
   const columns = [
     {
       field: 'fullName',
-      headerName: 'Full name',
+      headerName: t('fullName'),
       flex: 2,
       renderCell: (params) => {
         return params.row.first_name + ' ' + params.row.last_name
@@ -163,16 +165,16 @@ const UsersManagement = () => {
     { field: 'email', headerName: 'Email', flex: 2 },
     { 
 			field: 'address', 
-			headerName: 'Address', 
+			headerName: t('address'), 
 			flex: 5,
 			renderCell: (params) => {
 				return `${params?.row?.address?.ward?.name} - ${params?.row?.address?.district?.name} - ${params?.row?.address?.city?.name}`
 			}
 		},
-    { field: 'phone', headerName: 'Phone', flex: 1.3 },
+    { field: 'phone', headerName: t('phoneNumber'), flex: 1.3 },
     {
       field: 'role',
-      headerName: 'Role',
+      headerName: t('role'),
       headerAlign: 'center',
       align: 'center',
       flex: 1,
@@ -182,7 +184,7 @@ const UsersManagement = () => {
     },
     {
       field: 'isConfirmed',
-      headerName: 'Verify',
+      headerName: t('verify'),
       align: 'center',
       justifyContent: 'center',
       headerAlign: 'center',
@@ -193,7 +195,7 @@ const UsersManagement = () => {
     },
     {
       field: 'isRestricted',
-      headerName: 'Status',
+      headerName: t('status'),
       headerAlign: 'center',
       align: 'center',
       flex: 1,
@@ -222,12 +224,12 @@ const UsersManagement = () => {
     <>
       <Snackbar />
       <Helmet>
-        <title>Users Management</title>
+        <title>{t('userManagement')}</title>
       </Helmet>
       <Container sx={{ minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>
-            Users management
+						{t('userManagement')}
           </Typography>
         </Stack>
         <div style={{ height: 700, width: '100%' }}>
@@ -271,17 +273,17 @@ const UsersManagement = () => {
       >
         <MenuItem onClick={handleClickEditBtn}>
           <EditIcon sx={{ mr: 1 }} />
-          Edit
+          {t('edit')}
         </MenuItem>
 
         <MenuItem sx={{ color: 'warning.main' }} onClick={hanldeClickLockAccount}>
           <LockIcon sx={{ mr: 1 }} />
-          {currentRow && currentRow.isRestricted ? 'Unlock' : 'Lock'}
+          {currentRow && currentRow.isRestricted ? t('unlock') : t('lock')}
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }} onClick={handleClickDeleteBtn}>
           <DeleteIcon sx={{ mr: 1 }} />
-          Delete
+          {t('delete')}
         </MenuItem>
       </Popover>
 

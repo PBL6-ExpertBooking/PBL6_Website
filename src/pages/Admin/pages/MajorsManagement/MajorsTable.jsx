@@ -54,7 +54,7 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Delete major successfully!',
+          message: t('deleteMajorSuccess'),
           type: 'success'
         })
       })
@@ -62,7 +62,7 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Delete major failed!',
+          message: t('deleteMajorFail'),
           type: 'error'
         })
       )
