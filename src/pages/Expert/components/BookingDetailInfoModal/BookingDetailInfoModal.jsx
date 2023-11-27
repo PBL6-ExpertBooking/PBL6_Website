@@ -5,6 +5,7 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 
 const style = {
   position: 'absolute',
@@ -21,13 +22,14 @@ const style = {
 
 export default function BookingDetailInfoModal({ open, handleCloseModal, post, setRefresh, refresh }) {
   const { snack, setSnack } = useSnackbar()
+  const { t } = useTranslation()
   const handleCancel = async () => {
     await AxiosInterceptors.post(urlConfig.job_requests.updateJobRequests + `/${post._id}/cancel`)
       .then((res) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Cancel job request successfully',
+          message: t('cancelJobRequestSuccess'),
           type: 'success'
         })
         handleCloseModal()
@@ -37,7 +39,7 @@ export default function BookingDetailInfoModal({ open, handleCloseModal, post, s
         setSnack({
           ...snack,
           open: true,
-          message: 'Cancel job request failed',
+          message: t('cancelJobRequestFail'),
           type: 'error'
         })
       })

@@ -21,6 +21,7 @@
   "registerNow": "Register Now",
   "firstName": "First Name",
   "lastName": "Last Name",
+  "fullName": "Full Name",
   "passwordConfirm": "Password Confirm",
   "alreadyMember": "Already a member?",
   "major": "Major",
@@ -123,5 +124,102 @@
   "to": "To",
   "time": "Time",
   "type": "Type",
-  "me": "Me"
+  "me": "Me",
+
+  "listJobRequests": "List job requests",
+  "myBookings": "My Bookings",
+  "certificateInformation": "Certificate Information",
+  "certificateName": "Certificate Name",
+  "confirmed": "Confirmed",
+  "unconfirmed": "Unconfirmed",
+
+  "adminProfile": "Admin Profile",
+  "userProfile": "User Profile",
+  "expertProfile": "Expert Profile",
+  "chooseMajor": "Choose major",
+  "showDetail": "Show detail",
+  "role": "Role",
+  "verify": "Verify",
+  "userManagement": "User Management",
+  "unlock": "Unlock",
+  "lock": "Lock",
+  "active": "Active",
+  "unactive": "Unactive",
+  "cancel": "Cancel",
+
+  "USER": "USER",
+  "EXPERT": "EXPERT",
+  "ADMIN": "ADMIN",
+  "YES": "YES",
+  "NO": "NO",
+
+  "createJobRequestSuccess": "Create job request successfully!",
+  "createJobRequestFail": "Create job request failed!",
+
+  "acceptJobRequestSuccess": "Create job request successfully!",
+  "acceptJobRequestFail": "Create job request failed!",
+
+  "deleteJobRequestSuccess": "Delete job request successfully!",
+  "deleteJobRequestFail": "Delete job request failed!",
+
+  "rechargeFailed": "Recharge failed!",
+
+  "updateAccountSuccess": "Updated account successfully!",
+  "updateAccountFail": "Updated account failed!",
+
+  "addNewMajorSuccess": "Add new major successfully!",
+  "addNewMajorFail": "Add new major failed!",
+
+  "editMajorSuccess": "Edit major successfully!",
+  "editMajorFail": "Edit major failed!",
+
+  "deleteMajorSuccess": "Delete major successfully!",
+  "deleteMajorFail": "Delete major failed!",
+
+  "unlockedAccountSuccess": "Unlocked account successfully!",
+  "unlockedAccountFail": "Unlocked account failed!",
+
+  "lockedAccountSuccess": "Locked account successfully!",
+  "lockedAccountFail": "Locked account failed!",
+
+  "searchSuccess": "Search successfully!",
+  "searchFail": "Search failed!",
+
+  "cancelJobRequestSuccess": "Cancel job request successfully!",
+  "cancelJobRequestFail": "Cancel job request failed!",
+
+  "deleteCertificateSuccess": "Delete certificate successfully!",
+  "deleteCertificateFail": "Delete certificate failed!",
+
+  "createCertificateSuccess": "Create certificate successfully!",
+  "createCertificateFail": "Create certificate failed!",
+
+  "passwordMustMatch": "New password and confirm password must match!",
+
+  "updatePasswordSuccess": "Update password successfully!",
+  "updatePasswordFail": "Update password failed!",
+
+  "updateProfileSuccess": "Update profile successfully!",
+  "updateProfileFail": "Update profile failed!",
+
+  "promoteToExpertSuccess": "Promote to expert successfully!",
+  "promoteToExpertFail": "Promote to expert failed!",
+
+  "pleaseAgreeToTheTermAndCondition": "Please agree to the terms and conditions",
+
+  "confirmPasswordIsNotMatch": "Confirm password is not match!",
+  "newPasswordMustBeDiffFromOldPassword": "New password must be different from old password!",
+
+  "changePasswordSuccess": "Change password successfully!",
+  "changePasswordFail": "Change password failed!",
+
+  "changeStatusSuccess": "Change status successfully!",
+  "changeStatusFail": "Change status failed!",
+
+  "yourBalanceIsNotEnough": "Your balance is not enough!",
+
+  "paymentSuccess": "Payment successfully!",
+  "paymentFail": "Payment failed!",
+
+  "reviewSuccess": "Review successfully!"
 }

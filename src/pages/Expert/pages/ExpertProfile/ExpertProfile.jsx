@@ -24,6 +24,7 @@ import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import urlConfig from '../../../../config/UrlConfig'
 import Axios from 'axios'
+import { useTranslation } from 'react-i18next'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -69,6 +70,7 @@ const ExpertProfile = () => {
   const [tinh, setTinh] = useState({})
   const [huyen, setHuyen] = useState({})
   const [xa, setXa] = useState({})
+  const { t } = useTranslation()
 
   const fetchData = async () => {
     const res = await AxiosInterceptors.get(urlConfig.expert.current)
@@ -141,14 +143,14 @@ const ExpertProfile = () => {
         localStorage.setItem('profile', JSON.stringify(res.data.user))
         setSnack({
           open: true,
-          message: 'Update Profile Successfully',
+          message: t('updateProfileSuccess'),
           type: 'success'
         })
       })
       .catch((err) => {
         setSnack({
           open: true,
-          message: `${err.response.data.message}`,
+          message: t('updateProfileFail'),
           type: 'error'
         })
       })
@@ -185,7 +187,7 @@ const ExpertProfile = () => {
             color: 'red'
           }}
         >
-          <h1>Please check your email to validate your account!</h1>
+          <h1>{t('validateMail')}</h1>
         </Card>
       </div>
     )) ||
@@ -232,7 +234,7 @@ const ExpertProfile = () => {
                     }
                   }}
                 >
-                  Upload Photo
+                  {t('uploadPhoto')}
                   <VisuallyHiddenInput
                     type='file'
                     accept='.jpg, .png'
@@ -256,7 +258,7 @@ const ExpertProfile = () => {
             </Stack>
             <Box sx={{ display: 'block', width: '100%' }}>
               <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-                Expert Profile
+              {t('expertProfile')}
               </Typography>
               <Box component='form' noValidate autoComplete='off'>
                 <Box
@@ -268,7 +270,7 @@ const ExpertProfile = () => {
                     fullWidth
                     required
                     id='outlined-required'
-                    label='Username'
+                    label={t('username')}
                     defaultValue={profile.username}
                     disabled
                   />
@@ -290,7 +292,7 @@ const ExpertProfile = () => {
                   <TextField
                     required
                     id='outlined-required'
-                    label='First Name'
+                    label={t('firstName')}
                     defaultValue={profile.first_name}
                     onChange={(e) => {
                       setProfile({
@@ -302,7 +304,7 @@ const ExpertProfile = () => {
                   <TextField
                     required
                     id='outlined-required'
-                    label='Last Name'
+                    label={t('lastName')}
                     defaultValue={profile.last_name}
                     onChange={(e) => {
                       setProfile({
@@ -319,7 +321,7 @@ const ExpertProfile = () => {
                 >
                   <TextField
                     id='outlined-number'
-                    label='Phone Number'
+                    label={t('phoneNumber')}
                     type='number'
                     InputLabelProps={{
                       shrink: true
@@ -338,7 +340,7 @@ const ExpertProfile = () => {
                     <Select
                       labelId='demo-simple-select-label'
                       id='demo-simple-select'
-                      label='Gender'
+                      label={t('gender')}
                       defaultValue={profile.gender ? 1 : 0}
                       onChange={(e) => {
                         setProfile({
@@ -354,7 +356,7 @@ const ExpertProfile = () => {
 
                   <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
                     <DateField
-                      label='Date of birthday'
+                      label={t('dateOfBirth')}
                       value={dayjs(profile.DoB)}
                       onChange={(newValue) =>
                         setProfile({
@@ -369,7 +371,7 @@ const ExpertProfile = () => {
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='City'
+                    label={t('city')}
                     defaultValue={profile.address?.city?.name}
                     sx={{
                       width: '30%'
@@ -399,7 +401,7 @@ const ExpertProfile = () => {
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='District'
+                    label={t('district')}
                     defaultValue={profile.address?.district?.name}
                     sx={{
                       width: '30%'
@@ -429,7 +431,7 @@ const ExpertProfile = () => {
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='Ward'
+                    label={t('ward')}
                     defaultValue={profile.address?.ward?.name}
                     sx={{
                       width: '30%'
@@ -480,10 +482,10 @@ const ExpertProfile = () => {
                     }
                   }}
                 >
-                  Save Change
+                  {t('saveChanges')}
                 </Button>
                 <Button variant='contained' component='label' color='error'>
-                  Reset
+                  {t('reset')}
                 </Button>
               </Stack>
             </Box>

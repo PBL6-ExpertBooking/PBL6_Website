@@ -8,9 +8,11 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import { useTranslation } from 'react-i18next'
 
 export default function ExpertSideNav() {
   const { collapseSidebar } = useProSidebar()
+	const { t } = useTranslation()
   const styleLink = {
     textDecoration: 'none',
     color: 'black'
@@ -19,22 +21,22 @@ export default function ExpertSideNav() {
     <Sidebar style={{ height: '100%' }}>
       <Menu>
         <Link to={path.dashboard} style={styleLink}>
-          <MenuItem icon={<HomeRoundedIcon />}>DashBoard</MenuItem>
+          <MenuItem icon={<HomeRoundedIcon />}>{t('dashboard')}</MenuItem>
         </Link>
         <Link to={path.expertProfile} style={styleLink}>
-          <MenuItem icon={<ManageAccountsIcon />}>Profile</MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />}>{t('myProfile')}</MenuItem>
         </Link>
         <Link to={path.expertChangePassword} style={styleLink}>
-          <MenuItem icon={<SyncLockIcon />}>Change Password</MenuItem>
+          <MenuItem icon={<SyncLockIcon />}>{t('changePassword')}</MenuItem>
         </Link>
         <Link to={path.expertTransactionHistory} style={styleLink}>
-          <MenuItem icon={<CalendarMonthRoundedIcon />}>History Transaction</MenuItem>
+          <MenuItem icon={<CalendarMonthRoundedIcon />}>{t('historyTransaction')}</MenuItem>
         </Link>
         <Link to={path.expertShowListPost} style={styleLink}>
-          <MenuItem icon={<ChecklistIcon />}>List Job Requests</MenuItem>
+          <MenuItem icon={<ChecklistIcon />}>{t('listJobRequests')}</MenuItem>
         </Link>
         <Link to={path.expertBookings} style={styleLink}>
-          <MenuItem icon={<ShoppingCartIcon />}>My Bookings</MenuItem>
+          <MenuItem icon={<ShoppingCartIcon />}>{t('myBookings')}</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}
@@ -43,7 +45,7 @@ export default function ExpertSideNav() {
           }}
           style={styleLink}
         >
-          Collapse
+          {t('collapse')}
         </MenuItem>
       </Menu>
     </Sidebar>

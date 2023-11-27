@@ -72,7 +72,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
           setSnack({
             ...snack,
             open: true,
-            message: 'Change status successfully!',
+            message: t('changeStatusSuccess'),
             type: 'success'
           })
           fetchData()
@@ -82,7 +82,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
         setSnack({
           ...snack,
           open: true,
-          message: 'Change status failed!',
+          message: t('changeStatusFail'),
           type: 'error'
         })
       )
@@ -204,7 +204,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                                   setSnack({
                                     ...snack,
                                     open: true,
-                                    message: 'Your balance is not enough!',
+                                    message: t('yourBalanceIsNotEnough'),
                                     type: 'error'
                                   })
                                 } else handleDone(majorsOrder._id)

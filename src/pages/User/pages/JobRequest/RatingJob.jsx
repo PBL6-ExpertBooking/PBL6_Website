@@ -21,7 +21,7 @@ const RatingJob = ({ id, open, setOpen, fetchData }) => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Review successfully!',
+            message: t('reviewSuccess'),
             type: 'success'
           })
           fetchData()

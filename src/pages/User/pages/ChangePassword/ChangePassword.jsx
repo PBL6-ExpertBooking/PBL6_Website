@@ -42,14 +42,14 @@ const ChangePassword = () => {
       setSnack({
         ...snack,
         open: true,
-        message: 'Confirm password is not match!',
+        message: t('confirmPasswordIsNotMatch'),
         type: 'error'
       })
     } else if (newPassword === oldPassword) {
       setSnack({
         ...snack,
         open: true,
-        message: 'New password must be different from old password!',
+        message: t('newPasswordMustBeDiffFromOldPassword'),
         type: 'error'
       })
     } else {
@@ -63,7 +63,7 @@ const ChangePassword = () => {
             setSnack({
               ...snack,
               open: true,
-              message: 'Change password successfully!',
+              message: t('changePasswordSuccess'),
               type: 'success'
             })
           }
@@ -72,7 +72,7 @@ const ChangePassword = () => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Change password failed!',
+            message: t('changePasswordFail'),
             type: 'error'
           })
         })

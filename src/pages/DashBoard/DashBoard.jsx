@@ -53,7 +53,7 @@ const DashBoard = () => {
             setSnack({
               ...snack,
               open: true,
-              message: 'Search successfully!',
+              message: t('searchSuccess'),
               type: 'success'
             })
             setIsLoading(false)
@@ -64,7 +64,7 @@ const DashBoard = () => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Search failed!',
+          message: t('searchFail'),
           type: 'error'
         })
       })

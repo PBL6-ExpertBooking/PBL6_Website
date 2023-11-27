@@ -12,6 +12,7 @@ import useSnackbar from '../../../../contexts/snackbar.context';
 import Snackbar from '../../../../common/components/SnackBar'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors';
 import Axios from 'axios'
+import { useTranslation } from 'react-i18next'
 
 const style = {
   position: 'absolute',
@@ -38,23 +39,24 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
   const [huyen, setHuyen] = useState({})
   const [xa, setXa] = useState({})
   const [address, setAddress] = useState({
-		city: {
-			code: '',
-			name: ''
-		},
-		district: {
-			code: '',
-			name: ''
-		},
-		ward: {
-			name: '',
-			code: 0
-		}
-	});
+    city: {
+      code: '',
+      name: ''
+    },
+    district: {
+      code: '',
+      name: ''
+    },
+    ward: {
+      name: '',
+      code: 0
+    }
+  });
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState(0);
   const [isRestricted, setIsRestricted] = useState(false);
   const { snack, setSnack } = useSnackbar()
+  const { t } = useTranslation()
 
   useEffect(() => {
     // Khi prop user thay đổi, cập nhật state currentUser
@@ -176,7 +178,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
       .catch((err) => console.log(err))
   }
 
-	useEffect(() => {
+  useEffect(() => {
     fetchHuyen()
   }, [address?.city?.code])
   useEffect(() => {
@@ -200,21 +202,31 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
       setRerender()
       setSnack({
         open: true,
-        message: 'Updated account successfully',
+        message: t('updateAccountSuccess'),
         type: 'success'
       })
     } else {
       setSnack({
         open: true,
-        message: res.message,
+        message: t('updateAccountFail'),
         type: 'error'
       })
     }
     handleCloseModal();
   }
 
-  const lowerAndCapitalize = (text) => {
-    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  const renderTitle = (role) => {
+    switch(role) {
+      case 'USER': {
+        return t('userProfile');
+      }
+      case 'EXPERT': {
+        return t('expertProfile');
+      }
+      case 'ADMIN': {
+        return t('adminProfile');
+      }
+    }
   }
 
   return (
@@ -243,7 +255,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
           >
             <Box sx={{ display: 'block', width: '100%' }}>
               <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-              {lowerAndCapitalize(`${user.role} Profile`)}
+              {renderTitle(user.role).toUpperCase()}
               </Typography>
               <Box component='form' noValidate autoComplete='off'>
                 <Box
@@ -251,8 +263,8 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                     '& .MuiTextField-root': { m: 2, width: '45%' }
                   }}
                 >
-                  <TextField required id='outlined-required' label='First Name' value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
-                  <TextField required id='outlined-required' label='Last Name' value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                  <TextField required id='outlined-required' label={t('firstName')} value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
+                  <TextField required id='outlined-required' label={t('lastName')} value={lastName} onChange={(e) => setLastName(e.target.value)} />
                 </Box>
 
                 <Box
@@ -260,7 +272,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                     '& .MuiTextField-root': { m: 2, width: '45%' }
                   }}
                 >
-                  <TextField fullWidth required id='outlined-required' label='Username' value={username} disabled />
+                  <TextField fullWidth required id='outlined-required' label={t('username')} value={username} disabled />
                   <TextField fullWidth required id='outlined-required' label='Email' value={email} disabled />
                 </Box>
 
@@ -271,7 +283,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                 >
                   <TextField
                     id='outlined-number'
-                    label='Phone Number'
+                    label={t('phoneNumber')}
                     type='number'
                     InputLabelProps={{
                       shrink: true
@@ -283,16 +295,16 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                   <FormControl 
                     sx={{width: '45%', m: 2}}
                   >
-                    <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                    <InputLabel id="demo-simple-select-label">{t('gender')}</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       value={gender}
-                      label="Gender"
+                      label={t('gender')}
                       onChange={(e) => setGender(e.target.value)}
                     >
-                      <MenuItem value={0}>Male</MenuItem>
-                      <MenuItem value={1}>Female</MenuItem>
+                      <MenuItem value={0}>{t('male')}</MenuItem>
+                      <MenuItem value={1}>{t('female')}</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
@@ -305,7 +317,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                   <FormControl 
                     sx={{width: '45%', m: 2}}
                   >
-                    <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                    <InputLabel id="demo-simple-select-label">{t('role')}</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -314,17 +326,17 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                       onChange={(e) => setRole(e.target.value)}
                       disabled
                     >
-                      <MenuItem value={0}>User</MenuItem>
-                      <MenuItem value={1}>Expert</MenuItem>
-                      <MenuItem value={2}>Admin</MenuItem>
+                      <MenuItem value={0}>{t('USER')}</MenuItem>
+                      <MenuItem value={1}>{t('EXPERT')}</MenuItem>
+                      <MenuItem value={2}>{t('ADMIN')}</MenuItem>
                     </Select>
                   </FormControl>
 
                   <TextField
                     id='outlined-number'
-                    label='Verify'
+                    label={t('verify')}
                     disabled
-                    value={isConfirmed ? "YES" : "NO"}
+                    value={isConfirmed ? t('YES') : t('NO')}
                   />
                 </Box>
 
@@ -338,7 +350,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                       sx={{width: '45%', m: 2}}
                     >
                       <DateField
-                        label="Date of birthday"
+                        label={t('dateOfBirth')}
                         value={dayjs(DoB)}
                         onChange={(newValue) => setDoB(newValue)}
                       />
@@ -346,9 +358,9 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
 
                   <TextField
                     id='outlined-number'
-                    label='Status'
+                    label={t('status')}
                     disabled
-                    value={isRestricted ? "ACTIVE" : "UNACTIVE"}
+                    value={isRestricted ? t('active') : t('unactive')}
                   />
                 </Box>
                 
@@ -356,23 +368,23 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='City'
+                    label={t('city')}
                     defaultValue={address?.city?.name}
                     sx={{
                       width: '30%'
                     }}
                   >
-                    {tinh && tinh.length > 0 && tinh.map((option) => (
+                    {tinh && tinh.length > 0 && tinh?.map((option) => (
                       <MenuItem
                         key={option.code}
                         value={option.name}
                         onClick={(e) => {
                           setAddress({
-														...address,
-														city: {
-															code: option.code,
-															name: option.name
-														}
+                            ...address,
+                            city: {
+                              code: option.code,
+                              name: option.name
+                            }
                           })
                         }}
                       >
@@ -383,7 +395,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='District'
+                    label={t('district')}
                     defaultValue={address?.district?.name}
                     sx={{
                       width: '30%'
@@ -395,11 +407,11 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                         value={option.name}
                         onClick={(e) => {
                           setAddress({
-														...address,
-														district: {
-															code: option.code,
-															name: option.name
-														}
+                            ...address,
+                            district: {
+                              code: option.code,
+                              name: option.name
+                            }
                           })
                         }}
                       >
@@ -410,7 +422,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                   <TextField
                     id='outlined-select-currency'
                     select
-                    label='Ward'
+                    label={t('ward')}
                     defaultValue={address?.ward?.name}
                     sx={{
                       width: '30%'
@@ -422,11 +434,11 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
                         value={option.name}
                         onClick={(e) => {
                           setAddress({
-														...address,
-														ward: {
-															code: option.code,
-															name: option.name
-														}
+                            ...address,
+                            ward: {
+                              code: option.code,
+                              name: option.name
+                            }
                           })
                         }}
                       >
@@ -454,7 +466,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
               sx={{width: 130}}
               onClick={handleOnclickSaveChangesBtn}
             >
-              Save Change
+              {t('saveChanges')}
             </Button>
             <Button 
               variant='contained' 
@@ -463,7 +475,7 @@ export default function UserInfoModal({open, handleCloseModal, user, setRerender
               sx={{width: 130}}
               onClick={() => handleCloseModal()}
             >
-              Cancel
+              {t('cancel')}
             </Button>
           </Stack>
         </Box>

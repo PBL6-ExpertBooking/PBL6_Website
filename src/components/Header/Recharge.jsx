@@ -24,7 +24,7 @@ const Recharge = ({ openRecharge, setOpenRecharge }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Recharge failed!',
+          message: t('rechargeFailed'),
           type: 'error'
         })
       })
