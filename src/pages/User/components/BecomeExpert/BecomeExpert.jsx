@@ -83,7 +83,6 @@ const BecomeExpert = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: '#D2E9E9 ',
           padding: '20px',
           margin: '20px 100px'
         }}
@@ -105,7 +104,7 @@ const BecomeExpert = () => {
             marginRight: '2rem'
           }}
         >
-          <Button variant='contained' component='label' color='primary' onClick={handleOpen}>
+          <Button variant='text' component='label' color='primary' onClick={handleOpen}>
             {t('promote')}
           </Button>
         </Stack>

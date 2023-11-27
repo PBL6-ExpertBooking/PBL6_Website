@@ -182,8 +182,7 @@ const Profile = () => {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '100%',
-                  backgroundColor: '#D2E9E9 '
+                  height: '100%'
                 }}
               >
                 <UploadAvatar
@@ -206,7 +205,7 @@ const Profile = () => {
                   <br /> max size of 3.5MB
                 </Typography>
                 <Button
-                  variant='contained'
+                  variant='text'
                   component='label'
                   color='error'
                   sx={{
@@ -219,7 +218,7 @@ const Profile = () => {
               </Card>
             </Grid>
             <Grid item xs={12} md={8}>
-              <Card sx={{ p: 3, height: '100%', backgroundColor: '#D2E9E9 ' }}>
+              <Card sx={{ p: 3, height: '100%' }}>
                 <Box sx={{ display: 'block', width: '100%' }}>
                   <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
                     {t('changeProfile')}
@@ -433,23 +432,8 @@ const Profile = () => {
                       marginRight: '2rem'
                     }}
                   >
-                    <Button
-                      variant='contained'
-                      component='label'
-                      onClick={updateData}
-                      sx={{
-                        backgroundColor: '#F8F6F4',
-                        color: 'black',
-                        '&:hover': {
-                          backgroundColor: '#F8F6F4',
-                          color: 'black'
-                        }
-                      }}
-                    >
+                    <Button variant='text' component='label' color='success' onClick={updateData}>
                       {t('saveChanges')}
-                    </Button>
-                    <Button variant='contained' component='label' color='error'>
-                      {t('reset')}
                     </Button>
                   </Stack>
                 </Box>

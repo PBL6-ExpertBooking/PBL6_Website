@@ -45,28 +45,11 @@ const RootModal = ({ title, variant, open, handleClose, handleOk, children, clos
           }}
         >
           {!closeOnly && (
-            <Button
-              variant='outlined'
-              sx={{
-                color: colors[variant].main,
-                borderColor: isMobile ? 'red' : colors[variant].light,
-                ':hover': { background: colors[variant].lighter, borderColor: colors[variant].main }
-              }}
-              onClick={handleClose}
-            >
+            <Button variant='text' color='error' onClick={handleClose}>
               {isMobile ? <Close sx={{ color: 'red' }} /> : 'Cancel'}
             </Button>
           )}
-          <Button
-            variant='contained'
-            sx={{
-              ml: 2.5,
-              color: '#fff',
-              background: `${colors[variant].main} ${!isMobile && '!important'}`,
-              ':hover': { background: `${colors[variant].dark} !important` }
-            }}
-            onClick={handleOk}
-          >
+          <Button variant='text' color='primary' onClick={handleOk} sx={{ ml: 2 }}>
             {isMobile ? <Done sx={{ color: 'white' }} /> : closeOnly ? 'Close' : 'Ok'}
           </Button>
         </div>
