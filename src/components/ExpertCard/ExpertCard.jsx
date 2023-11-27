@@ -18,7 +18,16 @@ const ExpertCard = ({ expert }) => {
   const i = Math.floor(Math.random() * 20) + 1
   return (
     <>
-      <Card sx={{ textAlign: 'center' }} onClick={() => navigate(`/expertDetail/${expert._id}`)}>
+      <Card
+        sx={{
+          textAlign: 'center',
+          '&:hover': {
+            boxShadow: '0 0 10px 0 rgba(0,0,0,0.2)',
+            cursor: 'pointer'
+          }
+        }}
+        onClick={() => navigate(`/expertDetail/${expert._id}`)}
+      >
         <Box sx={{ position: 'relative' }}>
           <Box
             component='span'

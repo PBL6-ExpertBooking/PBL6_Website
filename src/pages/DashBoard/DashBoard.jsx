@@ -27,6 +27,7 @@ const DashBoard = () => {
     fetchTop()
   }, [])
   const handleChange = (event) => {
+    setIsSearch(true)
     setSearchTerm(event.target.value)
   }
   const fetchTop = async () => {
@@ -44,7 +45,6 @@ const DashBoard = () => {
   }
   const handleSearch = async () => {
     setIsLoading(true)
-    setIsSearch(true)
     await AxiosInterceptors.get(urlConfig.user.searchExpert + `?major_id=${major_id}&search=${searchTerm}&limit=100`)
       .then((res) => {
         if (res && res.status === 200) {
