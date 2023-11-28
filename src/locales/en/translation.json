@@ -23,6 +23,7 @@
   "lastName": "Last Name",
   "fullName": "Full Name",
   "passwordConfirm": "Password Confirm",
+  "passwordsNotMatch": "Passwords do not match",
   "alreadyMember": "Already a member?",
   "major": "Major",
   "searchResults": "Search Results",
