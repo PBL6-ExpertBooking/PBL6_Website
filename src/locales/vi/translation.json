@@ -23,6 +23,7 @@
   "lastName": "Họ",
   "fullName": "Họ và tên",
   "passwordConfirm": "Xác nhận mật khẩu",
+  "passwordsNotMatch": "Mật khẩu không khớp!",
   "alreadyMember": "Đã có tài khoản?",
   "major": "Chuyên ngành",
   "searchResults": "Kết quả tìm kiếm",

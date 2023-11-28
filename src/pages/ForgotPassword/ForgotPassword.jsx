@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { Link, Container, Typography, Stack, Button, TextField } from '@mui/material'
+import { Link, Container, Typography, Stack, Button, TextField, Card } from '@mui/material'
 // hooks
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import Forgot_Photo from '../../assets/images/forgot_password.png'
 import { useTranslation } from 'react-i18next'
+import { LoadingButton } from '@mui/lab'
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -15,14 +16,13 @@ const StyledRoot = styled('div')(({ theme }) => ({
   }
 }))
 
-const StyledSection = styled('div')(({ theme }) => ({
+const StyledSection = styled(Card)(({ theme }) => ({
   width: '100%',
   maxWidth: 800,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  boxShadow: theme.shadows[10],
-  backgroundColor: '#FF8686'
+  margin: theme.spacing(2, 0, 2, 2)
 }))
 
 const StyledContent = styled('div')(({ theme }) => ({
@@ -86,10 +86,10 @@ export default function ForgotPassword() {
                   }}
                 />
               </Stack>
-              <Button size='large' color='inherit' variant='outlined' onClick={login}>
+              <LoadingButton fullWidth color='secondary' size='large' type='submit' variant='text' onClick={login}>
                 {t('sendResetLink')}
-              </Button>
-              <Typography variant='body2' sx={{ my: 5 }}>
+              </LoadingButton>
+              <Typography variant='body2' sx={{ my: 2 }}>
                 {t('dontHaveAccount')}{' '}
                 <Link variant='subtitle2' href='/register'>
                   {t('registerNow')}

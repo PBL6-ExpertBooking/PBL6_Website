@@ -1,6 +1,6 @@
 // @mui
 import { styled } from '@mui/material/styles'
-import { Link, Container, Typography, Stack, Button, TextField } from '@mui/material'
+import { Link, Container, Typography, Stack, Button, TextField, Card } from '@mui/material'
 // hooks
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
@@ -12,6 +12,7 @@ import axios from 'axios'
 import urlConfig from '../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import { LoadingButton } from '@mui/lab'
 
 // ----------------------------------------------------------------------
 
@@ -21,14 +22,13 @@ const StyledRoot = styled('div')(({ theme }) => ({
   }
 }))
 
-const StyledSection = styled('div')(({ theme }) => ({
+const StyledSection = styled(Card)(({ theme }) => ({
   width: '100%',
   maxWidth: 800,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  boxShadow: theme.shadows[10],
-  backgroundColor: '#FF8686'
+  margin: theme.spacing(2, 0, 2, 2)
 }))
 
 const StyledContent = styled('div')(({ theme }) => ({
@@ -53,12 +53,18 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const { snack, setSnack } = useSnackbar()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const mdUp = useResponsive('up', 'md')
   const register = async () => {
     if (password !== confirmPassword) {
-      alert('Passwords do not match')
+      setSnack({
+        open: true,
+        message: t('passwordsNotMatch'),
+        type: 'error'
+      })
       return
     }
+    setIsSubmitting(true)
     const res = await axios
       .post(urlConfig.authentication.register, {
         first_name: firstname,
@@ -76,6 +82,7 @@ export default function RegisterPage() {
           message: err.response.data.message,
           type: 'error'
         })
+        setIsSubmitting(false)
       })
   }
   return (
@@ -96,7 +103,8 @@ export default function RegisterPage() {
               variant='h4'
               gutterBottom
               sx={{
-                textTransform: 'uppercase'
+                textTransform: 'uppercase',
+                mb: 2
               }}
             >
               {t('signUp')}
@@ -153,12 +161,31 @@ export default function RegisterPage() {
                 }}
               />
             </Stack>
-            <Button size='large' color='inherit' variant='outlined' sx={{ my: 2 }} onClick={register}>
+            <LoadingButton
+              fullWidth
+              color='secondary'
+              size='large'
+              type='submit'
+              variant='text'
+              loading={isSubmitting}
+              onClick={register}
+              sx={{ my: 2 }}
+            >
               {t('register')}
-            </Button>
+            </LoadingButton>
             <Typography variant='body2' sx={{ mb: 5 }}>
               {t('alreadyMember')}{' '}
-              <Link variant='subtitle2' href='/login'>
+              <Link
+                variant='subtitle2'
+                href='/login'
+                sx={{
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
                 {t('signIn')}
               </Link>
             </Typography>

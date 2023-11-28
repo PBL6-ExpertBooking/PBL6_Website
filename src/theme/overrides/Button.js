@@ -30,6 +30,13 @@ export default function Button(theme) {
           '&:hover': {
             backgroundColor: theme.palette.primary.light
           }
+        },
+        textSecondary: {
+          backgroundColor: 'black',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: '#333333'
+          }
         }
       }
     }
