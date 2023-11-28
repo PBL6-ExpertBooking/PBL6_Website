@@ -3,7 +3,8 @@ import { Box, Typography, Grid, Container } from '@mui/material'
 import svg from '../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
 import ExpertCard from '../ExpertCard'
-const ListSearch = (props) => {
+import { memo } from 'react'
+const ListSearch = memo(function ListSearch(props) {
   const { t } = useTranslation()
   return (
     <Box
@@ -44,6 +45,6 @@ const ListSearch = (props) => {
       </Grid>
     </Box>
   )
-}
+})
 
 export default ListSearch

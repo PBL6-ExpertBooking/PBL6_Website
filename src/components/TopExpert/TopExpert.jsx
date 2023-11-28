@@ -2,8 +2,9 @@ import React from 'react'
 import { Box, Typography, Grid } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import ExpertCard from '../ExpertCard'
+import { memo } from 'react'
 
-const TopExpert = ({ topExpert }) => {
+const TopExpert = memo(function TopExpert({ topExpert }) {
   const { t } = useTranslation()
   return (
     <Box
@@ -25,6 +26,6 @@ const TopExpert = ({ topExpert }) => {
       </Grid>
     </Box>
   )
-}
+})
 
 export default TopExpert
