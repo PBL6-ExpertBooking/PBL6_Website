@@ -82,7 +82,7 @@ const ExpertCard = ({ expert }) => {
         </Typography>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-        <Stack alignItems='center' sx={{ my: 2 }}>
+        <Stack alignItems='center' sx={{ my: 2 }} spacing={1}>
           <Rating name='read-only' value={expert.average_rating} readOnly />
           <Typography variant='subtitle2' sx={{ color: 'text.secondary' }}>
             {expert.rating_count} {t('reviews')}

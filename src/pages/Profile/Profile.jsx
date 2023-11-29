@@ -26,12 +26,14 @@ import { lazy } from 'react'
 import Loading from '../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
 import UploadAvatar from '../../components/UploadAvatar/UploadAvatar'
+import { LoadingButton } from '@mui/lab'
 
 const BecomeExpert = lazy(() => import('../User/components/BecomeExpert'))
 
 const Profile = () => {
   const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem('profile'))
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [information, setInformation] = useState({
     first_name: '',
     last_name: '',
@@ -93,6 +95,7 @@ const Profile = () => {
       .catch((err) => console.log(err))
   }
   const updateData = async () => {
+    setIsSubmitting(true)
     await AxiosInterceptors.put(
       urlConfig.user.info,
       {
@@ -118,14 +121,16 @@ const Profile = () => {
           message: t('updateProfileSuccess'),
           type: 'success'
         })
+        setIsSubmitting(false)
       })
-      .catch((err) =>
+      .catch((err) => {
         setSnack({
           open: true,
           message: t('updateProfileFail'),
           type: 'error'
         })
-      )
+        setIsSubmitting(false)
+      })
   }
   useEffect(() => {
     fetchHuyen()
@@ -432,9 +437,18 @@ const Profile = () => {
                       marginRight: '2rem'
                     }}
                   >
-                    <Button variant='text' component='label' color='success' onClick={updateData}>
+                    <LoadingButton
+                      fullWidth
+                      color='success'
+                      variant='text'
+                      loading={isSubmitting}
+                      onClick={updateData}
+                      sx={{
+                        width: '150px'
+                      }}
+                    >
                       {t('saveChanges')}
-                    </Button>
+                    </LoadingButton>
                   </Stack>
                 </Box>
               </Card>

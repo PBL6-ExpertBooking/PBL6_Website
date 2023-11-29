@@ -11,7 +11,8 @@ import {
   CardHeader,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
+  Divider
 } from '@mui/material'
 import RatingContent from '../../components/RatingContent'
 import { Helmet } from 'react-helmet-async'
@@ -148,13 +149,16 @@ const ExpertDetail = () => {
                 <CardContent>
                   <Stack direction='column' spacing={1}>
                     {review.map((item) => (
-                      <RatingContent
-                        photoURL={item.user.photo_url}
-                        name={item.user.first_name + ' ' + item.user.last_name}
-                        date={item.createdAt}
-                        rating={item.rating}
-                        comment={item.comment}
-                      />
+                      <>
+                        <RatingContent
+                          photoURL={item.user.photo_url}
+                          name={item.user.first_name + ' ' + item.user.last_name}
+                          date={item.createdAt}
+                          rating={item.rating}
+                          comment={item.comment}
+                        />
+                        <Divider />
+                      </>
                     ))}
                   </Stack>
                 </CardContent>

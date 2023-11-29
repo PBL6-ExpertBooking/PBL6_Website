@@ -88,7 +88,6 @@ const ChangePassword = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: '#D2E9E9 ',
           padding: '20px',
           margin: '20px 100px'
         }}
@@ -210,22 +209,10 @@ const ChangePassword = () => {
             marginRight: '2rem'
           }}
         >
-          <Button
-            variant='contained'
-            component='label'
-            onClick={() => handleChangePassword()}
-            sx={{
-              backgroundColor: '#F8F6F4',
-              color: 'black',
-              '&:hover': {
-                backgroundColor: '#F8F6F4',
-                color: 'black'
-              }
-            }}
-          >
+          <Button variant='text' component='label' color='success' onClick={() => handleChangePassword()}>
             {t('saveChanges')}
           </Button>
-          <Button variant='contained' component='label' color='error' onClick={() => handleReset()}>
+          <Button variant='text' component='label' color='error' onClick={() => handleReset()}>
             {t('reset')}
           </Button>
         </Stack>
