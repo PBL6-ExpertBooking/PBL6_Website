@@ -14,10 +14,14 @@ export default function Card(theme) {
     },
     MuiCardHeader: {
       defaultProps: {
-        titleTypographyProps: { variant: 'h6' },
+        titleTypographyProps: { variant: 'h4' },
         subheaderTypographyProps: { variant: 'body2' }
       },
-      styleOverrides: {}
+      styleOverrides: {
+        root: {
+          padding: theme.spacing(3, 3, 0)
+        }
+      }
     },
     MuiCardContent: {
       styleOverrides: {
