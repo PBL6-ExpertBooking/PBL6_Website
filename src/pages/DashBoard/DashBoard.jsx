@@ -124,14 +124,7 @@ const DashBoard = () => {
               ))}
             </TextField>
           )}
-          <Button
-            variant='contained'
-            onClick={handleSearch}
-            sx={{
-              color: 'white',
-              backgroundColor: 'black'
-            }}
-          >
+          <Button variant='text' color='secondary' onClick={handleSearch} sx={{padding: 2}}>
             {t('search')}
           </Button>
         </Stack>

@@ -22,7 +22,7 @@ import { useParams } from 'react-router-dom'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Loading from '../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
-
+import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone'
 const ExpertDetail = () => {
   const { t } = useTranslation()
   const id = useParams()
@@ -55,7 +55,7 @@ const ExpertDetail = () => {
     getReview()
   }, [])
   return (
-    <>
+    <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
       <Helmet>
         <title>{t('expertDetails')}</title>
       </Helmet>
@@ -127,7 +127,10 @@ const ExpertDetail = () => {
                         aria-controls='panel1a-content'
                         id='panel1a-header'
                       >
-                        <Typography> {certificate.name}</Typography>
+                        <Stack direction='row' spacing={2}>
+                          <Typography> {certificate.name}</Typography>
+                          {certificate.isVerified && <VerifiedTwoToneIcon sx={{ color: 'green' }} />}
+                        </Stack>
                       </AccordionSummary>
                       <AccordionDetails>
                         <img src={certificate.photo_url} alt='certificate' style={{ width: '100%' }} />
@@ -169,7 +172,7 @@ const ExpertDetail = () => {
       ) : (
         <Loading />
       )}
-    </>
+    </div>
   )
 }
 

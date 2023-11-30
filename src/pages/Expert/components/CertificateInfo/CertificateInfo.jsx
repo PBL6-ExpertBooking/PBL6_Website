@@ -9,7 +9,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Grid
 } from '@mui/material'
 import { React, useState, useEffect } from 'react'
 import useSnackbar from '../../../../contexts/snackbar.context'
@@ -26,35 +27,34 @@ const CertificateInfo = (props) => {
 
   const handleDeleteCertificate = async () => {
     await AxiosInterceptors.delete(urlConfig.certificate.deleteCertificate + `/${certificate._id}`)
-    .then((res) => {
-      setSnack({
-        ...snack,
-        open: true,
-        message: t('deleteCertificateSuccess'),
-        type: 'success'
+      .then((res) => {
+        setSnack({
+          ...snack,
+          open: true,
+          message: t('deleteCertificateSuccess'),
+          type: 'success'
+        })
+        props.setRefresh(!props.refresh)
       })
-      props.setRefresh(!props.refresh)
-    })
-    .catch((err) => {
-      console.log(err)
-      setSnack({
-        ...snack,
-        open: true,
-        message: t('deleteCertificateFail'),
-        type: 'error'
+      .catch((err) => {
+        console.log(err)
+        setSnack({
+          ...snack,
+          open: true,
+          message: t('deleteCertificateFail'),
+          type: 'error'
+        })
       })
-    })
   }
 
   return (
-    certificate._id  && (
+    certificate._id && (
       <div style={{ width: '100%' }}>
         <Snackbar />
         <Card
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            backgroundColor: '#D2E9E9 ',
             padding: '20px',
             margin: '20px 100px'
           }}
@@ -70,110 +70,50 @@ const CertificateInfo = (props) => {
               <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
                 {t('certificateInformation')}
               </Typography>
-              <Box component='form' noValidate autoComplete='off'>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
-                  }}
-                >
-                  <FormControl sx={{ width: '49%', m: 2 }}>
-                    <InputLabel id='demo-simple-select-label'>{t('major')}</InputLabel>
-                    <Select
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      disabled
-                      value={certificate.major._id}
-                      label='Major'
-                      onChange={(e) =>
-                        setCertificate({
-                          ...certificate,
-                          major: {
-                            _id: e.target.value
-                          }
-                        })
-                      }
-                    >
-                      {majors &&
-                        majors.length > 0 &&
-                        majors.map((major) => {
-                          return <MenuItem value={major._id}>{major.name}</MenuItem>
-                        })}
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    fullWidth
-                    required
-                    id='outlined-required'
-                    label={t('status')}
-                    disabled
-                    defaultValue={certificate.isVerified ? t('confirmed') : t('unconfirmed')}
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '49%' }
-                  }}
-                >
-                  <Stack
-                    spacing={2}
-                    direction='row'
+              <Grid container spacing={2} sx={{ margin: '1.5rem' }}>
+                <Grid item xs={5}>
+                  <Typography variant='h5' component='h5'>
+                    {t('major')}
+                  </Typography>
+                  <Typography variant='body1' component='body1'>
+                    {certificate.major.name}
+                  </Typography>
+                  <Typography variant='h5' component='h5' sx={{ mt: 2 }}>
+                    {t('status')}
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    component='body1'
                     sx={{
-                      width: '100%'
+                      color: certificate.isVerified ? 'green' : 'red'
                     }}
                   >
-                    <TextField
-                      required
-                      id='outlined-required'
-                      label={t('certificateName')}
-                      disabled
-                      value={certificate.name}
-                      onChange={(e) =>
-                        setCertificate({
-                          ...certificate,
-                          name: e.target.value
-                        })
-                      }
+                    {certificate.isVerified ? t('confirmed') : t('unconfirmed')}
+                  </Typography>
+                  <Typography variant='h5' component='h5' sx={{ mt: 2 }}>
+                    {t('certificateName')}
+                  </Typography>
+                  <Typography variant='body1' component='body1'>
+                    {certificate.name}
+                  </Typography>
+                  <Typography variant='h5' component='h5' sx={{ mt: 2 }}>
+                    {t('description')}
+                  </Typography>
+                  <Typography variant='body1' component='body1'>
+                    {certificate.descriptions}
+                  </Typography>
+                </Grid>
+                <Grid item xs={7}>
+                  <Box sx={{ paddingRight: 10 }}>
+                    <Avatar
+                      alt='Remy Sharp'
+                      src={certificate.photo_url}
+                      variant='square'
+                      sx={{ width: '100%', height: 400 }}
                     />
-                    <Stack
-                      direction='column'
-                      alignItems='center'
-                      justifyContent='center'
-                      spacing={2}
-                      sx={{
-                        width: '45%'
-                      }}
-                    >
-                      <Avatar
-                        alt='Remy Sharp'
-                        src={certificate.photo_url}
-                        variant='square'
-                        sx={{ width: '100%', height: 400 }}
-                      />
-                    </Stack>
-                  </Stack>
-                </Box>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '96.5%' }
-                  }}
-                >
-                  <TextField
-                    id='outlined-multiline-static'
-                    label={t('description')}
-                    multiline
-                    rows={4}
-                    disabled
-                    value={certificate.descriptions}
-                    onChange={(e) =>
-                      setCertificate({
-                        ...certificate,
-                        descriptions: e.target.value
-                      })
-                    }
-                  />
-                </Box>
-              </Box>
+                  </Box>
+                </Grid>
+              </Grid>
               <Stack
                 spacing={2}
                 direction='row'
@@ -183,19 +123,7 @@ const CertificateInfo = (props) => {
                   marginRight: '2rem'
                 }}
               >
-                 <Button
-                  variant='contained'
-                  component='label'
-                  onClick={handleDeleteCertificate}
-                  sx={{
-                    backgroundColor: '#FF4842',
-                    color: '#FFF',
-                    '&:hover': {
-                      backgroundColor: '#F8F6F4',
-                      color: 'black'
-                    }
-                  }}
-                >
+                <Button variant='text' component='label' color='error' onClick={handleDeleteCertificate}>
                   {t('delete')}
                 </Button>
               </Stack>

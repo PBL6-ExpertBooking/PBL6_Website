@@ -6,6 +6,7 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import moment from 'moment'
 import { useTranslation } from 'react-i18next'
 
 const BookingDetailInfoModal = lazy(() => import('../../components/BookingDetailInfoModal'))
@@ -22,6 +23,8 @@ export default function ExpertBooking() {
         res.data.pagination.job_requests.map((jobRequest) => {
           jobRequest.major = jobRequest.major.name
           jobRequest.time = jobRequest.time_booking
+          jobRequest.price = jobRequest.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })
+          jobRequest.time_booking = moment(jobRequest.time_booking).format('DD/MM/YYYY h:mm:ss A')
         })
         setJobRequests(res.data.pagination.job_requests)
       })
@@ -44,7 +47,7 @@ export default function ExpertBooking() {
       headerName: t('price'),
       flex: 1,
       renderCell: (params) => {
-        return <Typography variant='body2'>{params.value} VNĐ</Typography>
+        return <Typography variant='body2'>{params.value}</Typography>
       }
     },
     { field: 'status', headerName: t('status'), flex: 1 },
@@ -84,9 +87,9 @@ export default function ExpertBooking() {
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>{t('myBookings')}</title>
-    </Helmet>
+      </Helmet>
       <Container sx={{ minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>

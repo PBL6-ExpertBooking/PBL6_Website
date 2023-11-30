@@ -7,12 +7,10 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import Loading from '../../../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
-import dayjs from 'dayjs'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import SearchIcon from '@mui/icons-material/Search'
 function Transaction() {
   const { t } = useTranslation()
   const [fromDay, setFromDay] = useState('')

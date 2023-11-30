@@ -23,6 +23,7 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone'
 import { useCookies } from 'react-cookie'
 import { useTranslation } from 'react-i18next'
+import pusher from '../../common/utils/pusher'
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
@@ -55,6 +56,13 @@ const UserBoxDescription = styled(Typography)(
 function HeaderUserbox() {
   const { t } = useTranslation()
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
+  const user = JSON.parse(localStorage.getItem('profile'))
+  const channel = pusher.subscribe(`user-${user._id}`)
+  channel.bind('update_balance', function (data) {
+    if (user) {
+      localStorage.setItem('profile', JSON.stringify({ ...user, balance: data.balance }))
+    }
+  })
   const logOut = async () => {
     removeCookie('access_token', { path: '/' })
     removeCookie('refresh_token', { path: '/' })
@@ -62,7 +70,6 @@ function HeaderUserbox() {
     localStorage.removeItem('profile')
     window.location.reload()
   }
-  const user = JSON.parse(localStorage.getItem('profile'))
 
   const ref = useRef(null)
   const [isOpen, setOpen] = useState(false)
