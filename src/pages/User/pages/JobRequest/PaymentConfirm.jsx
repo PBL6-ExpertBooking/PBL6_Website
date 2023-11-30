@@ -6,16 +6,8 @@ import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import { useTranslation } from 'react-i18next'
-import pusher from '../../../../common/utils/pusher'
 
 const PaymentConfirm = ({ id, open, setOpen, fetchData }) => {
-  const user = JSON.parse(localStorage.getItem('profile'))
-  const channel = pusher.subscribe(`user-${user._id}`)
-  channel.bind('update_balance', function (data) {
-    if (user) {
-      localStorage.setItem('profile', JSON.stringify({ ...user, balance: data.balance }))
-    }
-  })
   const { t } = useTranslation()
   const { snack, setSnack } = useSnack()
   const handlePayment = async (id) => {

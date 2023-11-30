@@ -32,31 +32,19 @@ const HomeHeader = () => {
         </Typography>
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
-            <Button
-              variant='contained'
-              sx={{
-                backgroundColor: 'black',
-                color: 'white',
-                '&:hover': {
-                  backgroundColor: 'white',
-                  color: 'black'
-                }
-              }}
-              onClick={() => navigate('/login')}
-            >
+            <Button variant='text' color='secondary' onClick={() => navigate('/login')}>
               {t('signIn')}
             </Button>
             <Button
-              variant='text'
+              variant='outlined'
+              onClick={() => navigate('/register')}
               sx={{
-                backgroundColor: 'white',
                 color: 'black',
+                borderColor: 'white',
                 '&:hover': {
-                  backgroundColor: 'black',
-                  color: 'white'
+                  borderColor: 'black'
                 }
               }}
-              onClick={() => navigate('/register')}
             >
               {t('register')}
             </Button>

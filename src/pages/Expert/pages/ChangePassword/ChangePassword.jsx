@@ -87,13 +87,12 @@ const ChangePassword = () => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          backgroundColor: '#D2E9E9 ',
           padding: '20px',
           margin: '20px 100px'
         }}
       >
         <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
-        {t('changePassword')}
+          {t('changePassword')}
         </Typography>
         <FormControl
           variant='outlined'
@@ -192,7 +191,7 @@ const ChangePassword = () => {
           {t('passwordRequirements')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
-          - {t('passwordRequirements.1')}         
+          - {t('passwordRequirements.1')}
         </Typography>
         <Typography variant='subtitle2' gutterBottom sx={{ marginLeft: '1rem' }}>
           - {t('passwordRequirements.2')}
@@ -209,10 +208,10 @@ const ChangePassword = () => {
             marginRight: '2rem'
           }}
         >
-          <Button variant='contained' component='label' onClick={handleUpdatePassword}>
+          <Button variant='text' component='label' color='success' onClick={handleUpdatePassword}>
             {t('saveChanges')}
           </Button>
-          <Button variant='contained' component='label' color='error' onClick={handleResetForm}>
+          <Button variant='text' component='label' color='error' onClick={handleResetForm}>
             {t('reset')}
           </Button>
         </Stack>

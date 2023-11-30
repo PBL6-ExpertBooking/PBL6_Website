@@ -1,7 +1,6 @@
 import {
   Box,
   Stack,
-  Avatar,
   Button,
   TextField,
   Typography,
@@ -9,11 +8,10 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Grid
 } from '@mui/material'
 import { React, useState, useEffect } from 'react'
-import { styled } from '@mui/material/styles'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import CertificateInfo from '../../components/CertificateInfo'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
@@ -25,18 +23,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import urlConfig from '../../../../config/UrlConfig'
 import Axios from 'axios'
 import { useTranslation } from 'react-i18next'
-
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1
-})
+import UploadAvatar from '../../../../components/UploadAvatar/UploadAvatar'
+import { LoadingButton } from '@mui/lab'
 
 const ExpertProfile = () => {
   const [profile, setProfile] = useState({
@@ -67,6 +55,7 @@ const ExpertProfile = () => {
   const [majors, setMajors] = useState([])
   const { snack, setSnack } = useSnackbar()
   const [refresh, setRefresh] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [tinh, setTinh] = useState({})
   const [huyen, setHuyen] = useState({})
   const [xa, setXa] = useState({})
@@ -103,7 +92,7 @@ const ExpertProfile = () => {
       .catch((err) => console.log(err))
   }
   const fetchHuyen = async () => {
-    console.log("URL huyen ", `https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
+    console.log('URL huyen ', `https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
     await Axios.get(`https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
       .then((res) => {
         setHuyen(res.data.districts)
@@ -111,7 +100,7 @@ const ExpertProfile = () => {
       .catch((err) => console.log(err))
   }
   const fetchXa = async () => {
-    console.log("URL xa ", `https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
+    console.log('URL xa ', `https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
 
     await Axios.get(`https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
       .then((res) => {
@@ -121,6 +110,7 @@ const ExpertProfile = () => {
   }
 
   const handleUpdateProfile = async () => {
+    setIsSubmitting(true)
     const res = await AxiosInterceptors.put(
       urlConfig.user.info,
       {
@@ -146,6 +136,7 @@ const ExpertProfile = () => {
           message: t('updateProfileSuccess'),
           type: 'success'
         })
+        setIsSubmitting(false)
       })
       .catch((err) => {
         setSnack({
@@ -153,6 +144,7 @@ const ExpertProfile = () => {
           message: t('updateProfileFail'),
           type: 'error'
         })
+        setIsSubmitting(false)
       })
   }
 
@@ -194,307 +186,304 @@ const ExpertProfile = () => {
     (profile._id && (
       <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Snackbar />
-        <Card
+        <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            backgroundColor: '#D2E9E9 ',
-            padding: '20px',
-            margin: '20px 100px'
+            margin: '20px 100px',
+            backgroundColor: 'transparent'
           }}
         >
-          <Stack
-            spacing={2}
-            direction='row'
-            sx={{
-              width: '100%'
-            }}
-          >
-            <Stack
-              spacing={5}
-              direction='column'
-              alignItems='center'
-              justifyContent='center'
-              sx={{
-                width: '50%'
-              }}
-            >
-              <Avatar alt='Remy Sharp' src={profile.photo_url} sx={{ width: 250, height: 250 }} />
-              <Box>
-                <Button
-                  component='label'
-                  variant='contained'
-                  startIcon={<CloudUploadIcon />}
-                  sx={{
-                    backgroundColor: '#F8F6F4',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: '#F8F6F4',
-                      color: 'black'
-                    }
-                  }}
-                >
-                  {t('uploadPhoto')}
-                  <VisuallyHiddenInput
-                    type='file'
-                    accept='.jpg, .png'
-                    onChange={(e) => {
-                      const file = e.target.files[0]
-                      let newFormData = new FormData()
-                      newFormData.append('photo', file)
-                      setFormData(newFormData)
-                      const reader = new FileReader()
-                      reader.readAsDataURL(file)
-                      reader.onloadend = () => {
-                        setProfile({
-                          ...profile,
-                          photo_url: reader.result
-                        })
-                      }
-                    }}
-                  />
-                </Button>
-              </Box>
-            </Stack>
-            <Box sx={{ display: 'block', width: '100%' }}>
-              <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
-              {t('expertProfile')}
-              </Typography>
-              <Box component='form' noValidate autoComplete='off'>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
-                  }}
-                >
-                  <TextField
-                    fullWidth
-                    required
-                    id='outlined-required'
-                    label={t('username')}
-                    defaultValue={profile.username}
-                    disabled
-                  />
-                  <TextField
-                    fullWidth
-                    required
-                    id='outlined-required'
-                    label='Email'
-                    defaultValue={profile.email}
-                    disabled
-                  />
-                </Box>
-
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '45%' }
-                  }}
-                >
-                  <TextField
-                    required
-                    id='outlined-required'
-                    label={t('firstName')}
-                    defaultValue={profile.first_name}
-                    onChange={(e) => {
-                      setProfile({
-                        ...profile,
-                        first_name: e.target.value
-                      })
-                    }}
-                  />
-                  <TextField
-                    required
-                    id='outlined-required'
-                    label={t('lastName')}
-                    defaultValue={profile.last_name}
-                    onChange={(e) => {
-                      setProfile({
-                        ...profile,
-                        last_name: e.target.value
-                      })
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    '& .MuiTextField-root': { m: 2, width: '29%' }
-                  }}
-                >
-                  <TextField
-                    id='outlined-number'
-                    label={t('phoneNumber')}
-                    type='number'
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    defaultValue={profile.phone}
-                    onChange={(e) => {
-                      setProfile({
-                        ...profile,
-                        phone: e.target.value
-                      })
-                    }}
-                  />
-
-                  <FormControl sx={{ width: '29%', m: 2 }}>
-                    <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
-                    <Select
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      label={t('gender')}
-                      defaultValue={profile.gender ? 1 : 0}
-                      onChange={(e) => {
-                        setProfile({
-                          ...profile,
-                          gender: e.target.value === 1 ? true : false
-                        })
-                      }}
-                    >
-                      <MenuItem value={0}>Male</MenuItem>
-                      <MenuItem value={1}>Female</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
-                    <DateField
-                      label={t('dateOfBirth')}
-                      value={dayjs(profile.DoB)}
-                      onChange={(newValue) =>
-                        setProfile({
-                          ...profile,
-                          DoB: newValue
-                        })
-                      }
-                    />
-                  </LocalizationProvider>
-                </Box>
-                <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
-                  <TextField
-                    id='outlined-select-currency'
-                    select
-                    label={t('city')}
-                    defaultValue={profile.address?.city?.name}
-                    sx={{
-                      width: '30%'
-                    }}
-                  >
-                    {tinh && tinh.length > 0 && tinh?.map((option) => (
-                      <MenuItem
-                        key={option.code}
-                        value={option.name}
-                        onClick={(e) => {
-                          setProfile({
-                            ...profile,
-                            address: {
-                              ...profile.address,
-                              city: {
-                                code: option.code,
-                                name: option.name
-                              }
-                            }
-                          })
-                        }}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    id='outlined-select-currency'
-                    select
-                    label={t('district')}
-                    defaultValue={profile.address?.district?.name}
-                    sx={{
-                      width: '30%'
-                    }}
-                  >
-                    {huyen && tinh.length > 0 && huyen?.map((option) => (
-                      <MenuItem
-                        key={option.code}
-                        value={option.name}
-                        onClick={(e) => {
-                          setProfile({
-                            ...profile,
-                            address: {
-                              ...profile.address,
-                              district: {
-                                code: option.code,
-                                name: option.name
-                              }
-                            }
-                          })
-                        }}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    id='outlined-select-currency'
-                    select
-                    label={t('ward')}
-                    defaultValue={profile.address?.ward?.name}
-                    sx={{
-                      width: '30%'
-                    }}
-                  >
-                    {xa && xa.length > 0 && xa?.map((option) => (
-                      <MenuItem
-                        key={option.code}
-                        value={option.name}
-                        onClick={(e) => {
-                          setProfile({
-                            ...profile,
-                            address: {
-                              ...profile.address,
-                              ward: {
-                                code: option.code,
-                                name: option.name
-                              }
-                            }
-                          })
-                        }}
-                      >
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Stack>
-              </Box>
-              <Stack
-                spacing={1}
-                direction='row'
-                alignItems='center'
-                justifyContent='flex-end'
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card
                 sx={{
-                  marginRight: '2rem'
+                  py: 10,
+                  px: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%'
                 }}
               >
-                <Button
-                  variant='contained'
-                  component='label'
-                  onClick={handleUpdateProfile}
+                <UploadAvatar
+                  file={profile.photo_url}
+                  setFormData={setFormData}
+                  information={profile}
+                  setInformation={setProfile}
+                />
+                <Typography
+                  variant='caption'
                   sx={{
-                    backgroundColor: '#F8F6F4',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: '#F8F6F4',
-                      color: 'black'
-                    }
+                    mt: 2,
+                    mx: 'auto',
+                    display: 'block',
+                    textAlign: 'center',
+                    color: 'text.secondary'
                   }}
                 >
-                  {t('saveChanges')}
+                  Allowed *.jpg, *.png
+                  <br /> max size of 3.5MB
+                </Typography>
+                <Button
+                  variant='text'
+                  component='label'
+                  color='error'
+                  sx={{
+                    mt: 2,
+                    mx: 'auto'
+                  }}
+                >
+                  {t('deleteAccount')}
                 </Button>
-                <Button variant='contained' component='label' color='error'>
-                  {t('reset')}
-                </Button>
-              </Stack>
-            </Box>
-          </Stack>
-        </Card>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Card sx={{ p: 3, height: '100%' }}>
+                <Box sx={{ display: 'block', width: '100%' }}>
+                  <Typography variant='h4' component='h4' sx={{ margin: '1.5rem' }}>
+                    {t('expertProfile')}
+                  </Typography>
+                  <Box component='form' noValidate autoComplete='off'>
+                    <Box
+                      sx={{
+                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                      }}
+                    >
+                      <TextField
+                        fullWidth
+                        required
+                        id='outlined-required'
+                        label={t('username')}
+                        defaultValue={profile.username}
+                        disabled
+                      />
+                      <TextField
+                        fullWidth
+                        required
+                        id='outlined-required'
+                        label='Email'
+                        defaultValue={profile.email}
+                        disabled
+                      />
+                    </Box>
 
+                    <Box
+                      sx={{
+                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                      }}
+                    >
+                      <TextField
+                        required
+                        id='outlined-required'
+                        label={t('firstName')}
+                        defaultValue={profile.first_name}
+                        onChange={(e) => {
+                          setProfile({
+                            ...profile,
+                            first_name: e.target.value
+                          })
+                        }}
+                      />
+                      <TextField
+                        required
+                        id='outlined-required'
+                        label={t('lastName')}
+                        defaultValue={profile.last_name}
+                        onChange={(e) => {
+                          setProfile({
+                            ...profile,
+                            last_name: e.target.value
+                          })
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        '& .MuiTextField-root': { m: 2, width: '29%' }
+                      }}
+                    >
+                      <TextField
+                        id='outlined-number'
+                        label={t('phoneNumber')}
+                        type='number'
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        defaultValue={profile.phone}
+                        onChange={(e) => {
+                          setProfile({
+                            ...profile,
+                            phone: e.target.value
+                          })
+                        }}
+                      />
+
+                      <FormControl sx={{ width: '29%', m: 2 }}>
+                        <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          label={t('gender')}
+                          defaultValue={profile.gender ? 1 : 0}
+                          onChange={(e) => {
+                            setProfile({
+                              ...profile,
+                              gender: e.target.value === 1 ? true : false
+                            })
+                          }}
+                        >
+                          <MenuItem value={0}>Male</MenuItem>
+                          <MenuItem value={1}>Female</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                      <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
+                        <DateField
+                          label={t('dateOfBirth')}
+                          value={dayjs(profile.DoB)}
+                          onChange={(newValue) =>
+                            setProfile({
+                              ...profile,
+                              DoB: newValue
+                            })
+                          }
+                        />
+                      </LocalizationProvider>
+                    </Box>
+                    <Stack direction='row' spacing={3} sx={{ my: 2, ml: 2 }}>
+                      <TextField
+                        id='outlined-select-currency'
+                        select
+                        label={t('city')}
+                        defaultValue={profile.address?.city?.name}
+                        sx={{
+                          width: '30%'
+                        }}
+                      >
+                        {tinh &&
+                          tinh.length > 0 &&
+                          tinh?.map((option) => (
+                            <MenuItem
+                              key={option.code}
+                              value={option.name}
+                              onClick={(e) => {
+                                setProfile({
+                                  ...profile,
+                                  address: {
+                                    ...profile.address,
+                                    city: {
+                                      code: option.code,
+                                      name: option.name
+                                    }
+                                  }
+                                })
+                              }}
+                            >
+                              {option.name}
+                            </MenuItem>
+                          ))}
+                      </TextField>
+                      <TextField
+                        id='outlined-select-currency'
+                        select
+                        label={t('district')}
+                        defaultValue={profile.address?.district?.name}
+                        sx={{
+                          width: '30%'
+                        }}
+                      >
+                        {huyen &&
+                          tinh.length > 0 &&
+                          huyen?.map((option) => (
+                            <MenuItem
+                              key={option.code}
+                              value={option.name}
+                              onClick={(e) => {
+                                setProfile({
+                                  ...profile,
+                                  address: {
+                                    ...profile.address,
+                                    district: {
+                                      code: option.code,
+                                      name: option.name
+                                    }
+                                  }
+                                })
+                              }}
+                            >
+                              {option.name}
+                            </MenuItem>
+                          ))}
+                      </TextField>
+                      <TextField
+                        id='outlined-select-currency'
+                        select
+                        label={t('ward')}
+                        defaultValue={profile.address?.ward?.name}
+                        sx={{
+                          width: '30%'
+                        }}
+                      >
+                        {xa &&
+                          xa.length > 0 &&
+                          xa?.map((option) => (
+                            <MenuItem
+                              key={option.code}
+                              value={option.name}
+                              onClick={(e) => {
+                                setProfile({
+                                  ...profile,
+                                  address: {
+                                    ...profile.address,
+                                    ward: {
+                                      code: option.code,
+                                      name: option.name
+                                    }
+                                  }
+                                })
+                              }}
+                            >
+                              {option.name}
+                            </MenuItem>
+                          ))}
+                      </TextField>
+                    </Stack>
+                  </Box>
+                  <Stack
+                    spacing={1}
+                    direction='row'
+                    alignItems='center'
+                    justifyContent='flex-end'
+                    sx={{
+                      mt: 3,
+                      marginRight: '2rem'
+                    }}
+                  >
+                    <LoadingButton
+                      fullWidth
+                      color='success'
+                      variant='text'
+                      loading={isSubmitting}
+                      onClick={handleUpdateProfile}
+                      sx={{
+                        width: '150px'
+                      }}
+                    >
+                      {t('saveChanges')}
+                    </LoadingButton>
+                  </Stack>
+                </Box>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
         {certificates.length > 0 &&
           certificates.map((certificate) => {
-            return <CertificateInfo certificate={certificate} majors={majors} refresh={refresh} setRefresh={setRefresh} />
+            return (
+              <CertificateInfo certificate={certificate} majors={majors} refresh={refresh} setRefresh={setRefresh} />
+            )
           })}
       </div>
     ))

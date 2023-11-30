@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import moment from 'moment'
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
@@ -12,21 +11,17 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
-  Stack,
   TableRow,
   TableContainer,
   Select,
   MenuItem,
   Typography,
   useTheme,
-  CardHeader,
-  Avatar
+  CardHeader
 } from '@mui/material'
 
 import Label from '../../../../components/Label'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
+import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone'
 import { useTranslation } from 'react-i18next'
 
 const getStatusLabel = (transaction) => {
@@ -71,6 +66,7 @@ const applyPagination = (cryptoOrders, page, limit) => {
 }
 
 const TransactionTable = ({ transaction }) => {
+  const user = JSON.parse(localStorage.getItem('profile'))
   const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const [limit, setLimit] = useState(10)
@@ -163,19 +159,17 @@ const TransactionTable = ({ transaction }) => {
                 <TableRow hover key={cryptoOrder.id}>
                   <TableCell>
                     {cryptoOrder.expert ? (
-                      <>
-                        <Stack direction='row' spacing={2} alignItems='center'>
-                          <Avatar src={cryptoOrder.expert.photo_url} />
-                          <Stack direction='column' spacing={0}>
-                            <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                              {cryptoOrder.expert.first_name} {cryptoOrder.expert.last_name}
-                            </Typography>
-                            <Typography variant='body2' color='text.secondary' noWrap>
-                              {cryptoOrder.expert.email}
-                            </Typography>
-                          </Stack>
-                        </Stack>
-                      </>
+                      cryptoOrder.expert._id !== user._id ? (
+                        <>
+                          <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                            {cryptoOrder.expert.first_name} {cryptoOrder.expert.last_name}
+                          </Typography>
+                        </>
+                      ) : (
+                        <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                          {t('me')}
+                        </Typography>
+                      )
                     ) : (
                       <>
                         <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
@@ -204,32 +198,9 @@ const TransactionTable = ({ transaction }) => {
                   </TableCell>
                   <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction_status)}</TableCell>
                   <TableCell align='right'>
-                    <Tooltip title={t('edit')} arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.palette.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color='inherit'
-                        size='small'
-                      >
-                        <EditTwoToneIcon fontSize='small' />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('delete')} arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.palette.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color='inherit'
-                        size='small'
-                      >
-                        <DeleteTwoToneIcon fontSize='small' />
-                      </IconButton>
-                    </Tooltip>
+                    <IconButton>
+                      <MoreVertTwoToneIcon fontSize='small' />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               )
