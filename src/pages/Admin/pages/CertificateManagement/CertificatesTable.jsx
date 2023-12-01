@@ -103,7 +103,7 @@ function Row({ row, theme }) {
                         {certificate.name}
                       </TableCell>
                       <TableCell>{certificate.descriptions}</TableCell>
-                      <TableCell align='right'>{certificate.major}</TableCell>
+                      <TableCell align='right'>{certificate.major.name}</TableCell>
                       <TableCell align='right'>
                         <Tooltip title={t('detailInfo')} arrow>
                           <IconButton
