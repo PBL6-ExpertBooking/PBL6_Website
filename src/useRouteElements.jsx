@@ -31,6 +31,8 @@ const HomePage = lazy(() => import('./pages/HomePage'))
 // admin page
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
+const CertificateManagement = lazy(() => import('./pages/Admin/pages/CertificateManagement'))
+
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
@@ -274,6 +276,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <AdminLayout>
                         <MajorsManagement />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminVerifyExpert,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <CertificateManagement />
                       </AdminLayout>
                     </Suspense>
                   )
