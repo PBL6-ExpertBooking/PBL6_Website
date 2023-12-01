@@ -6,6 +6,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import { useTranslation } from 'react-i18next'
 export default function AdminSideNav() {
   const { t } = useTranslation()
@@ -28,6 +29,9 @@ export default function AdminSideNav() {
         </Link>
         <Link to={path.adminListMajor} style={styleLink}>
           <MenuItem icon={<ManageSearchIcon />}>{t('majorsManagement')}</MenuItem>
+        </Link>
+        <Link to={path.adminVerifyExpert} style={styleLink}>
+          <MenuItem icon={<VerifiedUserIcon />}>Xác thực chuyên gia</MenuItem>
         </Link>
         <MenuItem
           icon={<MenuOutlinedIcon />}
