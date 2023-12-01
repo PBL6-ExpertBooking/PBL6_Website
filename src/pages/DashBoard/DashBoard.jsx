@@ -89,7 +89,7 @@ const DashBoard = () => {
           mx: 10
         }}
       >
-        <Typography variant='h1' sx={{ color: 'black' }}>
+        <Typography variant='h1' sx={{ color: 'black', fontFamily: 'Segoe UI' }}>
           {t('discover')}
         </Typography>
         <Stack direction='row' spacing={3} sx={{ mt: 5, color: 'black' }}>
@@ -124,7 +124,7 @@ const DashBoard = () => {
               ))}
             </TextField>
           )}
-          <Button variant='text' color='secondary' onClick={handleSearch} sx={{padding: 2}}>
+          <Button variant='text' color='secondary' onClick={handleSearch} sx={{ padding: 2 }}>
             {t('search')}
           </Button>
         </Stack>
