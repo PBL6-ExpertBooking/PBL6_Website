@@ -15,8 +15,6 @@ const CertificateManagement = () => {
   const { t } = useTranslation()
   const { majors, loading, getMajors } = useContext(MajorContext)
   const [certificates, setCertificates] = React.useState([])
-  const [refresh, setRefresh] = React.useState(false)
-  const [major_id, setMajor_id] = React.useState('')
   const [pageCount, setPageCount] = React.useState(1)
   const [isLoading, setIsLoading] = React.useState(true)
   const fetchData = async () => {
@@ -31,15 +29,6 @@ const CertificateManagement = () => {
       })
       .catch((err) => console.log(err))
   }
-  React.useEffect(() => {
-    getMajors()
-  }, [])
-  React.useEffect(() => {
-    setPageCount(1)
-    setIsLoading(true)
-    fetchData()
-  }, [refresh, major_id])
-
   React.useEffect(() => {
     setIsLoading(true)
     fetchData()

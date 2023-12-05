@@ -24,12 +24,23 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import { useTranslation } from 'react-i18next'
+import CertificateValidateForm from './CertificateValidateForm'
 
-function Row({ row, theme }) {
+function Row({ row, theme, fetchData }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+  const [certificate, setCertificate] = useState(row.certificates[0])
   return (
     <>
+      {openModal && (
+        <CertificateValidateForm
+          open={openModal}
+          setOpen={setOpenModal}
+          certificate={certificate}
+          fetchData={fetchData}
+        />
+      )}
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <Stack direction='row' spacing={2} alignItems='center'>
@@ -73,7 +84,7 @@ function Row({ row, theme }) {
           </Typography>
         </TableCell>
         <TableCell align='right'>
-          <Tooltip title={t('done')} arrow>
+          <Tooltip title='Mở rộng' arrow>
             <IconButton aria-label='expand row' size='small' onClick={() => setOpen(!open)}>
               {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
@@ -115,6 +126,10 @@ function Row({ row, theme }) {
                             }}
                             color='inherit'
                             size='small'
+                            onClick={() => {
+                              setCertificate(certificate)
+                              setOpenModal(true)
+                            }}
                           >
                             <VisibilityTwoToneIcon fontSize='small' />
                           </IconButton>
@@ -160,7 +175,7 @@ const CertificatesTable = ({ majorsOrder, fetchData }) => {
                 ? majorsOrder.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : majorsOrder
               ).map((majorsOrder) => {
-                return <Row key={majorsOrder._id} row={majorsOrder} theme={theme} />
+                return <Row key={majorsOrder._id} row={majorsOrder} theme={theme} fetchData={fetchData} />
               })}
             </TableBody>
           </Table>
