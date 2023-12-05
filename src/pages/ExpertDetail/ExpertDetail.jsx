@@ -85,10 +85,10 @@ const ExpertDetail = () => {
                 <Stack direction='row' spacing={10} sx={{ mt: 5 }}>
                   <div>
                     <Typography variant='h6' sx={{ mt: 2 }}>
-                      {expert.descriptions}
+                      {t('description')}
                     </Typography>
                     <Typography variant='body1' sx={{ mt: 2 }}>
-                      Da Nang City, Viet Nam
+                      {expert.descriptions}
                     </Typography>
                   </div>
                   <div>
@@ -110,7 +110,7 @@ const ExpertDetail = () => {
             </Grid>
           </Card>
           <Grid container spacing={5} sx={{ mt: 3 }}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={5}>
               <Card
                 sx={{
                   maxHeight: '400px',

@@ -45,7 +45,8 @@ const urlConfig = {
   },
   certificate: {
     createCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
-    deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`
+    deleteCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`,
+    verifyCertificate: `${process.env.REACT_APP_API_ENDPOINT}/certificates`
   },
   review: {
     createReview: `${process.env.REACT_APP_API_ENDPOINT}/reviews`
