@@ -24,12 +24,12 @@ import Snackbar from '../../common/components/SnackBar'
 import useSnackbar from '../../contexts/snackbar.context'
 import LanguaguePopover from '../LanguagePopover/LanguagePopover'
 // icon
-import NotificationsIcon from '@mui/icons-material/Notifications'
 import AddIcon from '@mui/icons-material/Add'
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CertificateInformodal from '../../pages/Expert/components/CertificateInforModal/CertificateInformodal'
 import { useTranslation } from 'react-i18next'
+import Notification from './Notification'
 
 const Header = () => {
   const { t } = useTranslation()
@@ -307,9 +307,10 @@ const Header = () => {
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
               <Tooltip title={t('notifications')} arrow>
-                <Fab size='small' aria-label='notifi'>
+                {/* <Fab size='small' aria-label='notifi'>
                   <NotificationsIcon />
-                </Fab>
+                </Fab> */}
+                <Notification />
               </Tooltip>
               {user.role === 'USER' && (
                 <>
