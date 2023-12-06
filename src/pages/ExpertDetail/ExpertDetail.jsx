@@ -23,6 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Loading from '../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
 import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone'
+import SimpleBar from 'simplebar-react'
 const ExpertDetail = () => {
   const { t } = useTranslation()
   const id = useParams()
@@ -64,7 +65,8 @@ const ExpertDetail = () => {
           sx={{
             px: 20,
             py: 5,
-            backgroundColor: '#F5F5F5'
+            backgroundColor: '#F5F5F5',
+            height: '93vh'
           }}
         >
           <Card
@@ -113,58 +115,61 @@ const ExpertDetail = () => {
             <Grid item xs={12} sm={5}>
               <Card
                 sx={{
-                  maxHeight: '400px',
+                  height: '400px',
                   overflow: 'auto',
                   overflowX: 'hidden'
                 }}
               >
-                <CardHeader title={t('certificate')} />
-                <CardContent>
-                  {expert.certificates?.map((certificate) => (
-                    <Accordion>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls='panel1a-content'
-                        id='panel1a-header'
-                      >
-                        <Stack direction='row' spacing={2}>
-                          <Typography> {certificate.name}</Typography>
-                          {certificate.isVerified && <VerifiedTwoToneIcon sx={{ color: 'green' }} />}
-                        </Stack>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <img src={certificate.photo_url} alt='certificate' style={{ width: '100%' }} />
-                      </AccordionDetails>
-                    </Accordion>
-                  ))}
-                </CardContent>
+                <SimpleBar style={{ maxHeight: 400 }} timeout={500} clickOnTrack={false}>
+                  <CardHeader title={t('certificate')} />
+                  <CardContent>
+                    {expert.certificates?.map((certificate) => (
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls='panel1a-content'
+                          id='panel1a-header'
+                        >
+                          <Stack direction='row' spacing={2}>
+                            <Typography> {certificate.name}</Typography>
+                            {certificate.isVerified && <VerifiedTwoToneIcon sx={{ color: 'green' }} />}
+                          </Stack>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <img src={certificate.photo_url} alt='certificate' style={{ width: '100%' }} />
+                        </AccordionDetails>
+                      </Accordion>
+                    ))}
+                  </CardContent>
+                </SimpleBar>
               </Card>
             </Grid>
             <Grid item xs={12} sm={7}>
               <Card
                 sx={{
                   maxHeight: '400px',
-                  overflow: 'auto',
-                  overflowX: 'hidden'
+                  overflow: 'hidden'
                 }}
               >
-                <CardHeader title={t('reviews')} />
-                <CardContent>
-                  <Stack direction='column' spacing={1}>
-                    {review.map((item) => (
-                      <>
-                        <RatingContent
-                          photoURL={item.user.photo_url}
-                          name={item.user.first_name + ' ' + item.user.last_name}
-                          date={item.createdAt}
-                          rating={item.rating}
-                          comment={item.comment}
-                        />
-                        <Divider />
-                      </>
-                    ))}
-                  </Stack>
-                </CardContent>
+                <SimpleBar style={{ maxHeight: 400 }} timeout={500} clickOnTrack={false}>
+                  <CardHeader title={t('reviews')} />
+                  <CardContent>
+                    <Stack direction='column' spacing={1}>
+                      {review.map((item) => (
+                        <>
+                          <RatingContent
+                            photoURL={item.user.photo_url}
+                            name={item.user.first_name + ' ' + item.user.last_name}
+                            date={item.createdAt}
+                            rating={item.rating}
+                            comment={item.comment}
+                          />
+                          <Divider />
+                        </>
+                      ))}
+                    </Stack>
+                  </CardContent>
+                </SimpleBar>
               </Card>
             </Grid>
           </Grid>

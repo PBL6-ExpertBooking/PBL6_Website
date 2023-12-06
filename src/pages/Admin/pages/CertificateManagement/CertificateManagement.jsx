@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import CertificatesTable from './CertificatesTable'
-import { MajorContext } from '../../../../contexts/major.context'
-import { TextField, MenuItem, Box, Stack, Fab, Tooltip, Container, Typography } from '@mui/material'
+import { Box, Stack, Fab, Tooltip, Container, Typography } from '@mui/material'
 import Loading from '../../../../common/components/Loading/Loading'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
@@ -13,7 +12,6 @@ import { useTranslation } from 'react-i18next'
 
 const CertificateManagement = () => {
   const { t } = useTranslation()
-  const { majors, loading, getMajors } = useContext(MajorContext)
   const [certificates, setCertificates] = React.useState([])
   const [pageCount, setPageCount] = React.useState(1)
   const [isLoading, setIsLoading] = React.useState(true)
