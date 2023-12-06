@@ -3,20 +3,22 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import CertificatesTable from './CertificatesTable'
-import { Box, Stack, Fab, Tooltip, Container, Typography } from '@mui/material'
+import { Box, Stack, Fab, Tooltip, Container, Typography, TextField, InputAdornment } from '@mui/material'
 import Loading from '../../../../common/components/Loading/Loading'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import svg from '../../../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
+import SearchIcon from '@mui/icons-material/Search'
 
 const CertificateManagement = () => {
   const { t } = useTranslation()
   const [certificates, setCertificates] = React.useState([])
   const [pageCount, setPageCount] = React.useState(1)
   const [isLoading, setIsLoading] = React.useState(true)
+  const [searchTerm, setSearchTerm] = React.useState('')
   const fetchData = async () => {
-    await AxiosInterceptors.get(urlConfig.expert.expertUnverified + `?page=${pageCount}`)
+    await AxiosInterceptors.get(urlConfig.expert.expertUnverified + `?search=${searchTerm}&page=${pageCount}`)
       .then((res) => {
         if (res && res.status === 200) {
           if (res.data.pagination.experts) {
@@ -36,9 +38,35 @@ const CertificateManagement = () => {
       <Helmet>
         <title>Xác thực chuyên gia</title>
       </Helmet>
-      <Box direction='row' spacing={2} sx={{ marginBottom: '20px', display: 'flex' }}>
-        <h1>Xác thực chuyên gia</h1>
-      </Box>
+      <Stack direction='row' spacing={2} justifyContent='space-between' sx={{ mb: 4 }}>
+        <Typography variant='h3' sx={{ margin: '1rem 0' }}>
+          Xác thực chuyên gia
+        </Typography>
+        <Stack direction='row' spacing={2} sx={{ marginBottom: '20px', float: 'right' }}>
+          <TextField
+            id='search'
+            type='search'
+            label={t('searchTitle')}
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value)
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                setIsLoading(true)
+                fetchData()
+              }
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+        </Stack>
+      </Stack>
       {isLoading ? (
         <Loading />
       ) : certificates.length > 0 ? (

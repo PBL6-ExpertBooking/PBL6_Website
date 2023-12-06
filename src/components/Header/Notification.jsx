@@ -1,4 +1,3 @@
-import { useState } from 'react'
 // @mui
 import {
   Box,
@@ -22,75 +21,40 @@ import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AccessTimeTwoToneIcon from '@mui/icons-material/AccessTimeTwoTone'
 import moment from 'moment/moment'
-import { memo } from 'react'
 import SimpleBar from 'simplebar-react'
+import AxiosInterceptors from '../../common/utils/axiosInterceptors'
+import urlConfig from '../../config/UrlConfig'
+import pusher from '../../common/utils/pusher'
+import useSnackbar from '../../contexts/snackbar.context'
+import Snackbar from '../../common/components/SnackBar'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { memo } from 'react'
+
 // components
 // ----------------------------------------------------------------------
 const NotificationsPopover = memo(function NotificationsPopover() {
-  const [notifications, setNotifications] = useState([
-    {
-      _id: '656fe9b4424761e41243b886',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: false,
-      __v: 0,
-      createdAt: '2023-12-06T03:25:40.049Z',
-      updatedAt: '2023-12-06T03:25:40.049Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    },
-    {
-      _id: '656fe34333236244968cde86',
-      user: '652fac2c2e03d8c6639e1026',
-      message: 'New job request: test',
-      is_seen: true,
-      updatedAt: '2023-12-06T03:18:59.087Z'
-    }
-  ])
+  const { snack, setSnack } = useSnackbar()
+  const [notifications, setNotifications] = useState([])
 
   const totalUnRead = notifications.filter((item) => item.is_seen === false).length
 
   const [open, setOpen] = useState(null)
+  const [refresh, setRefresh] = useState(false)
+
+  const user = JSON.parse(localStorage.getItem('profile'))
+  const channel = pusher.subscribe(`user-${user._id}`)
+  channel.bind('notification', function (data) {
+    if (user && data.notification) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Bạn có thông báo mới!',
+        type: 'info'
+      })
+      setRefresh(!refresh)
+    }
+  })
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget)
@@ -104,13 +68,26 @@ const NotificationsPopover = memo(function NotificationsPopover() {
     setNotifications(
       notifications.map((notification) => ({
         ...notification,
-        is_seen: false
+        is_seen: true
       }))
     )
   }
+  const fetchData = async () => {
+    await AxiosInterceptors.get(urlConfig.user.getNotification)
+      .then((res) => {
+        if (res && res.status === 200) {
+          setNotifications(res.data.notifications)
+        }
+      })
+      .catch((err) => console.log(err))
+  }
+  useEffect(() => {
+    fetchData()
+  }, [refresh])
 
   return (
     <>
+      <Snackbar />
       <Fab size='small' aria-label='notifi' onClick={handleOpen}>
         <Badge badgeContent={totalUnRead} color='error'>
           <NotificationsIcon />
@@ -135,7 +112,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
           {totalUnRead > 0 && (
             <Tooltip title=' Mark all as read'>
               <IconButton onClick={handleMarkAllAsRead} sx={{ color: 'green' }}>
-                <DoneAllTwoToneIcon onClick={handleMarkAllAsRead} />
+                <DoneAllTwoToneIcon />
               </IconButton>
             </Tooltip>
           )}
@@ -153,7 +130,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
               }
             >
               {notifications.slice(0, totalUnRead).map((notification) => (
-                <NotificationItem key={notification.id} notification={notification} />
+                <NotificationItem key={notification._id} notification={notification} />
               ))}
             </List>
 
@@ -166,7 +143,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
               }
             >
               {notifications.slice(totalUnRead, 5).map((notification) => (
-                <NotificationItem key={notification.id} notification={notification} />
+                <NotificationItem key={notification._id} notification={notification} />
               ))}
             </List>
           </SimpleBar>
@@ -217,7 +194,6 @@ function NotificationItem({ notification }) {
               color: 'text.disabled'
             }}
           >
-            {/* <Iconify icon='eva:clock-outline' sx={{ mr: 0.5, width: 16, height: 16 }} /> */}
             <AccessTimeTwoToneIcon sx={{ mr: 0.5, width: 16, height: 16 }} />
             {moment(notification.createdAt).fromNow()}
           </Typography>
@@ -232,19 +208,20 @@ function NotificationItem({ notification }) {
 function renderContent(notification) {
   const title = (
     <Typography variant='subtitle1'>
-      {notification.message}
+      {notification.ref.job_request.user.first_name} {notification.ref.job_request.user.last_name} -{' '}
+      {notification.ref.job_request.title}
       <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
-        &nbsp; {notification.description}
+        &nbsp; {notification.ref.job_request.descriptions}
       </Typography>
     </Typography>
   )
 
-  //   if (notification.type === 'order_placed') {
-  return {
-    avatar: <img alt={notification.title} src={notification.user.photo_url} />,
-    title
+  if (notification.type === 'NEW_JOB_REQUEST') {
+    return {
+      avatar: <img alt={notification.user} src={notification.ref.job_request.user.photo_url} />,
+      title
+    }
   }
-  //   }
   if (notification.type === 'order_shipped') {
     return {
       avatar: (

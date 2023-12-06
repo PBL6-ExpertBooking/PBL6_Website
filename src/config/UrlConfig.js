@@ -13,7 +13,8 @@ const urlConfig = {
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/users/current/job_requests`,
     searchExpert: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
     promoteToExpert: `${process.env.REACT_APP_API_ENDPOINT}/users/current/promote-to-expert`,
-    getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`
+    getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`,
+    getNotification: `${process.env.REACT_APP_API_ENDPOINT}/users/current/notifications`
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,
