@@ -32,6 +32,7 @@ const HomePage = lazy(() => import('./pages/HomePage'))
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
 const CertificateManagement = lazy(() => import('./pages/Admin/pages/CertificateManagement'))
+const PayMent = lazy(() => import('./pages/PayMent'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -300,6 +301,14 @@ export default function useRouteElements() {
       path: '',
       element: <HomeLayout />,
       children: [
+        {
+          path: path.paymentResponse,
+          element: (
+            <Suspense>
+              <PayMent />
+            </Suspense>
+          )
+        },
         {
           path: path.validateEmail,
           element: (

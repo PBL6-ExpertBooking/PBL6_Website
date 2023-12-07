@@ -15,6 +15,7 @@ const path = {
   expertDetail: '/expertDetail/:nameId',
   validateEmail: '/validate-email/:token',
   promoteToExpert: '/promote-to-expert',
+  paymentResponse: '/payment-response',
 
   //Expert
   expert: '/expert',

@@ -145,7 +145,7 @@ const DashBoard = () => {
             py: 10,
             px: 2,
             mt: 5,
-            mx: 10
+            mx: 5
           }}
         >
           <Typography variant='h1' sx={{ color: 'black', fontFamily: 'Segoe UI' }}>
@@ -159,6 +159,7 @@ const DashBoard = () => {
                 label={t('searchTitle')}
                 value={searchTerm}
                 onChange={handleChange}
+                fullWidth
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
