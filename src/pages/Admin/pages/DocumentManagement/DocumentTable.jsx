@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import AddIcon from '@mui/icons-material/Add'
+import { useEffect, useState } from 'react'
 import {
   Tooltip,
   Divider,
@@ -16,27 +15,25 @@ import {
   Typography,
   useTheme,
   CardHeader,
-  Button
+  Avatar,
+  Stack
 } from '@mui/material'
-
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
-import AddNewMajor from './AddNewMajor'
-import EditMajor from './EditMajor'
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import Snackbar from '../../../../common/components/SnackBar'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
+import moment from 'moment'
+import DocumentModal from './DocumentModal'
 
-const MajorsTable = ({ majorsOrder, fetchData }) => {
+const DocumentTable = ({ majorsOrder, fetchData }) => {
   const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [openAdd, setOpenAdd] = useState(false)
-  const [openEdit, setOpenEdit] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
   const [item, setItem] = useState({})
   const { snack, setSnack } = useSnackbar()
   const theme = useTheme()
@@ -49,62 +46,36 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
     setRowsPerPage(parseInt(event.target.value))
   }
 
-  const handleDelete = async (id) => {
-    await AxiosInterceptors.delete(urlConfig.majors.deleteMajors + `/${id}`)
-      .then((res) => {
-        fetchData()
-        setSnack({
-          ...snack,
-          open: true,
-          message: t('deleteMajorSuccess'),
-          type: 'success'
-        })
-      })
-      .catch((err) =>
-        setSnack({
-          ...snack,
-          open: true,
-          message: t('deleteMajorFail'),
-          type: 'error'
-        })
-      )
-  }
-
   const handleEdit = (major) => {
     setItem(major)
   }
+  useEffect(() => {
+    if (isMobile) {
+      setRowsPerPage(5)
+    }
+  }, [isMobile])
   return (
     <>
       <Snackbar />
-      {openAdd && <AddNewMajor open={openAdd} handleClose={() => setOpenAdd(false)} fetchData={fetchData} />}
-      {openEdit && (
-        <EditMajor open={openEdit} handleClose={() => setOpenEdit(false)} fetchData={fetchData} item={item} />
+      {openModal && (
+        <DocumentModal open={openModal} handleClose={() => setOpenModal(false)} fetchData={fetchData} item={item} />
       )}
       <Card>
-        <CardHeader
-          action={
-            <Box width={isMobile ? '' : 150}>
-              <Button
-                variant='contained'
-                color='primary'
-                onClick={() => setOpenAdd(true)}
-                fullWidth
-                startIcon={<AddIcon />}
-              >
-                {isMobile ? '' : t('addMajor')}
-              </Button>
-            </Box>
-          }
-          title={t('majorsManagement')}
-        />
+        <CardHeader title='Quản lý tài liệu' />
         <Divider />
         <TableContainer>
           <Table size='small'>
             <TableHead>
               <TableRow>
-                {!isMobile && <TableCell>{t('majorId')}</TableCell>}
-                <TableCell>{t('majorName')}</TableCell>
-                <TableCell>{t('description')}</TableCell>
+                <TableCell>{t('EXPERT')}</TableCell>
+
+                {!isMobile && (
+                  <>
+                    <TableCell>{t('description')}</TableCell>
+                    <TableCell>Chi tiết</TableCell>
+                  </>
+                )}
+                <TableCell align='right'>Thời gian gia nhập</TableCell>
                 <TableCell align='right'>{t('action')}</TableCell>
               </TableRow>
             </TableHead>
@@ -115,25 +86,46 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
               ).map((majorsOrder) => {
                 return (
                   <TableRow hover key={majorsOrder._id}>
-                    {!isMobile && (
-                      <TableCell>
-                        <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                          {majorsOrder._id}
-                        </Typography>
-                      </TableCell>
-                    )}
                     <TableCell>
-                      <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                        {majorsOrder.name}
-                      </Typography>
+                      <Stack direction='row' spacing={2} alignItems='center'>
+                        <Avatar src={majorsOrder.user.photo_url} />
+                        <Stack direction='column' spacing={0}>
+                          <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                            {majorsOrder.user.first_name} {majorsOrder.user.last_name}
+                          </Typography>
+                          <Typography variant='body2' color='text.secondary' noWrap>
+                            {majorsOrder.user.email}
+                          </Typography>
+                        </Stack>
+                      </Stack>
                     </TableCell>
-                    <TableCell>
-                      <Typography variant='body1' color='text.primary' gutterBottom noWrap>
-                        {majorsOrder.descriptions}
+                    {!isMobile && (
+                      <>
+                        <TableCell>
+                          <Typography variant='body1' color='text.primary' gutterBottom noWrap>
+                            {majorsOrder.descriptions}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                            Số chuyên ngành: {majorsOrder.verified_majors ? majorsOrder.verified_majors.length : 0}
+                          </Typography>
+                          <Typography variant='body2' color='text.primary' gutterBottom noWrap>
+                            Số chứng chỉ đã xác nhận: {majorsOrder.certificates.length}
+                          </Typography>
+                        </TableCell>
+                      </>
+                    )}
+                    <TableCell align='right'>
+                      <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
+                        {moment(majorsOrder.createdAt).format('DD/MM/YYYY')}
+                      </Typography>
+                      <Typography variant='body2' color='text.primary' gutterBottom noWrap>
+                        {moment(majorsOrder.createdAt).format('h:mm:ss A')}
                       </Typography>
                     </TableCell>
                     <TableCell align='right'>
-                      <Tooltip title={t('edit')} arrow>
+                      <Tooltip title={t('detailInfo')} arrow>
                         <IconButton
                           sx={{
                             '&:hover': {
@@ -141,27 +133,14 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
                             },
                             color: theme.palette.primary.main
                           }}
-                          color='inherit'
-                          size='small'
                           onClick={() => {
+                            setOpenModal(true)
                             handleEdit(majorsOrder)
-                            setOpenEdit(true)
-                          }}
-                        >
-                          <EditTwoToneIcon fontSize='small' />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title={t('delete')} arrow>
-                        <IconButton
-                          sx={{
-                            '&:hover': { background: theme.palette.error.lighter },
-                            color: theme.palette.error.main
                           }}
                           color='inherit'
                           size='small'
-                          onClick={() => handleDelete(majorsOrder._id)}
                         >
-                          <DeleteTwoToneIcon fontSize='small' />
+                          <VisibilityTwoToneIcon fontSize='small' />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
@@ -187,4 +166,4 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
   )
 }
 
-export default MajorsTable
+export default DocumentTable

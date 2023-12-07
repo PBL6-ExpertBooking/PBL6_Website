@@ -57,6 +57,10 @@ export default function AdminSideNav() {
           <Link to={path.adminVerifyExpert} style={styleLink}>
             <MenuItem icon={<VerifiedUserIcon />}></MenuItem>
           </Link>
+          <MenuItem
+            icon={<FindInPageIcon />}
+            component={<Link to={path.adminListDocument} style={styleLink} />}
+          ></MenuItem>
         </Menu>
       ) : (
         <Menu>
