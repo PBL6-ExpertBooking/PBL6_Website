@@ -24,7 +24,9 @@ import Loading from '../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
 import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone'
 import SimpleBar from 'simplebar-react'
+import useResponsive from '../../hooks/useResponsive'
 const ExpertDetail = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const id = useParams()
   const [expert, setExpert] = useState({})
@@ -63,7 +65,7 @@ const ExpertDetail = () => {
       {expert.user ? (
         <Box
           sx={{
-            px: 20,
+            px: isMobile ? 2 : 20,
             py: 5,
             backgroundColor: '#F5F5F5',
             height: '93vh'

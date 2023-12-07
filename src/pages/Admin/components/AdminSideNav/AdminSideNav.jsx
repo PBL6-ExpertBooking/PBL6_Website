@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import path from '../../../../constants/path'
-import { Sidebar, Menu, MenuItem, useProSidebar } from 'react-pro-sidebar'
+import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
@@ -9,10 +9,11 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
+import React from 'react'
 export default function AdminSideNav() {
   const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
-  const { collapseSidebar } = useProSidebar()
+  const [isCollapsed, setIsCollapsed] = React.useState(false)
   const styleLink = {
     textDecoration: 'none',
     color: 'black'
@@ -37,14 +38,9 @@ export default function AdminSideNav() {
     }
   }
   return (
-    <Sidebar style={isMobile ? styleMobile : { height: '100%' }}>
+    <Sidebar style={isMobile ? styleMobile : { height: '100%' }} collapsed={isCollapsed}>
       {isMobile ? (
-        <Menu
-          rootStyles={menuMobile}
-          menuItemStyles={{
-            padding: 0
-          }}
-        >
+        <Menu rootStyles={menuMobile}>
           <Link to={path.dashboard} style={styleLink}>
             <MenuItem icon={<HomeRoundedIcon />}></MenuItem>
           </Link>
@@ -63,25 +59,25 @@ export default function AdminSideNav() {
         </Menu>
       ) : (
         <Menu>
-          <Link to={path.dashboard} style={styleLink}>
-            <MenuItem icon={<HomeRoundedIcon />}>{t('dashboard')}</MenuItem>
-          </Link>
-          <Link to={path.adminProfile} style={styleLink}>
-            <MenuItem icon={<AccountBoxIcon />}>{t('profile')}</MenuItem>
-          </Link>
-          <Link to={path.adminListUser} style={styleLink}>
-            <MenuItem icon={<ManageAccountsIcon />}>{t('usersManagement')}</MenuItem>
-          </Link>
-          <Link to={path.adminListMajor} style={styleLink}>
-            <MenuItem icon={<ManageSearchIcon />}>{t('majorsManagement')}</MenuItem>
-          </Link>
-          <Link to={path.adminVerifyExpert} style={styleLink}>
-            <MenuItem icon={<VerifiedUserIcon />}>Xác thực chuyên gia</MenuItem>
-          </Link>
+          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}>
+            {t('dashboard')}
+          </MenuItem>
+          <MenuItem icon={<AccountBoxIcon />} component={<Link to={path.adminProfile} style={styleLink} />}>
+            {t('profile')}
+          </MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.adminListUser} style={styleLink} />}>
+            {t('usersManagement')}
+          </MenuItem>
+          <MenuItem icon={<ManageSearchIcon />} component={<Link to={path.adminListMajor} style={styleLink} />}>
+            {t('majorsManagement')}
+          </MenuItem>
+          <MenuItem icon={<VerifiedUserIcon />} component={<Link to={path.adminVerifyExpert} style={styleLink} />}>
+            Xác thực chuyên gia
+          </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}
             onClick={() => {
-              collapseSidebar()
+              setIsCollapsed(!isCollapsed)
             }}
             style={styleLink}
           >
