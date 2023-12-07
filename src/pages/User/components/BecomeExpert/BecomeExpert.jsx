@@ -7,8 +7,10 @@ import { useCookies } from 'react-cookie'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import { useTranslation } from 'react-i18next'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const BecomeExpert = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [descriptions, setDecriptions] = useState('')
@@ -80,12 +82,16 @@ const BecomeExpert = () => {
         </Box>
       </RootModal>
       <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px',
-          margin: '20px 100px'
-        }}
+        sx={
+          isMobile
+            ? { display: 'flex', flexDirection: 'column', padding: '20px', margin: '20px 20px' }
+            : {
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '20px',
+                margin: '20px 100px'
+              }
+        }
       >
         <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
           {t('becomeExpert')}

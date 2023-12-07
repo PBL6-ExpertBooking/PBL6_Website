@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Card, Typography, TextField, InputAdornment, Stack, MenuItem, Button, Box } from '@mui/material'
+import { Card, Typography, TextField, InputAdornment, Stack, MenuItem, Button, Box, Grid } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import SearchIcon from '@mui/icons-material/Search'
 import { MajorContext } from '../../contexts/major.context'
@@ -11,8 +11,10 @@ import ListSearch from '../../components/ListSearch'
 import useSnackbar from '../../contexts/snackbar.context'
 import Snackbar from '../../common/components/SnackBar'
 import { useTranslation } from 'react-i18next'
+import useResponsive from '../../hooks/useResponsive'
 
 const DashBoard = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
   const [major_id, setMajor_id] = useState('')
@@ -75,60 +77,123 @@ const DashBoard = () => {
       <Helmet>
         <title>{t('dashboard')}</title>
       </Helmet>
-      <Card
-        sx={{
-          backgroundImage: 'url(https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_7.jpg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          py: 10,
-          mt: 5,
-          mx: 10
-        }}
-      >
-        <Typography variant='h1' sx={{ color: 'black', fontFamily: 'Segoe UI' }}>
-          {t('discover')}
-        </Typography>
-        <Stack direction='row' spacing={3} sx={{ mt: 5, color: 'black' }}>
-          <TextField
-            id='search'
-            type='search'
-            label={t('searchTitle')}
-            value={searchTerm}
-            onChange={handleChange}
-            sx={{ width: 600 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-          {majors.majors && (
+      {!isMobile ? (
+        <Card
+          sx={{
+            backgroundImage: 'url(https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_7.jpg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            py: 10,
+            mt: 5,
+            mx: 10
+          }}
+        >
+          <Typography variant='h1' sx={{ color: 'black', fontFamily: 'Segoe UI' }}>
+            {t('discover')}
+          </Typography>
+          <Stack direction='row' spacing={3} sx={{ mt: 5, color: 'black' }}>
             <TextField
-              id='outlined-select-currency'
-              select
-              label={t('major')}
-              sx={{ width: 200 }}
-              defaultValue=''
-              onChange={(e) => setMajor_id(e.target.value)}
-            >
-              {majors.majors?.map((option) => (
-                <MenuItem key={option._id} value={option._id}>
-                  {option.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          )}
-          <Button variant='text' color='secondary' onClick={handleSearch} sx={{ padding: 2 }}>
-            {t('search')}
-          </Button>
-        </Stack>
-      </Card>
+              id='search'
+              type='search'
+              label={t('searchTitle')}
+              value={searchTerm}
+              onChange={handleChange}
+              sx={{ width: 600 }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <SearchIcon />
+                  </InputAdornment>
+                )
+              }}
+            />
+            {majors.majors && (
+              <TextField
+                id='outlined-select-currency'
+                select
+                label={t('major')}
+                sx={{ width: 200 }}
+                defaultValue=''
+                onChange={(e) => setMajor_id(e.target.value)}
+              >
+                {majors.majors?.map((option) => (
+                  <MenuItem key={option._id} value={option._id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            )}
+            <Button variant='text' color='secondary' onClick={handleSearch} sx={{ padding: 2 }}>
+              {t('search')}
+            </Button>
+          </Stack>
+        </Card>
+      ) : (
+        <Card
+          sx={{
+            backgroundImage: 'url(https://api-prod-minimal-v510.vercel.app/assets/images/cover/cover_7.jpg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            py: 10,
+            px: 2,
+            mt: 5,
+            mx: 10
+          }}
+        >
+          <Typography variant='h1' sx={{ color: 'black', fontFamily: 'Segoe UI' }}>
+            {t('discover')}
+          </Typography>
+          <Grid container spacing={2} sx={{ mt: 5, color: 'black' }}>
+            <Grid item xs={12}>
+              <TextField
+                id='search'
+                type='search'
+                label={t('searchTitle')}
+                value={searchTerm}
+                onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <SearchIcon />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              {majors.majors && (
+                <TextField
+                  id='outlined-select-currency'
+                  select
+                  label={t('major')}
+                  fullWidth
+                  defaultValue=''
+                  onChange={(e) => setMajor_id(e.target.value)}
+                >
+                  {majors.majors?.map((option) => (
+                    <MenuItem key={option._id} value={option._id}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant='text' color='secondary' fullWidth onClick={handleSearch} sx={{ padding: 2 }}>
+                {t('search')}
+              </Button>
+            </Grid>
+          </Grid>
+        </Card>
+      )}
       {isSearch ? (
         !isLoading ? (
           <ListSearch listExpert={listExpert} />

@@ -16,10 +16,12 @@ import _ from 'lodash'
 import LockIcon from '@mui/icons-material/Lock'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const UserInfoModal = lazy(() => import('../../components/UserInfoModal'))
 
 const UsersManagement = () => {
+  const isMobile = useResponsive('down', 'sm')
   //STATE
   const [openMenu, setOpenMenu] = useState(null)
   const [currentRow, setCurrentRow] = useState(null)
@@ -163,14 +165,14 @@ const UsersManagement = () => {
       }
     },
     { field: 'email', headerName: 'Email', flex: 2 },
-    { 
-			field: 'address', 
-			headerName: t('address'), 
-			flex: 5,
-			renderCell: (params) => {
-				return `${params?.row?.address?.ward?.name} - ${params?.row?.address?.district?.name} - ${params?.row?.address?.city?.name}`
-			}
-		},
+    {
+      field: 'address',
+      headerName: t('address'),
+      flex: 5,
+      renderCell: (params) => {
+        return `${params?.row?.address?.ward?.name} - ${params?.row?.address?.district?.name} - ${params?.row?.address?.city?.name}`
+      }
+    },
     { field: 'phone', headerName: t('phoneNumber'), flex: 1.3 },
     {
       field: 'role',
@@ -190,7 +192,7 @@ const UsersManagement = () => {
       headerAlign: 'center',
       flex: 1,
       renderCell: (params) => {
-        return params.row.isConfirmed == true ? getLabel('YES') : getLabel('NO')
+        return params.row.isConfirmed === true ? getLabel('YES') : getLabel('NO')
       }
     },
     {
@@ -226,10 +228,10 @@ const UsersManagement = () => {
       <Helmet>
         <title>{t('userManagement')}</title>
       </Helmet>
-      <Container sx={{ minWidth: 1500 }}>
+      <Container sx={isMobile ? {} : { minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>
-						{t('userManagement')}
+            {t('userManagement')}
           </Typography>
         </Stack>
         <div style={{ height: 700, width: '100%' }}>

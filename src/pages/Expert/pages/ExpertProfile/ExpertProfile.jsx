@@ -25,8 +25,10 @@ import Axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import UploadAvatar from '../../../../components/UploadAvatar/UploadAvatar'
 import { LoadingButton } from '@mui/lab'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const ExpertProfile = () => {
+  const isMobile = useResponsive('down', 'sm')
   const [profile, setProfile] = useState({
     first_name: '',
     last_name: '',
@@ -92,7 +94,6 @@ const ExpertProfile = () => {
       .catch((err) => console.log(err))
   }
   const fetchHuyen = async () => {
-    console.log('URL huyen ', `https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
     await Axios.get(`https://provinces.open-api.vn/api/p/${profile.address?.city.code}?depth=2`)
       .then((res) => {
         setHuyen(res.data.districts)
@@ -100,8 +101,6 @@ const ExpertProfile = () => {
       .catch((err) => console.log(err))
   }
   const fetchXa = async () => {
-    console.log('URL xa ', `https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
-
     await Axios.get(`https://provinces.open-api.vn/api/d/${profile.address?.district.code}?depth=2`)
       .then((res) => {
         setXa(res.data.wards)
@@ -187,12 +186,16 @@ const ExpertProfile = () => {
       <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
         <Snackbar />
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            margin: '20px 100px',
-            backgroundColor: 'transparent'
-          }}
+          sx={
+            isMobile
+              ? { display: 'flex', flexDirection: 'row', margin: '20px 20px', backgroundColor: 'transparent' }
+              : {
+                  display: 'flex',
+                  flexDirection: 'row',
+                  margin: '20px 100px',
+                  backgroundColor: 'transparent'
+                }
+          }
         >
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
@@ -248,7 +251,7 @@ const ExpertProfile = () => {
                   <Box component='form' noValidate autoComplete='off'>
                     <Box
                       sx={{
-                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                        '& .MuiTextField-root': isMobile ? { m: 2, width: '90%' } : { m: 2, width: '45%' }
                       }}
                     >
                       <TextField
@@ -271,7 +274,7 @@ const ExpertProfile = () => {
 
                     <Box
                       sx={{
-                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                        '& .MuiTextField-root': isMobile ? { m: 2, width: '90%' } : { m: 2, width: '45%' }
                       }}
                     >
                       <TextField
@@ -301,7 +304,7 @@ const ExpertProfile = () => {
                     </Box>
                     <Box
                       sx={{
-                        '& .MuiTextField-root': { m: 2, width: '29%' }
+                        '& .MuiTextField-root': isMobile ? { m: 2, width: '90%' } : { m: 2, width: '29%' }
                       }}
                     >
                       <TextField
@@ -320,7 +323,7 @@ const ExpertProfile = () => {
                         }}
                       />
 
-                      <FormControl sx={{ width: '29%', m: 2 }}>
+                      <FormControl sx={isMobile ? { m: 2, width: '90%' } : { m: 2, width: '29%' }}>
                         <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
@@ -455,10 +458,10 @@ const ExpertProfile = () => {
                     spacing={1}
                     direction='row'
                     alignItems='center'
-                    justifyContent='flex-end'
+                    justifyContent={isMobile ? 'center' : 'flex-end'}
                     sx={{
                       mt: 3,
-                      marginRight: '2rem'
+                      marginRight: isMobile ? '0px' : '2rem'
                     }}
                   >
                     <LoadingButton

@@ -10,8 +10,10 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import svg from '../../../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
 import SearchIcon from '@mui/icons-material/Search'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const CertificateManagement = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [certificates, setCertificates] = React.useState([])
   const [pageCount, setPageCount] = React.useState(1)
@@ -34,7 +36,13 @@ const CertificateManagement = () => {
     fetchData()
   }, [pageCount])
   return (
-    <div style={{ width: '100%', padding: '20px 100px', maxHeight: '93vh', overflow: 'auto' }}>
+    <div
+      style={
+        isMobile
+          ? { width: '100%', padding: '20px 20px', maxHeight: '93vh', overflow: 'auto' }
+          : { width: '100%', padding: '20px 100px', maxHeight: '93vh', overflow: 'auto' }
+      }
+    >
       <Helmet>
         <title>Xác thực chuyên gia</title>
       </Helmet>
@@ -46,7 +54,7 @@ const CertificateManagement = () => {
           <TextField
             id='search'
             type='search'
-            label={t('searchTitle')}
+            label={isMobile ? '' : t('searchTitle')}
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value)

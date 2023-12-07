@@ -10,8 +10,9 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import svg from '../../../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
-
+import useResponsive from '../../../../hooks/useResponsive'
 const JobRequest = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const { majors, loading, getMajors } = useContext(MajorContext)
   const [jobRequests, setJobRequests] = React.useState([])
@@ -45,7 +46,7 @@ const JobRequest = () => {
     fetchData()
   }, [pageCount])
   return (
-    <div style={{ width: '100%', padding: '20px 100px' }}>
+    <div style={isMobile ? { width: '100%', padding: '20px 20px' } : { width: '100%', padding: '20px 100px' }}>
       <Helmet>
         <title>{t('jobRequest')}</title>
       </Helmet>

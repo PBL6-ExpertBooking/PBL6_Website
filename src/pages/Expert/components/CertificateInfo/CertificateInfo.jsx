@@ -1,27 +1,15 @@
-import {
-  Box,
-  Stack,
-  Avatar,
-  Button,
-  TextField,
-  Typography,
-  Card,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid
-} from '@mui/material'
-import { React, useState, useEffect } from 'react'
+import { Box, Stack, Avatar, Button, Typography, Card, Grid } from '@mui/material'
+import { React, useState } from 'react'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useTranslation } from 'react-i18next'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const CertificateInfo = (props) => {
+  const isMobile = useResponsive('down', 'sm')
   const [certificate, setCertificate] = useState(props.certificate)
-  const [majors, setMajors] = useState(props.majors)
   const { snack, setSnack } = useSnackbar()
   const { t } = useTranslation()
 
@@ -52,12 +40,16 @@ const CertificateInfo = (props) => {
       <div style={{ width: '100%' }}>
         <Snackbar />
         <Card
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            padding: '20px',
-            margin: '20px 100px'
-          }}
+          sx={
+            isMobile
+              ? { display: 'flex', flexDirection: 'row', padding: '20px', margin: '20px 20px' }
+              : {
+                  display: 'flex',
+                  flexDirection: 'row',
+                  padding: '20px',
+                  margin: '20px 100px'
+                }
+          }
         >
           <Stack
             spacing={2}
@@ -71,7 +63,7 @@ const CertificateInfo = (props) => {
                 {t('certificateInformation')}
               </Typography>
               <Grid container spacing={2} sx={{ margin: '1.5rem' }}>
-                <Grid item xs={5}>
+                <Grid item xs={12} md={5}>
                   <Typography variant='h5' component='h5'>
                     {t('major')}
                   </Typography>
@@ -103,7 +95,7 @@ const CertificateInfo = (props) => {
                     {certificate.descriptions}
                   </Typography>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={12} md={7}>
                   <Box sx={{ paddingRight: 10 }}>
                     <Avatar
                       alt='Remy Sharp'
