@@ -30,8 +30,10 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CertificateInformodal from '../../pages/Expert/components/CertificateInforModal/CertificateInformodal'
 import { useTranslation } from 'react-i18next'
 import Notification from './Notification'
+import useResponsive from '../../hooks/useResponsive'
 
 const Header = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem('profile'))
@@ -301,15 +303,12 @@ const Header = () => {
         >
           <ConnectWithoutContactIcon />
           {'  '}
-          Expert Booking
+          {isMobile ? '' : 'Expert Booking'}
         </Typography>
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
               <Tooltip title={t('notifications')} arrow>
-                {/* <Fab size='small' aria-label='notifi'>
-                  <NotificationsIcon />
-                </Fab> */}
                 <Notification />
               </Tooltip>
               {user.role === 'USER' && (

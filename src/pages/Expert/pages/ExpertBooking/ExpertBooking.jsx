@@ -8,10 +8,11 @@ import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import moment from 'moment'
 import { useTranslation } from 'react-i18next'
-
+import useResponsive from '../../../../hooks/useResponsive'
 const BookingDetailInfoModal = lazy(() => import('../../components/BookingDetailInfoModal'))
 
 export default function ExpertBooking() {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [jobRequests, setJobRequests] = useState([])
@@ -90,7 +91,7 @@ export default function ExpertBooking() {
       <Helmet>
         <title>{t('myBookings')}</title>
       </Helmet>
-      <Container sx={{ minWidth: 1500 }}>
+      <Container sx={isMobile ? {} : { minWidth: 1500 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' mb={3}>
           <Typography variant='h3' gutterBottom>
             {t('myBookings')}

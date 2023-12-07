@@ -22,8 +22,10 @@ import { useNavigate } from 'react-router-dom'
 import path from '../../../../constants/path'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const ChangePassword = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
@@ -84,22 +86,30 @@ const ChangePassword = () => {
       </Helmet>
       <Snackbar />
       <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px',
-          margin: '20px 100px'
-        }}
+        sx={
+          isMobile
+            ? { display: 'flex', flexDirection: 'column', padding: '20px', margin: '20px 20px' }
+            : {
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '20px',
+                margin: '20px 100px'
+              }
+        }
       >
         <Typography variant='h4' component='h4' sx={{ margin: '1rem' }}>
           {t('changePassword')}
         </Typography>
         <FormControl
           variant='outlined'
-          sx={{
-            m: 1,
-            width: '48%'
-          }}
+          sx={
+            isMobile
+              ? { m: 1, width: '95%' }
+              : {
+                  m: 1,
+                  width: '48%'
+                }
+          }
         >
           <InputLabel htmlFor='outlined-adornment-password'>{t('currentPassword')}</InputLabel>
           <OutlinedInput
@@ -127,15 +137,24 @@ const ChangePassword = () => {
           noValidate
           autoComplete='off'
           sx={{
-            '& .MuiTextField-root': { m: 1, width: '48%' }
+            '& .MuiTextField-root': isMobile
+              ? { m: 1, width: '95%' }
+              : {
+                  m: 1,
+                  width: '48%'
+                }
           }}
         >
           <FormControl
             variant='outlined'
-            sx={{
-              m: 1,
-              width: '48%'
-            }}
+            sx={
+              isMobile
+                ? { m: 1, width: '95%' }
+                : {
+                    m: 1,
+                    width: '48%'
+                  }
+            }
           >
             <InputLabel htmlFor='outlined-adornment-password'>{t('newPassword')}</InputLabel>
             <OutlinedInput
@@ -160,10 +179,14 @@ const ChangePassword = () => {
           </FormControl>
           <FormControl
             variant='outlined'
-            sx={{
-              m: 1,
-              width: '48%'
-            }}
+            sx={
+              isMobile
+                ? { m: 1, width: '95%' }
+                : {
+                    m: 1,
+                    width: '48%'
+                  }
+            }
           >
             <InputLabel htmlFor='outlined-adornment-password'>{t('confirmNewPassword')}</InputLabel>
             <OutlinedInput
@@ -204,9 +227,13 @@ const ChangePassword = () => {
           direction='row'
           alignItems='center'
           justifyContent='flex-end'
-          sx={{
-            marginRight: '2rem'
-          }}
+          sx={
+            isMobile
+              ? { marginTop: '2rem' }
+              : {
+                  marginRight: '2rem'
+                }
+          }
         >
           <Button variant='text' component='label' color='success' onClick={handleUpdatePassword}>
             {t('saveChanges')}

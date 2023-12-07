@@ -28,8 +28,10 @@ import urlConfig from '../../../../config/UrlConfig'
 import Snackbar from '../../../../common/components/SnackBar'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import { useTranslation } from 'react-i18next'
+import useResponsive from '../../../../hooks/useResponsive'
 
 const MajorsTable = ({ majorsOrder, fetchData }) => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -81,7 +83,7 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
       <Card>
         <CardHeader
           action={
-            <Box width={150}>
+            <Box width={isMobile ? '' : 150}>
               <Button
                 variant='contained'
                 color='primary'
@@ -89,7 +91,7 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
                 fullWidth
                 startIcon={<AddIcon />}
               >
-                {t('addMajor')}
+                {isMobile ? '' : t('addMajor')}
               </Button>
             </Box>
           }

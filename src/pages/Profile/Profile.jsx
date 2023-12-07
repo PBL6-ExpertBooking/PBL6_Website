@@ -27,10 +27,12 @@ import Loading from '../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
 import UploadAvatar from '../../components/UploadAvatar/UploadAvatar'
 import { LoadingButton } from '@mui/lab'
+import useResponsive from '../../hooks/useResponsive'
 
 const BecomeExpert = lazy(() => import('../User/components/BecomeExpert'))
 
 const Profile = () => {
+  const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem('profile'))
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -170,12 +172,16 @@ const Profile = () => {
         </Helmet>
         <Snackbar />
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            margin: '20px 100px',
-            backgroundColor: 'transparent'
-          }}
+          sx={
+            isMobile
+              ? { display: 'flex', flexDirection: 'row', margin: '20px 20px', backgroundColor: 'transparent' }
+              : {
+                  display: 'flex',
+                  flexDirection: 'row',
+                  margin: '20px 100px',
+                  backgroundColor: 'transparent'
+                }
+          }
         >
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
@@ -231,7 +237,7 @@ const Profile = () => {
                   <Box component='form' noValidate autoComplete='off'>
                     <Box
                       sx={{
-                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                        '& .MuiTextField-root': isMobile ? { m: 2, width: '90%' } : { m: 2, width: '45%' }
                       }}
                     >
                       <TextField
@@ -254,7 +260,7 @@ const Profile = () => {
 
                     <Box
                       sx={{
-                        '& .MuiTextField-root': { m: 2, width: '45%' }
+                        '& .MuiTextField-root': isMobile ? { m: 2, width: '90%' } : { m: 2, width: '45%' }
                       }}
                     >
                       <TextField
@@ -284,7 +290,7 @@ const Profile = () => {
                     </Box>
                     <Box
                       sx={{
-                        '& .MuiTextField-root': { m: 2, width: '29%' }
+                        '& .MuiTextField-root': isMobile ? { m: 2, width: '90%' } : { m: 2, width: '29%' }
                       }}
                     >
                       <TextField
@@ -302,7 +308,7 @@ const Profile = () => {
                           })
                         }}
                       />
-                      <FormControl sx={{ width: '29%', m: 2 }}>
+                      <FormControl sx={isMobile ? { m: 2, width: '90%' } : { m: 2, width: '29%' }}>
                         <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
                         <Select
                           labelId='demo-simple-select-label'
@@ -431,10 +437,10 @@ const Profile = () => {
                     spacing={1}
                     direction='row'
                     alignItems='center'
-                    justifyContent='flex-end'
+                    justifyContent={isMobile ? 'center' : 'flex-end'}
                     sx={{
                       mt: 3,
-                      marginRight: '2rem'
+                      marginRight: isMobile ? '0px' : '2rem'
                     }}
                   >
                     <LoadingButton
