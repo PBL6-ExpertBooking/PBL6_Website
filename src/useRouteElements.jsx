@@ -28,11 +28,12 @@ const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassw
 const ValidateEmail = lazy(() => import('./pages/ValidateEmail'))
 const Promote = lazy(() => import('./pages/Promote'))
 const HomePage = lazy(() => import('./pages/HomePage'))
+const PayMent = lazy(() => import('./pages/PayMent'))
 // admin page
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
 const CertificateManagement = lazy(() => import('./pages/Admin/pages/CertificateManagement'))
-const PayMent = lazy(() => import('./pages/PayMent'))
+const DocumentManagement = lazy(() => import('./pages/Admin/pages/DocumentManagement'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -287,6 +288,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <AdminLayout>
                         <CertificateManagement />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminListDocument,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <DocumentManagement />
                       </AdminLayout>
                     </Suspense>
                   )

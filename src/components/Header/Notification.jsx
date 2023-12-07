@@ -26,11 +26,9 @@ import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import urlConfig from '../../config/UrlConfig'
 import pusher from '../../common/utils/pusher'
 import useSnackbar from '../../contexts/snackbar.context'
-import Snackbar from '../../common/components/SnackBar'
-import { useState } from 'react'
+import { lazy, useState } from 'react'
 import { useEffect } from 'react'
 import { memo } from 'react'
-
 // components
 // ----------------------------------------------------------------------
 const NotificationsPopover = memo(function NotificationsPopover() {
@@ -87,7 +85,6 @@ const NotificationsPopover = memo(function NotificationsPopover() {
 
   return (
     <>
-      <Snackbar />
       <Fab size='small' aria-label='notifi' onClick={handleOpen}>
         <Badge badgeContent={totalUnRead} color='error'>
           <NotificationsIcon />
