@@ -28,6 +28,7 @@ import DetailJobRequest from './DetailJobRequest'
 import PaymentConfirm from './PaymentConfirm'
 import RatingJob from './RatingJob'
 import { useTranslation } from 'react-i18next'
+import EditJobRequest from './EditJobRequest'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
@@ -61,9 +62,11 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
   const [open, setOpen] = useState(false)
   const [openPayment, setOpenPayment] = useState(false)
   const [openReview, setOpenReview] = useState(false)
+  const [openEdit, setOpenEdit] = useState(false)
   const [id, setId] = useState('')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [item, setItem] = useState({})
   const theme = useTheme()
   const handleDone = async (id) => {
     await AxiosInterceptors.post(urlConfig.job_requests.doneJobRequests + `/${id}/complete`)
@@ -91,6 +94,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
     <>
       <Snackbar />
       {open && <DetailJobRequest open={open} setOpen={setOpen} id={id} />}
+      {openEdit && <EditJobRequest open={openEdit} setOpen={setOpenEdit} item={item} fetchData={fetchData} />}
       {openPayment && <PaymentConfirm open={openPayment} setOpen={setOpenPayment} id={id} fetchData={fetchData} />}
       {openReview && <RatingJob open={openReview} setOpen={setOpenReview} id={id} fetchData={fetchData} />}
       <Card>
@@ -151,6 +155,10 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                               }}
                               color='inherit'
                               size='small'
+                              onClick={() => {
+                                setItem(majorsOrder)
+                                setOpenEdit(true)
+                              }}
                             >
                               <EditTwoToneIcon fontSize='small' />
                             </IconButton>

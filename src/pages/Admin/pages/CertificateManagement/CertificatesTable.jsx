@@ -33,7 +33,7 @@ function Row({ row, theme, fetchData }) {
     <>
       {openModal && (
         <CertificateValidateForm
-          expertId={row.user._id}
+          expertId={row._id}
           open={openModal}
           setOpen={setOpenModal}
           certificate={certificate}
