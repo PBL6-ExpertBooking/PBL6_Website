@@ -107,6 +107,7 @@ const CertificateManagement = () => {
         spacing={2}
         direction='row'
         p={2}
+        mb={isMobile ? 5 : 0}
         sx={{
           float: 'right'
         }}

@@ -80,7 +80,9 @@ const MajorsTable = ({ majorsOrder, fetchData }) => {
       {openEdit && (
         <EditMajor open={openEdit} handleClose={() => setOpenEdit(false)} fetchData={fetchData} item={item} />
       )}
-      <Card>
+      <Card sx={{
+        mb: isMobile ? 5 : 0
+      }}>
         <CardHeader
           action={
             <Box width={isMobile ? '' : 150}>

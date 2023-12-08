@@ -34,6 +34,7 @@ const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement')
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
 const CertificateManagement = lazy(() => import('./pages/Admin/pages/CertificateManagement'))
 const DocumentManagement = lazy(() => import('./pages/Admin/pages/DocumentManagement'))
+const TransactionManagement = lazy(() => import('./pages/Admin/pages/HistoryTransaction'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -298,6 +299,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <AdminLayout>
                         <DocumentManagement />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminListTransaction,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <TransactionManagement />
                       </AdminLayout>
                     </Suspense>
                   )

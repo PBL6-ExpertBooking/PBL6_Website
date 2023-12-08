@@ -29,6 +29,7 @@ import PaymentConfirm from './PaymentConfirm'
 import RatingJob from './RatingJob'
 import { useTranslation } from 'react-i18next'
 import EditJobRequest from './EditJobRequest'
+import DeleteConfirm from './DeleteConfirm'
 
 const getStatusLabel = (jobStatus) => {
   const map = {
@@ -63,6 +64,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
   const [openPayment, setOpenPayment] = useState(false)
   const [openReview, setOpenReview] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
   const [id, setId] = useState('')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -97,6 +99,7 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
       {openEdit && <EditJobRequest open={openEdit} setOpen={setOpenEdit} item={item} fetchData={fetchData} />}
       {openPayment && <PaymentConfirm open={openPayment} setOpen={setOpenPayment} id={id} fetchData={fetchData} />}
       {openReview && <RatingJob open={openReview} setOpen={setOpenReview} id={id} fetchData={fetchData} />}
+      {openDelete && <DeleteConfirm open={openDelete} setOpen={setOpenDelete} item={item} fetchData={fetchData} />}
       <Card>
         <TableContainer>
           <Table>
@@ -168,6 +171,10 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                               sx={{
                                 '&:hover': { background: theme.palette.error.lighter },
                                 color: theme.palette.error.main
+                              }}
+                              onClick={() => {
+                                setItem(majorsOrder)
+                                setOpenDelete(true)
                               }}
                               color='inherit'
                               size='small'
