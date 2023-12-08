@@ -26,20 +26,16 @@ import AxiosInterceptors from '../../common/utils/axiosInterceptors'
 import urlConfig from '../../config/UrlConfig'
 import pusher from '../../common/utils/pusher'
 import useSnackbar from '../../contexts/snackbar.context'
-import { lazy, useState } from 'react'
+import { useState } from 'react'
 import { useEffect } from 'react'
 import { memo } from 'react'
-// components
 // ----------------------------------------------------------------------
 const NotificationsPopover = memo(function NotificationsPopover() {
   const { snack, setSnack } = useSnackbar()
   const [notifications, setNotifications] = useState([])
-
   const totalUnRead = notifications.filter((item) => item.is_seen === false).length
-
   const [open, setOpen] = useState(null)
   const [refresh, setRefresh] = useState(false)
-
   const user = JSON.parse(localStorage.getItem('profile'))
   const channel = pusher.subscribe(`user-${user._id}`)
   channel.bind('notification', function (data) {
@@ -62,7 +58,12 @@ const NotificationsPopover = memo(function NotificationsPopover() {
     setOpen(null)
   }
 
-  const handleMarkAllAsRead = () => {
+  const handleMarkAllAsRead = async () => {
+    Promise.all(
+      notifications.map((notification) => {
+        AxiosInterceptors.put(urlConfig.user.updateNotification + `/${notification._id}/seen`)
+      })
+    )
     setNotifications(
       notifications.map((notification) => ({
         ...notification,
@@ -145,14 +146,6 @@ const NotificationsPopover = memo(function NotificationsPopover() {
             </List>
           </SimpleBar>
         </div>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Box sx={{ p: 1 }}>
-          <Button fullWidth color='secondary'>
-            View All
-          </Button>
-        </Box>
       </MenuPopover>
     </>
   )
