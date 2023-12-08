@@ -25,8 +25,7 @@ import {
 } from '@mui/material'
 
 import Label from '../../../../components/Label'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import { useTranslation } from 'react-i18next'
 
 const getStatusLabel = (transaction) => {
@@ -204,7 +203,7 @@ const TransactionTable = ({ transaction }) => {
                   </TableCell>
                   <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction_status)}</TableCell>
                   <TableCell align='right'>
-                    <Tooltip title={t('edit')} arrow>
+                    <Tooltip title={t('detailInfo')} arrow>
                       <IconButton
                         sx={{
                           '&:hover': {
@@ -214,20 +213,9 @@ const TransactionTable = ({ transaction }) => {
                         }}
                         color='inherit'
                         size='small'
+                        onClick={() => {}}
                       >
-                        <EditTwoToneIcon fontSize='small' />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('delete')} arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.palette.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color='inherit'
-                        size='small'
-                      >
-                        <DeleteTwoToneIcon fontSize='small' />
+                        <VisibilityTwoToneIcon fontSize='small' />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

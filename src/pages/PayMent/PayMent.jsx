@@ -20,7 +20,7 @@ function PayMent() {
   return (
     <>
       <Helmet>
-        <title>Status - 404</title>
+        <title>Status - Payment</title>
       </Helmet>
       <MainContent>
         <Container maxWidth='md'>

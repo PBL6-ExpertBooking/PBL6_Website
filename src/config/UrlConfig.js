@@ -24,7 +24,8 @@ const urlConfig = {
     getJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
     deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
     acceptJobRequest: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/accepted-job-requests`,
-    majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`
+    majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`,
+    uploadDocuments: `${process.env.REACT_APP_API_ENDPOINT}/experts`
   },
   majors: {
     getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,

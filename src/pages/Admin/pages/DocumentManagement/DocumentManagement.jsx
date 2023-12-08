@@ -1,23 +1,24 @@
 import React from 'react'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
-import MajorsTable from './MajorsTable'
+import DocumentTable from './DocumentTable'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
 import Loading from '../../../../common/components/Loading/Loading'
+
 const MajorsManagement = () => {
   const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
   const [majorsOrder, setMajorsOrder] = React.useState([])
-  const [refresh, setRefresh] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true)
+  const [refresh, setRefresh] = React.useState(false)
   const fetchData = async () => {
-    await AxiosInterceptors.get(urlConfig.majors.getMajors)
+    await AxiosInterceptors.get(urlConfig.expert.expert + '?major_id=&search=&limit=100')
       .then((res) => {
         if (res && res.status === 200) {
-          if (res.data.majors) {
-            setMajorsOrder(res.data.majors)
+          if (res.data.pagination) {
+            setMajorsOrder(res.data.pagination.experts)
             setIsLoading(false)
           }
         }
@@ -36,9 +37,9 @@ const MajorsManagement = () => {
       }
     >
       <Helmet>
-        <title>{t('majorsManagement')}</title>
+        <title>Quản lý tài liệu</title>
       </Helmet>
-      {isLoading ? <Loading /> : <MajorsTable majorsOrder={majorsOrder} fetchData={fetchData} />}
+      {isLoading ? <Loading /> : <DocumentTable majorsOrder={majorsOrder} fetchData={fetchData} />}
     </div>
   )
 }

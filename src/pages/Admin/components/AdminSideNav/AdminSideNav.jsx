@@ -7,6 +7,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
+import FindInPageIcon from '@mui/icons-material/FindInPage'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
 import React from 'react'
@@ -56,6 +57,10 @@ export default function AdminSideNav() {
           <Link to={path.adminVerifyExpert} style={styleLink}>
             <MenuItem icon={<VerifiedUserIcon />}></MenuItem>
           </Link>
+          <MenuItem
+            icon={<FindInPageIcon />}
+            component={<Link to={path.adminListDocument} style={styleLink} />}
+          ></MenuItem>
         </Menu>
       ) : (
         <Menu>
@@ -73,6 +78,9 @@ export default function AdminSideNav() {
           </MenuItem>
           <MenuItem icon={<VerifiedUserIcon />} component={<Link to={path.adminVerifyExpert} style={styleLink} />}>
             Xác thực chuyên gia
+          </MenuItem>
+          <MenuItem icon={<FindInPageIcon />} component={<Link to={path.adminListDocument} style={styleLink} />}>
+            Quản lý tài liệu
           </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}

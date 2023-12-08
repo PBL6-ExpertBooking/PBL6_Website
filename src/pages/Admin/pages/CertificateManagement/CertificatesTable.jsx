@@ -20,8 +20,6 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
-
-import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import { useTranslation } from 'react-i18next'
 import CertificateValidateForm from './CertificateValidateForm'
@@ -35,6 +33,7 @@ function Row({ row, theme, fetchData }) {
     <>
       {openModal && (
         <CertificateValidateForm
+          expertId={row._id}
           open={openModal}
           setOpen={setOpenModal}
           certificate={certificate}
@@ -149,8 +148,6 @@ function Row({ row, theme, fetchData }) {
 
 const CertificatesTable = ({ majorsOrder, fetchData }) => {
   const { t } = useTranslation()
-  const { snack, setSnack } = useSnack()
-  const [id, setId] = useState('')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const theme = useTheme()
@@ -159,7 +156,7 @@ const CertificatesTable = ({ majorsOrder, fetchData }) => {
       <Snackbar />
       <Card>
         <TableContainer>
-          <Table>
+          <Table size='small'>
             <TableHead>
               <TableRow>
                 <TableCell>Chuyên gia</TableCell>

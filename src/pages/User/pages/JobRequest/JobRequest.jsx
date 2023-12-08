@@ -46,7 +46,13 @@ const JobRequest = () => {
     fetchData()
   }, [pageCount])
   return (
-    <div style={isMobile ? { width: '100%', padding: '20px 20px' } : { width: '100%', padding: '20px 100px' }}>
+    <div
+      style={
+        isMobile
+          ? { width: '100%', padding: '20px 20px', maxHeight: '93vh', overflow: 'auto' }
+          : { width: '100%', padding: '20px 100px', maxHeight: '93vh', overflow: 'auto' }
+      }
+    >
       <Helmet>
         <title>{t('jobRequest')}</title>
       </Helmet>
