@@ -8,6 +8,7 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
 import React from 'react'
@@ -61,6 +62,10 @@ export default function AdminSideNav() {
             icon={<FindInPageIcon />}
             component={<Link to={path.adminListDocument} style={styleLink} />}
           ></MenuItem>
+          <MenuItem
+            icon={<AccountBalanceWalletIcon />}
+            component={<Link to={path.adminListTransaction} style={styleLink} />}
+          ></MenuItem>
         </Menu>
       ) : (
         <Menu>
@@ -81,6 +86,12 @@ export default function AdminSideNav() {
           </MenuItem>
           <MenuItem icon={<FindInPageIcon />} component={<Link to={path.adminListDocument} style={styleLink} />}>
             Quản lý tài liệu
+          </MenuItem>
+          <MenuItem
+            icon={<AccountBalanceWalletIcon />}
+            component={<Link to={path.adminListTransaction} style={styleLink} />}
+          >
+            Quản lý giao dịch
           </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}
