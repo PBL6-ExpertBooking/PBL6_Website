@@ -25,6 +25,8 @@ import { useTranslation } from 'react-i18next'
 import VerifiedTwoToneIcon from '@mui/icons-material/VerifiedTwoTone'
 import SimpleBar from 'simplebar-react'
 import useResponsive from '../../hooks/useResponsive'
+import numeral from 'numeral'
+import moment from 'moment'
 const ExpertDetail = () => {
   const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
@@ -79,10 +81,10 @@ const ExpertDetail = () => {
             }}
           >
             <Grid container spacing={5}>
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} md={3}>
                 <Avatar alt='Remy Sharp' src={expert.user?.photo_url} sx={{ width: 250, height: 250 }} />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} md={6}>
                 <Typography variant='h3' sx={{ mt: 2 }}>
                   {expert.user?.first_name} {expert.user?.last_name}
                 </Typography>
@@ -97,10 +99,10 @@ const ExpertDetail = () => {
                   </div>
                   <div>
                     <Typography variant='h6' sx={{ mt: 2 }}>
-                      {t('averageRating')}
+                      {t('averageRating')}: {numeral(expert?.average_rating).format('0.0')}
                     </Typography>
                     <Typography variant='body1' sx={{ mt: 2 }}>
-                      <Rating name='read-only' value={expert?.average_rating} readOnly />
+                      <Rating name='read-only' value={expert?.average_rating} precision={0.5} readOnly />
                     </Typography>
                     <Typography variant='subtitle2'>
                       {expert.rating_count} {t('reviews')}
@@ -108,8 +110,25 @@ const ExpertDetail = () => {
                   </div>
                 </Stack>
               </Grid>
-              <Grid item xs={12} sm={3}>
-                <Typography variant='h3' sx={{ my: 2 }}></Typography>
+              <Grid item xs={12} md={3}>
+                <Stack direction='column' spacing={3} sx={{ mt: 5 }}>
+                  <div>
+                    <Typography variant='h6' sx={{ mt: 2 }} align='end'>
+                      Ngày tham gia
+                    </Typography>
+                    <Typography variant='body1' sx={{ mt: 2 }} align='end'>
+                      {moment(expert.createdAt).format('DD/MM/YYYY')}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography variant='h6' sx={{ mt: 2 }} align='end'>
+                      Cập nhật lần cuối
+                    </Typography>
+                    <Typography variant='body1' sx={{ mt: 2 }} align='end'>
+                      {moment(expert.updatedAt).format('DD/MM/YYYY')}
+                    </Typography>
+                  </div>
+                </Stack>
               </Grid>
             </Grid>
           </Card>

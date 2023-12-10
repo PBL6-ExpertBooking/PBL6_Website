@@ -17,6 +17,7 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import Loading from '../../../../common/components/Loading/Loading'
 
 const ShowListPost = () => {
   const { t } = useTranslation()
@@ -25,6 +26,7 @@ const ShowListPost = () => {
   const [jobRequests, setJobRequests] = useState([])
   const [totalPages, setTotalPages] = useState(0)
   const [refresh, setRefresh] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchDataMajors = async () => {
     const res = await AxiosInterceptors.get(urlConfig.expert.majors)
@@ -42,6 +44,7 @@ const ShowListPost = () => {
       .then((res) => {
         setJobRequests(res.data.pagination.job_requests)
         setTotalPages(res.data.pagination.totalPages)
+        setIsLoading(false)
       })
       .catch((err) => {
         setJobRequests([])
@@ -61,69 +64,74 @@ const ShowListPost = () => {
       <Helmet>
         <title></title>
       </Helmet>
-      <Box
-        component='main'
-        sx={{
-          justifyContent: 'space-between',
-          flexGrow: 1,
-          py: 4
-        }}
-      >
-        <Container
-          maxWidth='xl'
-          sx={{
-            minHeight: '80vh'
-          }}
-        >
-          <Stack spacing={3}>
-            <Stack direction='row' justifyContent='space-between' alignItems='start' spacing={4} px='12px'>
-              <Stack spacing={1}>
-                <Typography variant='h3'>{t('listJobRequests')}</Typography>
-              </Stack>
-
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl sx={{ minWidth: 240 }}>
-                  <InputLabel id='demo-simple-select-label'>{t('chooseMajor')}</InputLabel>
-                  <Select
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={majors}
-                    label='Major'
-                    onChange={(event) => {
-                      setMajors(event.target.value)
-                    }}
-                  >
-                    {listMajors.length > 0 &&
-                      listMajors.map((item) => {
-                        return (
-                          <MenuItem key={item._id} value={item._id}>
-                            {item.name}
-                          </MenuItem>
-                        )
-                      })}
-                  </Select>
-                </FormControl>
-              </Box>
-            </Stack>
-            <Grid container spacing={3}>
-              {jobRequests.length > 0 &&
-                jobRequests.map((jobRequest) => (
-                  <Grid xs={12} md={6} lg={4} key={jobRequest._id}>
-                    <PostCard jobRequest={jobRequest} refresh={refresh} setRefresh={setRefresh} />
-                  </Grid>
-                ))}
-            </Grid>
-          </Stack>
-        </Container>
+      {isLoading ? (
+        <Loading />
+      ) : (
         <Box
+          component='main'
           sx={{
-            display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'space-between',
+            flexGrow: 1,
+            py: 4
           }}
         >
-          <Pagination count={totalPages} size='large' />
+          <Container
+            maxWidth='xl'
+            sx={{
+              minHeight: '80vh'
+            }}
+          >
+            <Stack spacing={3}>
+              <Stack direction='row' justifyContent='space-between' alignItems='start' spacing={4} px='12px'>
+                <Stack spacing={1}>
+                  <Typography variant='h3'>{t('listJobRequests')}</Typography>
+                </Stack>
+
+                <Box sx={{ minWidth: 120 }}>
+                  <FormControl sx={{ minWidth: 240 }}>
+                    <InputLabel id='demo-simple-select-label'>{t('chooseMajor')}</InputLabel>
+                    <Select
+                      labelId='demo-simple-select-label'
+                      id='demo-simple-select'
+                      value={majors}
+                      label='Major'
+                      onChange={(event) => {
+                        setMajors(event.target.value)
+                        setIsLoading(true)
+                      }}
+                    >
+                      {listMajors.length > 0 &&
+                        listMajors.map((item) => {
+                          return (
+                            <MenuItem key={item._id} value={item._id}>
+                              {item.name}
+                            </MenuItem>
+                          )
+                        })}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Stack>
+              <Grid container spacing={3}>
+                {jobRequests.length > 0 &&
+                  jobRequests.map((jobRequest) => (
+                    <Grid xs={12} md={6} lg={4} key={jobRequest._id}>
+                      <PostCard jobRequest={jobRequest} refresh={refresh} setRefresh={setRefresh} />
+                    </Grid>
+                  ))}
+              </Grid>
+            </Stack>
+          </Container>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center'
+            }}
+          >
+            <Pagination count={totalPages} size='large' />
+          </Box>
         </Box>
-      </Box>
+      )}
     </div>
   )
 }

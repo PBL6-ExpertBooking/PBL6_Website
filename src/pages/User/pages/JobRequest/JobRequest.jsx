@@ -4,10 +4,8 @@ import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import JobRequestsTable from './JobRequestsTable'
 import { MajorContext } from '../../../../contexts/major.context'
-import { TextField, MenuItem, Box, Stack, Fab, Tooltip, Container, Typography } from '@mui/material'
+import { TextField, MenuItem, Box, Pagination, Container, Typography } from '@mui/material'
 import Loading from '../../../../common/components/Loading/Loading'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext'
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import svg from '../../../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
@@ -20,12 +18,14 @@ const JobRequest = () => {
   const [major_id, setMajor_id] = React.useState('')
   const [pageCount, setPageCount] = React.useState(1)
   const [isLoading, setIsLoading] = React.useState(true)
+  const [totalPages, setTotalPages] = React.useState(0)
   const fetchData = async () => {
     await AxiosInterceptors.get(urlConfig.user.getJobRequests + `?page=${pageCount}&major_id=${major_id}`)
       .then((res) => {
         if (res && res.status === 200) {
           if (res.data.pagination.job_requests) {
             setJobRequests(res.data.pagination.job_requests)
+            setTotalPages(res.data.pagination.totalPages)
             setIsLoading(false)
           }
         }
@@ -108,33 +108,18 @@ const JobRequest = () => {
           </Container>
         </div>
       )}
-      <Stack
-        spacing={2}
-        direction='row'
-        p={2}
-        sx={{
-          float: 'right'
-        }}
-      >
-        <Tooltip title={t('previous')} arrow>
-          <Fab
-            size='small'
-            aria-label='add'
-            disabled={pageCount === 1 ? true : false}
-            onClick={() => setPageCount(pageCount - 1)}
-          >
-            <NavigateBeforeIcon />
-          </Fab>
-        </Tooltip>
-        <Fab size='small' aria-label='add' disabled>
-          {pageCount}
-        </Fab>
-        <Tooltip title={t('next')} arrow>
-          <Fab size='small' aria-label='add' onClick={() => setPageCount(pageCount + 1)}>
-            <NavigateNextIcon />
-          </Fab>
-        </Tooltip>
-      </Stack>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Pagination
+          count={totalPages}
+          color='primary'
+          page={pageCount}
+          onChange={(e, value) => setPageCount(value)}
+          sx={{
+            p: 2,
+            mb: isMobile ? 3 : 0
+          }}
+        />
+      </Box>
     </div>
   )
 }

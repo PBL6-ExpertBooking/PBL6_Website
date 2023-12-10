@@ -102,9 +102,11 @@ const NotificationsPopover = memo(function NotificationsPopover() {
             <Typography variant='body1' fontWeight='bold'>
               Notifications
             </Typography>
-            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              You have {totalUnRead} unread messages
-            </Typography>
+            {totalUnRead > 0 && (
+              <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+                You have {totalUnRead} unread messages
+              </Typography>
+            )}
           </Box>
 
           {totalUnRead > 0 && (
@@ -196,23 +198,21 @@ function NotificationItem({ notification }) {
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
-  const title = (
-    <Typography variant='subtitle1'>
-      {notification.ref.job_request.user.first_name} {notification.ref.job_request.user.last_name} -{' '}
-      {notification.ref.job_request.title}
-      <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
-        &nbsp; {notification.ref.job_request.descriptions}
-      </Typography>
-    </Typography>
-  )
-
   if (notification.type === 'NEW_JOB_REQUEST') {
     return {
       avatar: <img alt={notification.user} src={notification.ref.job_request.user.photo_url} />,
-      title
+      title: (
+        <Typography variant='subtitle1'>
+          {notification.ref.job_request.user.first_name} {notification.ref.job_request.user.last_name} -{' '}
+          {notification.ref.job_request.title}
+          <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
+            &nbsp; {notification.ref.job_request.descriptions}
+          </Typography>
+        </Typography>
+      )
     }
   }
-  if (notification.type === 'order_shipped') {
+  if (notification.type === 'JOB_REQUEST_ACCEPTED') {
     return {
       avatar: (
         <img
@@ -220,31 +220,38 @@ function renderContent(notification) {
           src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_shipping.svg'
         />
       ),
-      title
+      title: (
+        <Typography variant='subtitle1'>
+          Công việc vừa được nhận - {notification.ref.job_request.title}
+          <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
+            &nbsp; {notification.ref.job_request.descriptions}
+          </Typography>
+        </Typography>
+      )
     }
   }
-  if (notification.type === 'mail') {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_mail.svg'
-        />
-      ),
-      title
-    }
-  }
-  if (notification.type === 'chat_message') {
-    return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_chat.svg'
-        />
-      ),
-      title
-    }
-  }
+  // if (notification.type === 'mail') {
+  //   return {
+  //     avatar: (
+  //       <img
+  //         alt={notification.title}
+  //         src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_mail.svg'
+  //       />
+  //     ),
+  //     title
+  //   }
+  // }
+  // if (notification.type === 'chat_message') {
+  //   return {
+  //     avatar: (
+  //       <img
+  //         alt={notification.title}
+  //         src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_chat.svg'
+  //       />
+  //     ),
+  //     title
+  //   }
+  // }
   //   return {
   // avatar: notification.avatar ? <img alt={notification.title} src={notification.avatar} /> : null,
   // title

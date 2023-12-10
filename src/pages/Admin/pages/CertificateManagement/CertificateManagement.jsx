@@ -3,10 +3,8 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
 import CertificatesTable from './CertificatesTable'
-import { Box, Stack, Fab, Tooltip, Container, Typography, TextField, InputAdornment } from '@mui/material'
+import { Box, Stack, Pagination, Container, Typography, TextField, InputAdornment } from '@mui/material'
 import Loading from '../../../../common/components/Loading/Loading'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext'
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import svg from '../../../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
 import SearchIcon from '@mui/icons-material/Search'
@@ -19,12 +17,14 @@ const CertificateManagement = () => {
   const [pageCount, setPageCount] = React.useState(1)
   const [isLoading, setIsLoading] = React.useState(true)
   const [searchTerm, setSearchTerm] = React.useState('')
+  const [totalPages, setTotalPages] = React.useState(0)
   const fetchData = async () => {
     await AxiosInterceptors.get(urlConfig.expert.expertUnverified + `?search=${searchTerm}&page=${pageCount}`)
       .then((res) => {
         if (res && res.status === 200) {
           if (res.data.pagination.experts) {
             setCertificates(res.data.pagination.experts)
+            setTotalPages(res.data.pagination.totalPages)
             setIsLoading(false)
           }
         }
@@ -103,34 +103,18 @@ const CertificateManagement = () => {
           </Container>
         </div>
       )}
-      <Stack
-        spacing={2}
-        direction='row'
-        p={2}
-        mb={isMobile ? 5 : 0}
-        sx={{
-          float: 'right'
-        }}
-      >
-        <Tooltip title={t('previous')} arrow>
-          <Fab
-            size='small'
-            aria-label='add'
-            disabled={pageCount === 1 ? true : false}
-            onClick={() => setPageCount(pageCount - 1)}
-          >
-            <NavigateBeforeIcon />
-          </Fab>
-        </Tooltip>
-        <Fab size='small' aria-label='add' disabled>
-          {pageCount}
-        </Fab>
-        <Tooltip title={t('next')} arrow>
-          <Fab size='small' aria-label='add' onClick={() => setPageCount(pageCount + 1)}>
-            <NavigateNextIcon />
-          </Fab>
-        </Tooltip>
-      </Stack>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Pagination
+          count={totalPages}
+          color='primary'
+          page={pageCount}
+          onChange={(e, value) => setPageCount(value)}
+          sx={{
+            p: 2,
+            mb: isMobile ? 5 : 0
+          }}
+        />
+      </Box>
     </div>
   )
 }
