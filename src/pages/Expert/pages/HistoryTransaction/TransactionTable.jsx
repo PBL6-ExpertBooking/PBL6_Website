@@ -6,7 +6,6 @@ import {
   FormControl,
   InputLabel,
   Card,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -16,12 +15,10 @@ import {
   Select,
   MenuItem,
   Typography,
-  useTheme,
   CardHeader
 } from '@mui/material'
 
 import Label from '../../../../components/Label'
-import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone'
 import { useTranslation } from 'react-i18next'
 
 const getStatusLabel = (transaction) => {
@@ -109,18 +106,8 @@ const TransactionTable = ({ transaction }) => {
       status: value
     }))
   }
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleLimitChange = (event) => {
-    setLimit(parseInt(event.target.value))
-  }
-
   const filteredCryptoOrders = applyFilters(transaction, filters)
   const paginatedCryptoOrders = applyPagination(filteredCryptoOrders, page, limit)
-  const theme = useTheme()
   return (
     <Card>
       <CardHeader
@@ -150,7 +137,6 @@ const TransactionTable = ({ transaction }) => {
               <TableCell>{t('type')}</TableCell>
               <TableCell align='right'>{t('moneyAmount')}</TableCell>
               <TableCell align='right'>{t('status')}</TableCell>
-              <TableCell align='right'>{t('action')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -197,11 +183,6 @@ const TransactionTable = ({ transaction }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction_status)}</TableCell>
-                  <TableCell align='right'>
-                    <IconButton>
-                      <MoreVertTwoToneIcon fontSize='small' />
-                    </IconButton>
-                  </TableCell>
                 </TableRow>
               )
             })}

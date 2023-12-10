@@ -222,5 +222,9 @@
   "paymentSuccess": "Thanh toán thành công!",
   "paymentFail": "Thanh toán không thành công!",
 
-  "reviewSuccess": "Nhận xét thành công!"
+  "reviewSuccess": "Nhận xét thành công!",
+
+  "verifyExpert": "Xác thực chuyên gia",
+  "documentManagement": "Quản lý tài liệu",
+  "transactionManagement": "Quản lý giao dịch"
 }

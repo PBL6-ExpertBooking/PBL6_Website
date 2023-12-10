@@ -19,6 +19,10 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone'
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone'
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone'
+import SsidChartTwoToneIcon from '@mui/icons-material/SsidChartTwoTone'
+import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone'
+import AccountBalanceWalletTwoToneIcon from '@mui/icons-material/AccountBalanceWalletTwoTone'
+import TaskTwoToneIcon from '@mui/icons-material/TaskTwoTone'
 import { useCookies } from 'react-cookie'
 import { useTranslation } from 'react-i18next'
 import pusher from '../../common/utils/pusher'
@@ -137,9 +141,9 @@ function HeaderUserbox() {
           )}
           {user.role === 'ADMIN' && (
             <>
-              <ListItem button to={path.adminProfile} component={NavLink}>
-                <AccountBoxTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
-                <ListItemText primary={t('myProfile')} />
+              <ListItem button to={path.adminDashBoard} component={NavLink}>
+                <SsidChartTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary='Thống kê' />
               </ListItem>
               <ListItem button to={path.adminListUser} component={NavLink}>
                 <CalendarMonthRoundedIcon fontSize='small' sx={{ mr: 1 }} />
@@ -148,6 +152,18 @@ function HeaderUserbox() {
               <ListItem button to={path.adminListMajor} component={NavLink}>
                 <AccountTreeTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
                 <ListItemText primary={t('majorsManagement')} />
+              </ListItem>
+              <ListItem button to={path.adminListDocument} component={NavLink}>
+                <TaskTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary={t('documentManagement')} />
+              </ListItem>
+              <ListItem button to={path.adminListTransaction} component={NavLink}>
+                <AccountBalanceWalletTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary={t('transactionManagement')} />
+              </ListItem>
+              <ListItem button to={path.adminVerifyExpert} component={NavLink}>
+                <VerifiedUserTwoToneIcon fontSize='small' sx={{ mr: 1 }} />
+                <ListItemText primary={t('verifyExpert')} />
               </ListItem>
             </>
           )}

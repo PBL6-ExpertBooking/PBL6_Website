@@ -33,7 +33,8 @@ const path = {
   adminListMajor: '/admin/major-management',
   adminVerifyExpert: '/admin/verify-expert',
   adminListDocument: '/admin/document-management',
-  adminListTransaction: '/admin/transaction-management'
+  adminListTransaction: '/admin/transaction-management',
+  adminDashBoard: '/admin/dashboard'
 }
 
 export default path

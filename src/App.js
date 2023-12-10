@@ -11,6 +11,8 @@ import { ProSidebarProvider } from 'react-pro-sidebar'
 import { CookiesProvider } from 'react-cookie'
 import { MajorProvider } from './contexts/major.context'
 import 'simplebar-react/dist/simplebar.min.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 const App = () => {
   const routeElements = useRouteElements()

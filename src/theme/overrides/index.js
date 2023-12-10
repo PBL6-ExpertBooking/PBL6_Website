@@ -10,6 +10,7 @@ import Typography from './Typography'
 import Autocomplete from './Autocomplete'
 import Button from './Button'
 import TextField from './TextField'
+import Progress from './Progress'
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function ComponentsOverrides(theme) {
     Typography(theme),
     Autocomplete(theme),
     Button(theme),
-    TextField(theme)
+    TextField(theme),
+    Progress(theme)
   )
 }
