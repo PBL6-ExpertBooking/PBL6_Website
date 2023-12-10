@@ -1,10 +1,8 @@
-import { Card, Fab, Stack, Tooltip, Typography } from '@mui/material'
+import { Card, Pagination, Stack, Typography, Box } from '@mui/material'
 import TransactionTable from './TransactionTable'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { useEffect, useState } from 'react'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext'
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import Loading from '../../../../common/components/Loading/Loading'
 import { useTranslation } from 'react-i18next'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
@@ -20,6 +18,7 @@ function Transaction() {
   const [pageCount, setPageCount] = useState(1)
   const [transaction, setTransaction] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [totalPages, setTotalPages] = useState(0)
   const fetchData = async () => {
     setIsLoading(true)
     await AxiosInterceptors.get(
@@ -27,6 +26,7 @@ function Transaction() {
     )
       .then((res) => {
         setTransaction(res.data.transactions.transactions)
+        setTotalPages(res.data.transactions.totalPages)
         setIsLoading(false)
       })
       .catch((err) => console.log(err))
@@ -50,34 +50,18 @@ function Transaction() {
         </Stack>
       </Stack>
       <Card>{!isLoading ? <TransactionTable transaction={transaction} /> : <Loading />}</Card>
-      <Stack
-        spacing={2}
-        direction='row'
-        p={2}
-        mb={isMobile ? 5 : 0}
-        sx={{
-          float: 'right'
-        }}
-      >
-        <Tooltip title={t('previous')} arrow>
-          <Fab
-            size='small'
-            aria-label='add'
-            disabled={pageCount === 1 ? true : false}
-            onClick={() => setPageCount(pageCount - 1)}
-          >
-            <NavigateBeforeIcon />
-          </Fab>
-        </Tooltip>
-        <Fab size='small' aria-label='add' disabled>
-          {pageCount}
-        </Fab>
-        <Tooltip title={t('next')} arrow>
-          <Fab size='small' aria-label='add' onClick={() => setPageCount(pageCount + 1)}>
-            <NavigateNextIcon />
-          </Fab>
-        </Tooltip>
-      </Stack>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Pagination
+          count={totalPages}
+          color='primary'
+          page={pageCount}
+          onChange={(e, value) => setPageCount(value)}
+          sx={{
+            p: 2,
+            mb: isMobile ? 5 : 0
+          }}
+        />
+      </Box>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardContent, Divider, Stack, Typography } from '@mui/material'
+import { Avatar, Button, Card, CardContent, Divider, Stack, Typography, Grid } from '@mui/material'
 import moment from 'moment'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
@@ -57,98 +57,63 @@ export const PostCard = ({ jobRequest, refresh, setRefresh }) => {
         sx={{
           display: 'flex',
           height: '100%',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          '&:hover': {
+            boxShadow: '0 0 11px rgba(33,33,33,.2)',
+            cursor: 'pointer'
+          }
         }}
       >
         <CardContent>
-          <Stack direction='column' spacing={2}>
-            <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-between'>
-              <Typography align='start' gutterBottom variant='body1'>
-                <Typography
-                  align='start'
-                  gutterBottom
-                  variant='h5'
-                  sx={{
-                    display: 'inline-block',
-                    fontStyle: 'italic'
-                  }}
-                >
-                  Post By:
-                </Typography>{' '}
-              </Typography>
-              <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-around'>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={6}>
+              <Stack direction='column' spacing={2}>
+                <Stack direction='column' spacing={1}>
+                  <Typography align='start' gutterBottom variant='h5'>
+                    {jobRequest && jobRequest.title ? jobRequest.title : ''}
+                  </Typography>
+                  <Typography align='start' gutterBottom variant='body1' noWrap>
+                    {jobRequest && jobRequest.descriptions ? jobRequest.descriptions : ''}
+                  </Typography>
+                  <Typography align='start' gutterBottom variant='body2'>
+                    Giá:{' '}
+                    {jobRequest && jobRequest.price
+                      ? jobRequest.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })
+                      : ''}
+                  </Typography>
+                  <Typography align='start' gutterBottom variant='subtitle2'>
+                    {jobRequest && jobRequest.address.city.name
+                      ? jobRequest.address.district.name +
+                        ', ' +
+                        jobRequest.address.ward.name +
+                        ', ' +
+                        jobRequest.address.city.name
+                      : ''}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} sm={1}>
+              <Divider orientation='vertical' />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Stack direction='column' spacing={1} alignItems='center'>
                 <Avatar alt={jobRequest && jobRequest.user.first_name} src={jobRequest && jobRequest.user.photo_url} />
-                <Typography align='start' gutterBottom variant='body1'>
+                <Typography align='start' gutterBottom variant='h6'>
                   {jobRequest && jobRequest.user.first_name} {jobRequest && jobRequest.user.last_name}
                 </Typography>
-              </Stack>
-            </Stack>
-            <Stack direction='column' spacing={1}>
-              <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-between'>
-                <Typography
-                  align='start'
-                  gutterBottom
-                  variant='h5'
-                  sx={{
-                    display: 'inline-block',
-                    fontStyle: 'italic'
-                  }}
-                >
-                  Title:
+                <Typography align='start' gutterBottom variant='subtitle2' noWrap>
+                  {jobRequest && jobRequest.user.email}
                 </Typography>
-                <Typography align='start' gutterBottom variant='h4'>
-                  {jobRequest && jobRequest.title ? jobRequest.title : ''}
+                <Typography align='start' gutterBottom variant='subtitle2' noWrap>
+                  {jobRequest && jobRequest.user.phone}
                 </Typography>
               </Stack>
-              <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-between'>
-                <Typography
-                  align='start'
-                  gutterBottom
-                  variant='h5'
-                  sx={{
-                    display: 'inline-block',
-                    fontStyle: 'italic'
-                  }}
-                >
-                  Address:
-                </Typography>
-                {jobRequest && jobRequest.address.city.name ? jobRequest.address.city.name : ''}
-              </Stack>
-              <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-between'>
-                <Typography
-                  align='start'
-                  gutterBottom
-                  variant='h5'
-                  sx={{
-                    display: 'inline-block',
-                    fontStyle: 'italic'
-                  }}
-                >
-                  Price:
-                </Typography>
-                {jobRequest && jobRequest.price
-                  ? jobRequest.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })
-                  : ''}
-              </Stack>
-              <Stack direction='row' spacing={1} alignItems='center' justifyContent='space-between'>
-                <Typography
-                  align='start'
-                  gutterBottom
-                  variant='h5'
-                  sx={{
-                    display: 'inline-block',
-                    fontStyle: 'italic'
-                  }}
-                >
-                  Description:
-                </Typography>
-                {jobRequest && jobRequest.descriptions ? jobRequest.descriptions : ''}
-              </Stack>
-            </Stack>
-          </Stack>
+            </Grid>
+          </Grid>
         </CardContent>
         <Divider />
-        <Stack alignItems='center' direction='row' justifyContent='space-between' spacing={2} sx={{ p: 3 }}>
+        <Stack alignItems='center' direction='row' justifyContent='space-between' spacing={2} sx={{ p: 2 }}>
           <Stack alignItems='center' direction='row' spacing={1}>
             <Typography color='text.secondary' display='inline' variant='body2'>
               {jobRequest && jobRequest.createdAt
