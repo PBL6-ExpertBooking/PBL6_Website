@@ -2,39 +2,42 @@ import path from './constants/path'
 import { useContext, lazy, Suspense } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import { AppContext } from './contexts/app.context'
+// layout
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
-import CartLayout from './layouts/CartLayout'
 import HomeLayout from './layouts/HomeLayout'
 import UserLayout from './pages/User/layouts/UserLayout'
 import ExpertLayout from './pages/Expert/layouts/ExpertLayout'
 import AdminLayout from './pages/Admin/layouts/AdminLayout'
-
+// common pages
 const Login = lazy(() => import('./pages/Login'))
 const Profile = lazy(() => import('./pages/Profile'))
 const Register = lazy(() => import('./pages/Register'))
-const ChangePassword = lazy(() => import('./pages/User/pages/ChangePassword'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const DashBoard = lazy(() => import('./pages/DashBoard'))
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
-const ExpertProfile = lazy(() => import('./pages/Expert/pages/ExpertProfile'))
-const TransactionHistory = lazy(() => import('./pages/Expert/pages/HistoryTransaction'))
-const ShowListPost = lazy(() => import('./pages/Expert/pages/ShowListPost'))
-const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
-const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
-const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
-const JobRequest = lazy(() => import('./pages/User/pages/JobRequest'))
-const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 const ValidateEmail = lazy(() => import('./pages/ValidateEmail'))
 const Promote = lazy(() => import('./pages/Promote'))
 const HomePage = lazy(() => import('./pages/HomePage'))
 const PayMent = lazy(() => import('./pages/PayMent'))
+// user page
+const UserHistoryTransaction = lazy(() => import('./pages/User/pages/HistoryTransaction'))
+const JobRequest = lazy(() => import('./pages/User/pages/JobRequest'))
+const ChangePassword = lazy(() => import('./pages/User/pages/ChangePassword'))
+// expert page
+const ShowListPost = lazy(() => import('./pages/Expert/pages/ShowListPost'))
+const TransactionHistory = lazy(() => import('./pages/Expert/pages/HistoryTransaction'))
+const ExpertProfile = lazy(() => import('./pages/Expert/pages/ExpertProfile'))
+const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
+const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
+const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 // admin page
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
 const CertificateManagement = lazy(() => import('./pages/Admin/pages/CertificateManagement'))
 const DocumentManagement = lazy(() => import('./pages/Admin/pages/DocumentManagement'))
 const TransactionManagement = lazy(() => import('./pages/Admin/pages/HistoryTransaction'))
+const AdminDashboard = lazy(() => import('./pages/Admin/pages/DashBoard/DashBoard'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -121,14 +124,6 @@ export default function useRouteElements() {
                 <DashBoard />
               </Suspense>
             </MainLayout>
-          )
-        },
-        {
-          path: path.cart,
-          element: (
-            <CartLayout>
-              <Suspense></Suspense>
-            </CartLayout>
           )
         },
         {
@@ -309,6 +304,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <AdminLayout>
                         <TransactionManagement />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminDashBoard,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <AdminDashboard />
                       </AdminLayout>
                     </Suspense>
                   )

@@ -222,5 +222,9 @@
   "paymentSuccess": "Payment successfully!",
   "paymentFail": "Payment failed!",
 
-  "reviewSuccess": "Review successfully!"
+  "reviewSuccess": "Review successfully!",
+
+  "verifyExpert": "Verify Expert",
+  "documentManagement": "Document Management",
+  "transactionManagement": "Transaction Management"
 }

@@ -1,18 +1,15 @@
 import { useState } from 'react'
 import moment from 'moment'
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
   InputLabel,
   Card,
-  IconButton,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TablePagination,
   Stack,
   TableRow,
   TableContainer,
@@ -25,7 +22,6 @@ import {
 } from '@mui/material'
 
 import Label from '../../../../components/Label'
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
 import { useTranslation } from 'react-i18next'
 
 const getStatusLabel = (transaction) => {
@@ -153,7 +149,6 @@ const TransactionTable = ({ transaction }) => {
               <TableCell>{t('type')}</TableCell>
               <TableCell align='right'>{t('moneyAmount')}</TableCell>
               <TableCell align='right'>{t('status')}</TableCell>
-              <TableCell align='right'>{t('action')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -202,23 +197,6 @@ const TransactionTable = ({ transaction }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction_status)}</TableCell>
-                  <TableCell align='right'>
-                    <Tooltip title={t('detailInfo')} arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.palette.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color='inherit'
-                        size='small'
-                        onClick={() => {}}
-                      >
-                        <VisibilityTwoToneIcon fontSize='small' />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
                 </TableRow>
               )
             })}

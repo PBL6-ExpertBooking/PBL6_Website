@@ -9,6 +9,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import FindInPageIcon from '@mui/icons-material/FindInPage'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import SsidChartIcon from '@mui/icons-material/SsidChart'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
 import React from 'react'
@@ -43,8 +44,8 @@ export default function AdminSideNav() {
     <Sidebar style={isMobile ? styleMobile : { height: '100%' }} collapsed={isCollapsed}>
       {isMobile ? (
         <Menu rootStyles={menuMobile}>
-          <Link to={path.dashboard} style={styleLink}>
-            <MenuItem icon={<HomeRoundedIcon />}></MenuItem>
+          <Link to={path.adminDashBoard} style={styleLink}>
+            <MenuItem icon={<SsidChartIcon />}></MenuItem>
           </Link>
           <Link to={path.adminProfile} style={styleLink}>
             <MenuItem icon={<AccountBoxIcon />}></MenuItem>
@@ -69,8 +70,8 @@ export default function AdminSideNav() {
         </Menu>
       ) : (
         <Menu>
-          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}>
-            {t('dashboard')}
+          <MenuItem icon={<SsidChartIcon />} component={<Link to={path.adminDashBoard} style={styleLink} />}>
+            Thống kê
           </MenuItem>
           <MenuItem icon={<AccountBoxIcon />} component={<Link to={path.adminProfile} style={styleLink} />}>
             {t('profile')}
@@ -82,16 +83,16 @@ export default function AdminSideNav() {
             {t('majorsManagement')}
           </MenuItem>
           <MenuItem icon={<VerifiedUserIcon />} component={<Link to={path.adminVerifyExpert} style={styleLink} />}>
-            Xác thực chuyên gia
+            {t('verifyExpert')}
           </MenuItem>
           <MenuItem icon={<FindInPageIcon />} component={<Link to={path.adminListDocument} style={styleLink} />}>
-            Quản lý tài liệu
+            {t('documentManagement')}
           </MenuItem>
           <MenuItem
             icon={<AccountBalanceWalletIcon />}
             component={<Link to={path.adminListTransaction} style={styleLink} />}
           >
-            Quản lý giao dịch
+            {t('transactionManagement')}
           </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}
