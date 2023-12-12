@@ -1,5 +1,4 @@
 import { Box, Stack, Avatar, Button, Typography, Card, Grid } from '@mui/material'
-import { React, useState } from 'react'
 import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
@@ -9,7 +8,7 @@ import useResponsive from '../../../../hooks/useResponsive'
 
 const CertificateInfo = (props) => {
   const isMobile = useResponsive('down', 'sm')
-  const [certificate, setCertificate] = useState(props.certificate)
+  const certificate = props.certificate
   const { snack, setSnack } = useSnackbar()
   const { t } = useTranslation()
 
@@ -67,7 +66,7 @@ const CertificateInfo = (props) => {
                   <Typography variant='h5' component='h5'>
                     {t('major')}
                   </Typography>
-                  <Typography variant='body1' component='body1'>
+                  <Typography variant='body1' component='div'>
                     {certificate.major.name}
                   </Typography>
                   <Typography variant='h5' component='h5' sx={{ mt: 2 }}>
@@ -75,7 +74,7 @@ const CertificateInfo = (props) => {
                   </Typography>
                   <Typography
                     variant='body1'
-                    component='body1'
+                    component='div'
                     sx={{
                       color: certificate.isVerified ? 'green' : 'red'
                     }}
@@ -85,13 +84,13 @@ const CertificateInfo = (props) => {
                   <Typography variant='h5' component='h5' sx={{ mt: 2 }}>
                     {t('certificateName')}
                   </Typography>
-                  <Typography variant='body1' component='body1'>
+                  <Typography variant='body1' component='div'>
                     {certificate.name}
                   </Typography>
                   <Typography variant='h5' component='h5' sx={{ mt: 2 }}>
                     {t('description')}
                   </Typography>
-                  <Typography variant='body1' component='body1'>
+                  <Typography variant='body1' component='div'>
                     {certificate.descriptions}
                   </Typography>
                 </Grid>

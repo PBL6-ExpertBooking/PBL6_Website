@@ -34,6 +34,7 @@ const path = {
   adminVerifyExpert: '/admin/verify-expert',
   adminListDocument: '/admin/document-management',
   adminListTransaction: '/admin/transaction-management',
+  adminListReport: '/admin/report-management',
   adminDashBoard: '/admin/dashboard'
 }
 

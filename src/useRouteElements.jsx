@@ -37,6 +37,7 @@ const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement
 const CertificateManagement = lazy(() => import('./pages/Admin/pages/CertificateManagement'))
 const DocumentManagement = lazy(() => import('./pages/Admin/pages/DocumentManagement'))
 const TransactionManagement = lazy(() => import('./pages/Admin/pages/HistoryTransaction'))
+const ReportManagement = lazy(() => import('./pages/Admin/pages/ReportManagement'))
 const AdminDashboard = lazy(() => import('./pages/Admin/pages/DashBoard/DashBoard'))
 
 function ProtectedRoute() {
@@ -304,6 +305,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <AdminLayout>
                         <TransactionManagement />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminListReport,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <ReportManagement />
                       </AdminLayout>
                     </Suspense>
                   )

@@ -224,7 +224,16 @@
 
   "reviewSuccess": "Nhận xét thành công!",
 
+  "reportSuccess": "Phản hồi thành công!",
+  "reportFailed": "Phản hồi không thành công!",
+  "deleteReportSuccess": "Xóa phản hồi thành công!",
+
   "verifyExpert": "Xác thực chuyên gia",
   "documentManagement": "Quản lý tài liệu",
-  "transactionManagement": "Quản lý giao dịch"
+  "transactionManagement": "Quản lý giao dịch",
+  "reportManagement": "Quản lý phản hồi",
+
+  "pleaseFillOutAllFields": "Vui lòng điền đầy đủ thông tin!",
+  "new": "Mới",
+  "beforeThat": "Trước đó"
 }

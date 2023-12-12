@@ -12,6 +12,15 @@ const Recharge = ({ openRecharge, setOpenRecharge }) => {
   const { snack, setSnack } = useSnackbar()
   const [money, setMoney] = React.useState(0)
   const handleRecharge = async () => {
+    if (money <= 0) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: t('pleaseFillOutAllFields'),
+        type: 'error'
+      })
+      return
+    }
     await AxiosInterceptors.post(urlConfig.transaction.recharge, {
       amount: Number(money)
     })

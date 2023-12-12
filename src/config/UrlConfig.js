@@ -54,6 +54,12 @@ const urlConfig = {
   },
   review: {
     createReview: `${process.env.REACT_APP_API_ENDPOINT}/reviews`
+  },
+  report: {
+    createReport: `${process.env.REACT_APP_API_ENDPOINT}/reports`,
+    getAllReport: `${process.env.REACT_APP_API_ENDPOINT}/reports`,
+    getReportById: `${process.env.REACT_APP_API_ENDPOINT}/reports`,
+    deleteReport: `${process.env.REACT_APP_API_ENDPOINT}/reports`
   }
 }
 

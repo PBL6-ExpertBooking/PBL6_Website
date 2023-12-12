@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import RootModal from '../../../../components/Modal/RootModal'
-import { Grid, Typography, Button } from '@mui/material'
+import { Grid, Typography, Button, Modal, Box } from '@mui/material'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnackbar from '../../../../contexts/snackbar.context'
@@ -23,6 +23,8 @@ const VisuallyHiddenInput = styled('input')({
 
 const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expertId }) => {
   const [formData, setFormData] = useState(new FormData())
+  const [openImg, setOpenImg] = useState(false)
+  const [item, setItem] = useState('')
   const [document, setDocument] = useState({
     name: null,
     description: null,
@@ -212,10 +214,31 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
               height: '400px'
             }}
           >
-            <img src={certificate.photo_url} alt='certificate' style={{ width: '100%', objectFit: 'contain' }} />
+            <img
+              src={certificate.photo_url}
+              alt='certificate'
+              style={{ width: '100%', objectFit: 'contain' }}
+              onClick={() => {
+                setItem(certificate.photo_url)
+                setOpenImg(true)
+              }}
+            />
           </Grid>
         </Grid>
       </RootModal>
+      <Modal
+        open={openImg}
+        onClose={() => {
+          setOpenImg(false)
+        }}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Box component='img' src={item} alt='certificate' style={{ height: '80vh', objectFit: 'cover' }} />
+      </Modal>
     </>
   )
 }

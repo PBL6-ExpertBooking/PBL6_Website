@@ -53,8 +53,16 @@ export default function LoginPage() {
   const { snack, setSnack } = useSnackbar()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const login = async () => {
+    if (username === '' || password === '') {
+      setSnack({
+        open: true,
+        type: 'error',
+        message: t('pleaseFillOutAllFields')
+      })
+      return
+    }
     setIsSubmitting(true)
-    const response = await axios
+    await axios
       .post(urlConfig.authentication.login, {
         username: username,
         password: password

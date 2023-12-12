@@ -65,7 +65,7 @@ export default function RegisterPage() {
       return
     }
     setIsSubmitting(true)
-    const res = await axios
+    await axios
       .post(urlConfig.authentication.register, {
         first_name: firstname,
         last_name: lastname,
