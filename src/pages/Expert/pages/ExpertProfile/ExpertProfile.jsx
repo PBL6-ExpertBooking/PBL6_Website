@@ -113,7 +113,7 @@ const ExpertProfile = () => {
 
   const handleUpdateProfile = async () => {
     setIsSubmitting(true)
-    const res = await AxiosInterceptors.put(
+    await AxiosInterceptors.put(
       urlConfig.user.info,
       {
         first_name: profile.first_name,
@@ -491,7 +491,13 @@ const ExpertProfile = () => {
           {certificates.length > 0 &&
             certificates.map((certificate) => {
               return (
-                <CertificateInfo certificate={certificate} majors={majors} refresh={refresh} setRefresh={setRefresh} />
+                <CertificateInfo
+                  key={certificate._id}
+                  certificate={certificate}
+                  majors={majors}
+                  refresh={refresh}
+                  setRefresh={setRefresh}
+                />
               )
             })}
         </div>

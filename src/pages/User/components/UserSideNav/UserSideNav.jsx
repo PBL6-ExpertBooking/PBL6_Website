@@ -46,39 +46,35 @@ export default function UserSideNav() {
             padding: 0
           }}
         >
-          <Link to={path.dashboard} style={styleLink}>
-            <MenuItem icon={<HomeRoundedIcon />}></MenuItem>
-          </Link>
-          <Link to={path.profile} style={styleLink}>
-            <MenuItem icon={<ManageAccountsIcon />}></MenuItem>
-          </Link>
-          <Link to={path.historyTransaction} style={styleLink}>
-            <MenuItem icon={<CalendarMonthRoundedIcon />}></MenuItem>
-          </Link>
-          <Link to={path.jobRequest} style={styleLink}>
-            <MenuItem icon={<WorkIcon />}></MenuItem>
-          </Link>
-          <Link to={path.changePassword} style={styleLink}>
-            <MenuItem icon={<SyncLockIcon />}></MenuItem>
-          </Link>
+          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}></MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.profile} style={styleLink} />}></MenuItem>
+          <MenuItem
+            icon={<CalendarMonthRoundedIcon />}
+            component={<Link to={path.historyTransaction} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem icon={<WorkIcon />} component={<Link to={path.jobRequest} style={styleLink} />}></MenuItem>
+          <MenuItem icon={<SyncLockIcon />} component={<Link to={path.changePassword} style={styleLink} />}></MenuItem>
         </Menu>
       ) : (
         <Menu>
-          <Link to={path.dashboard} style={styleLink}>
-            <MenuItem icon={<HomeRoundedIcon />}>{t('dashboard')}</MenuItem>
-          </Link>
-          <Link to={path.profile} style={styleLink}>
-            <MenuItem icon={<ManageAccountsIcon />}>{t('profile')}</MenuItem>
-          </Link>
-          <Link to={path.historyTransaction} style={styleLink}>
-            <MenuItem icon={<CalendarMonthRoundedIcon />}>{t('historyTransaction')}</MenuItem>
-          </Link>
-          <Link to={path.jobRequest} style={styleLink}>
-            <MenuItem icon={<WorkIcon />}>{t('jobRequest')}</MenuItem>
-          </Link>
-          <Link to={path.changePassword} style={styleLink}>
-            <MenuItem icon={<SyncLockIcon />}>{t('changePassword')}</MenuItem>
-          </Link>
+          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}>
+            {t('dashboard')}
+          </MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.profile} style={styleLink} />}>
+            {t('profile')}
+          </MenuItem>
+          <MenuItem
+            icon={<CalendarMonthRoundedIcon />}
+            component={<Link to={path.historyTransaction} style={styleLink} />}
+          >
+            {t('historyTransaction')}
+          </MenuItem>
+          <MenuItem icon={<WorkIcon />} component={<Link to={path.jobRequest} style={styleLink} />}>
+            {t('jobRequest')}
+          </MenuItem>
+          <MenuItem icon={<SyncLockIcon />} component={<Link to={path.changePassword} style={styleLink} />}>
+            {t('changePassword')}
+          </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}
             onClick={() => {

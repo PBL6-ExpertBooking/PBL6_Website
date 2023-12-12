@@ -30,6 +30,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CertificateInformodal from '../../pages/Expert/components/CertificateInforModal/CertificateInformodal'
 import { useTranslation } from 'react-i18next'
 import Notification from './Notification'
+import Report from './Report'
 import useResponsive from '../../hooks/useResponsive'
 
 const Header = () => {
@@ -59,7 +60,7 @@ const Header = () => {
       },
       ward: {
         name: '',
-        code: 0
+        code: ''
       }
     },
     price: 0
@@ -98,6 +99,23 @@ const Header = () => {
     getMajors()
   }, [])
   const handleOk = async () => {
+    if (
+      data.title === '' ||
+      data.descriptions === '' ||
+      data.major_id === '' ||
+      data.price === 0 ||
+      data.address.city.code === '' ||
+      data.address.district.code === '' ||
+      data.address.ward.code === ''
+    ) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: t('pleaseFillOutAllFields'),
+        type: 'error'
+      })
+      return
+    }
     await AxiosInterceptors.post(urlConfig.job_requests.createJobRequests, data)
       .then((res) => {
         if (res.status === 200) {
@@ -144,6 +162,7 @@ const Header = () => {
               id='outlined-basic'
               label={t('title')}
               variant='outlined'
+              required
               fullWidth
               onChange={(e) => setData({ ...data, title: e.target.value })}
             />
@@ -151,6 +170,7 @@ const Header = () => {
               id='outlined-basic'
               label={t('description')}
               variant='outlined'
+              required
               fullWidth
               sx={{
                 mt: 2
@@ -162,6 +182,7 @@ const Header = () => {
                 id='outlined-select-currency'
                 select
                 label={t('major')}
+                required
                 defaultValue=''
                 sx={{
                   width: '50%'
@@ -191,6 +212,7 @@ const Header = () => {
                 select
                 label={t('city')}
                 defaultValue={data.address.city.name}
+                required
                 sx={{
                   width: '33%'
                 }}
@@ -221,6 +243,7 @@ const Header = () => {
                 select
                 label={t('district')}
                 defaultValue={data.address.district.name}
+                required
                 sx={{
                   width: '33%'
                 }}
@@ -251,6 +274,7 @@ const Header = () => {
                 select
                 label={t('ward')}
                 defaultValue={data.address.ward.name}
+                required
                 sx={{
                   width: '33%'
                 }}
@@ -308,9 +332,7 @@ const Header = () => {
         <div>
           <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
             <Box sx={{ '& > :not(style)': { m: 1 } }}>
-              <Tooltip title={t('notifications')} arrow>
-                <Notification />
-              </Tooltip>
+              <Notification />
               {user.role === 'USER' && (
                 <>
                   <Tooltip title={t('createRequest')} arrow>
@@ -323,6 +345,7 @@ const Header = () => {
                       <AttachMoneyIcon />
                     </Fab>
                   </Tooltip>
+                  <Report />
                 </>
               )}
               {user.role === 'EXPERT' && (
@@ -332,6 +355,7 @@ const Header = () => {
                       <AddIcon />
                     </Fab>
                   </Tooltip>
+                  <Report />
                 </>
               )}
               <LanguaguePopover />

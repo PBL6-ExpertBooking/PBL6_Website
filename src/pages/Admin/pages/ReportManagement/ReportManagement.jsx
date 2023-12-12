@@ -2,28 +2,26 @@ import React from 'react'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import { Helmet } from 'react-helmet-async'
-import CertificatesTable from './CertificatesTable'
-import { Box, Stack, Pagination, Container, Typography, TextField, InputAdornment } from '@mui/material'
+import ReportTable from './ReportTable'
+import { Box, Pagination, Container, Typography } from '@mui/material'
 import Loading from '../../../../common/components/Loading/Loading'
 import svg from '../../../../assets/images/empty.png'
 import { useTranslation } from 'react-i18next'
-import SearchIcon from '@mui/icons-material/Search'
 import useResponsive from '../../../../hooks/useResponsive'
 
-const CertificateManagement = () => {
+const ReportManagement = () => {
   const isMobile = useResponsive('down', 'sm')
   const { t } = useTranslation()
-  const [certificates, setCertificates] = React.useState([])
+  const [report, setReport] = React.useState([])
   const [pageCount, setPageCount] = React.useState(1)
   const [isLoading, setIsLoading] = React.useState(true)
-  const [searchTerm, setSearchTerm] = React.useState('')
   const [totalPages, setTotalPages] = React.useState(0)
   const fetchData = async () => {
-    await AxiosInterceptors.get(urlConfig.expert.expertUnverified + `?search=${searchTerm}&page=${pageCount}`)
+    await AxiosInterceptors.get(urlConfig.report.getAllReport + `?limit=10&page=${pageCount}`)
       .then((res) => {
         if (res && res.status === 200) {
-          if (res.data.pagination.experts) {
-            setCertificates(res.data.pagination.experts)
+          if (res.data.pagination.reports) {
+            setReport(res.data.pagination.reports)
             setTotalPages(res.data.pagination.totalPages)
             setIsLoading(false)
           }
@@ -44,46 +42,12 @@ const CertificateManagement = () => {
       }
     >
       <Helmet>
-        <title>{t('verifyExpert')}</title>
+        <title>{t('reportManagement')}</title>
       </Helmet>
-      <Stack direction='row' spacing={2} justifyContent='space-between' sx={{ mb: 4 }}>
-        <Typography variant='h3' sx={{ margin: '1rem 0' }}>
-          {t('verifyExpert')}
-        </Typography>
-        <Stack direction='row' spacing={2} sx={{ marginBottom: '20px', float: 'right' }}>
-          <TextField
-            id='search'
-            type='search'
-            label={isMobile ? '' : t('searchTitle')}
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value)
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                setIsLoading(true)
-                fetchData()
-              }
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Stack>
-      </Stack>
       {isLoading ? (
         <Loading />
-      ) : certificates.length > 0 ? (
-        <CertificatesTable
-          majorsOrder={certificates}
-          fetchData={fetchData}
-          pageCount={pageCount}
-          setPageCount={setPageCount}
-        />
+      ) : report.length > 0 ? (
+        <ReportTable majorsOrder={report} fetchData={fetchData} pageCount={pageCount} setPageCount={setPageCount} />
       ) : (
         <div style={{ width: '100%', textAlign: 'center' }}>
           <Container maxWidth='md'>
@@ -119,4 +83,4 @@ const CertificateManagement = () => {
   )
 }
 
-export default CertificateManagement
+export default ReportManagement

@@ -47,45 +47,51 @@ export default function ExpertSideNav() {
             padding: 0
           }}
         >
-          <Link to={path.dashboard} style={styleLink}>
-            <MenuItem icon={<HomeRoundedIcon />}></MenuItem>
-          </Link>
-          <Link to={path.expertProfile} style={styleLink}>
-            <MenuItem icon={<ManageAccountsIcon />}></MenuItem>
-          </Link>
-          <Link to={path.expertChangePassword} style={styleLink}>
-            <MenuItem icon={<SyncLockIcon />}></MenuItem>
-          </Link>
-          <Link to={path.expertTransactionHistory} style={styleLink}>
-            <MenuItem icon={<CalendarMonthRoundedIcon />}></MenuItem>
-          </Link>
-          <Link to={path.expertShowListPost} style={styleLink}>
-            <MenuItem icon={<ChecklistIcon />}></MenuItem>
-          </Link>
-          <Link to={path.expertBookings} style={styleLink}>
-            <MenuItem icon={<ShoppingCartIcon />}></MenuItem>
-          </Link>
+          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}></MenuItem>
+          <MenuItem
+            icon={<ManageAccountsIcon />}
+            component={<Link to={path.expertProfile} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem
+            icon={<SyncLockIcon />}
+            component={<Link to={path.expertChangePassword} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem
+            icon={<CalendarMonthRoundedIcon />}
+            component={<Link to={path.expertTransactionHistory} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem
+            icon={<ChecklistIcon />}
+            component={<Link to={path.expertShowListPost} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem
+            icon={<ShoppingCartIcon />}
+            component={<Link to={path.expertBookings} style={styleLink} />}
+          ></MenuItem>
         </Menu>
       ) : (
         <Menu>
-          <Link to={path.dashboard} style={styleLink}>
-            <MenuItem icon={<HomeRoundedIcon />}>{t('dashboard')}</MenuItem>
-          </Link>
-          <Link to={path.expertProfile} style={styleLink}>
-            <MenuItem icon={<ManageAccountsIcon />}>{t('myProfile')}</MenuItem>
-          </Link>
-          <Link to={path.expertChangePassword} style={styleLink}>
-            <MenuItem icon={<SyncLockIcon />}>{t('changePassword')}</MenuItem>
-          </Link>
-          <Link to={path.expertTransactionHistory} style={styleLink}>
-            <MenuItem icon={<CalendarMonthRoundedIcon />}>{t('historyTransaction')}</MenuItem>
-          </Link>
-          <Link to={path.expertShowListPost} style={styleLink}>
-            <MenuItem icon={<ChecklistIcon />}>{t('listJobRequests')}</MenuItem>
-          </Link>
-          <Link to={path.expertBookings} style={styleLink}>
-            <MenuItem icon={<ShoppingCartIcon />}>{t('myBookings')}</MenuItem>
-          </Link>
+          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}>
+            {t('dashboard')}
+          </MenuItem>
+          <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.expertProfile} style={styleLink} />}>
+            {t('myProfile')}
+          </MenuItem>
+          <MenuItem icon={<SyncLockIcon />} component={<Link to={path.expertChangePassword} style={styleLink} />}>
+            {t('changePassword')}
+          </MenuItem>
+          <MenuItem
+            icon={<CalendarMonthRoundedIcon />}
+            component={<Link to={path.expertTransactionHistory} style={styleLink} />}
+          >
+            {t('historyTransaction')}
+          </MenuItem>
+          <MenuItem icon={<ChecklistIcon />} component={<Link to={path.expertShowListPost} style={styleLink} />}>
+            {t('listJobRequests')}
+          </MenuItem>
+          <MenuItem icon={<ShoppingCartIcon />} component={<Link to={path.expertBookings} style={styleLink} />}>
+            {t('myBookings')}
+          </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}
             onClick={() => {

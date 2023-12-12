@@ -224,7 +224,16 @@
 
   "reviewSuccess": "Review successfully!",
 
+  "reportSuccess": "Report successfully!",
+  "reportFailed": "Report failed!",
+  "deleteReportSuccess": "Delete report successfully!",
+
   "verifyExpert": "Verify Expert",
   "documentManagement": "Document Management",
-  "transactionManagement": "Transaction Management"
+  "transactionManagement": "Transaction Management",
+  "reportManagement": "Report Management",
+
+  "pleaseFillOutAllFields": "Please fill out all fields!",
+  "new": "New",
+  "beforeThat": "Before That"
 }

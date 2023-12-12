@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import path from '../../../../constants/path'
-import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
@@ -12,6 +11,8 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import SsidChartIcon from '@mui/icons-material/SsidChart'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
+import HandymanIcon from '@mui/icons-material/Handyman'
+import ReportIcon from '@mui/icons-material/Report'
 import React from 'react'
 export default function AdminSideNav() {
   const isMobile = useResponsive('down', 'sm')
@@ -44,21 +45,20 @@ export default function AdminSideNav() {
     <Sidebar style={isMobile ? styleMobile : { height: '100%' }} collapsed={isCollapsed}>
       {isMobile ? (
         <Menu rootStyles={menuMobile}>
-          <Link to={path.adminDashBoard} style={styleLink}>
-            <MenuItem icon={<SsidChartIcon />}></MenuItem>
-          </Link>
-          <Link to={path.adminProfile} style={styleLink}>
-            <MenuItem icon={<AccountBoxIcon />}></MenuItem>
-          </Link>
-          <Link to={path.adminListUser} style={styleLink}>
-            <MenuItem icon={<ManageAccountsIcon />}></MenuItem>
-          </Link>
-          <Link to={path.adminListMajor} style={styleLink}>
-            <MenuItem icon={<ManageSearchIcon />}></MenuItem>
-          </Link>
-          <Link to={path.adminVerifyExpert} style={styleLink}>
-            <MenuItem icon={<VerifiedUserIcon />}></MenuItem>
-          </Link>
+          <MenuItem icon={<SsidChartIcon />} component={<Link to={path.adminDashBoard} style={styleLink} />}></MenuItem>
+          <MenuItem icon={<AccountBoxIcon />} component={<Link to={path.adminProfile} style={styleLink} />}></MenuItem>
+          <MenuItem
+            icon={<ManageAccountsIcon />}
+            component={<Link to={path.adminListUser} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem
+            icon={<ManageSearchIcon />}
+            component={<Link to={path.adminListMajor} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem
+            icon={<VerifiedUserIcon />}
+            component={<Link to={path.adminVerifyExpert} style={styleLink} />}
+          ></MenuItem>
           <MenuItem
             icon={<FindInPageIcon />}
             component={<Link to={path.adminListDocument} style={styleLink} />}
@@ -67,6 +67,11 @@ export default function AdminSideNav() {
             icon={<AccountBalanceWalletIcon />}
             component={<Link to={path.adminListTransaction} style={styleLink} />}
           ></MenuItem>
+          <MenuItem
+            icon={<AccountBalanceWalletIcon />}
+            component={<Link to={path.adminListReport} style={styleLink} />}
+          ></MenuItem>
+          <MenuItem icon={<ReportIcon />} component={<Link to={path.adminListReport} style={styleLink} />}></MenuItem>
         </Menu>
       ) : (
         <Menu>
@@ -76,24 +81,30 @@ export default function AdminSideNav() {
           <MenuItem icon={<AccountBoxIcon />} component={<Link to={path.adminProfile} style={styleLink} />}>
             {t('profile')}
           </MenuItem>
-          <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.adminListUser} style={styleLink} />}>
-            {t('usersManagement')}
-          </MenuItem>
-          <MenuItem icon={<ManageSearchIcon />} component={<Link to={path.adminListMajor} style={styleLink} />}>
-            {t('majorsManagement')}
-          </MenuItem>
           <MenuItem icon={<VerifiedUserIcon />} component={<Link to={path.adminVerifyExpert} style={styleLink} />}>
             {t('verifyExpert')}
           </MenuItem>
-          <MenuItem icon={<FindInPageIcon />} component={<Link to={path.adminListDocument} style={styleLink} />}>
-            {t('documentManagement')}
-          </MenuItem>
-          <MenuItem
-            icon={<AccountBalanceWalletIcon />}
-            component={<Link to={path.adminListTransaction} style={styleLink} />}
-          >
-            {t('transactionManagement')}
-          </MenuItem>
+          <SubMenu label='Quản lý' style={styleLink} icon={<HandymanIcon />}>
+            <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.adminListUser} style={styleLink} />}>
+              {t('usersManagement')}
+            </MenuItem>
+            <MenuItem icon={<ManageSearchIcon />} component={<Link to={path.adminListMajor} style={styleLink} />}>
+              {t('majorsManagement')}
+            </MenuItem>
+
+            <MenuItem icon={<FindInPageIcon />} component={<Link to={path.adminListDocument} style={styleLink} />}>
+              {t('documentManagement')}
+            </MenuItem>
+            <MenuItem
+              icon={<AccountBalanceWalletIcon />}
+              component={<Link to={path.adminListTransaction} style={styleLink} />}
+            >
+              {t('transactionManagement')}
+            </MenuItem>
+            <MenuItem icon={<ReportIcon />} component={<Link to={path.adminListReport} style={styleLink} />}>
+              {t('reportManagement')}
+            </MenuItem>
+          </SubMenu>
           <MenuItem
             icon={<MenuOutlinedIcon />}
             onClick={() => {

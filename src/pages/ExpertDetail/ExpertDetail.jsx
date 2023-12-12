@@ -12,7 +12,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Divider
+  Modal
 } from '@mui/material'
 import RatingContent from '../../components/RatingContent'
 import { Helmet } from 'react-helmet-async'
@@ -33,6 +33,8 @@ const ExpertDetail = () => {
   const id = useParams()
   const [expert, setExpert] = useState({})
   const [review, setReview] = useState([{}])
+  const [open, setOpen] = useState(false)
+  const [item, setItem] = useState('')
   const getData = async () => {
     await AxiosInterceptors.get(urlConfig.user.searchExpert + `/${id.nameId}`)
       .then((res) => {
@@ -113,18 +115,18 @@ const ExpertDetail = () => {
               <Grid item xs={12} md={3}>
                 <Stack direction='column' spacing={3} sx={{ mt: 5 }}>
                   <div>
-                    <Typography variant='h6' sx={{ mt: 2 }} align='end'>
+                    <Typography variant='h6' sx={{ mt: 2 }} align='right'>
                       Ngày tham gia
                     </Typography>
-                    <Typography variant='body1' sx={{ mt: 2 }} align='end'>
+                    <Typography variant='body1' sx={{ mt: 2 }} align='right'>
                       {moment(expert.createdAt).format('DD/MM/YYYY')}
                     </Typography>
                   </div>
                   <div>
-                    <Typography variant='h6' sx={{ mt: 2 }} align='end'>
+                    <Typography variant='h6' sx={{ mt: 2 }} align='right'>
                       Cập nhật lần cuối
                     </Typography>
-                    <Typography variant='body1' sx={{ mt: 2 }} align='end'>
+                    <Typography variant='body1' sx={{ mt: 2 }} align='right'>
                       {moment(expert.updatedAt).format('DD/MM/YYYY')}
                     </Typography>
                   </div>
@@ -145,7 +147,7 @@ const ExpertDetail = () => {
                   <CardHeader title={t('certificate')} />
                   <CardContent>
                     {expert.certificates?.map((certificate) => (
-                      <Accordion>
+                      <Accordion key={certificate._id}>
                         <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}
                           aria-controls='panel1a-content'
@@ -157,7 +159,16 @@ const ExpertDetail = () => {
                           </Stack>
                         </AccordionSummary>
                         <AccordionDetails>
-                          <img src={certificate.photo_url} alt='certificate' style={{ width: '100%' }} />
+                          <Box
+                            component='img'
+                            src={certificate.photo_url}
+                            alt='certificate'
+                            style={{ width: '100%' }}
+                            onClick={() => {
+                              setItem(certificate.photo_url)
+                              setOpen(true)
+                            }}
+                          />
                         </AccordionDetails>
                       </Accordion>
                     ))}
@@ -177,16 +188,14 @@ const ExpertDetail = () => {
                   <CardContent>
                     <Stack direction='column' spacing={1}>
                       {review.map((item) => (
-                        <>
-                          <RatingContent
-                            photoURL={item.user.photo_url}
-                            name={item.user.first_name + ' ' + item.user.last_name}
-                            date={item.createdAt}
-                            rating={item.rating}
-                            comment={item.comment}
-                          />
-                          <Divider />
-                        </>
+                        <RatingContent
+                          photoURL={item.user.photo_url}
+                          name={item.user.first_name + ' ' + item.user.last_name}
+                          date={item.createdAt}
+                          rating={item.rating}
+                          comment={item.comment}
+                          key={item._id}
+                        />
                       ))}
                     </Stack>
                   </CardContent>
@@ -198,6 +207,19 @@ const ExpertDetail = () => {
       ) : (
         <Loading />
       )}
+      <Modal
+        open={open}
+        onClose={() => {
+          setOpen(false)
+        }}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Box component='img' src={item} alt='certificate' style={{ height: '80vh', objectFit: 'cover' }} />
+      </Modal>
     </div>
   )
 }

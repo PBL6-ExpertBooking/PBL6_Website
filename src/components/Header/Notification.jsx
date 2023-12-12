@@ -3,7 +3,6 @@ import {
   Box,
   List,
   Badge,
-  Button,
   Avatar,
   Tooltip,
   Divider,
@@ -29,8 +28,10 @@ import useSnackbar from '../../contexts/snackbar.context'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 // ----------------------------------------------------------------------
 const NotificationsPopover = memo(function NotificationsPopover() {
+  const { t } = useTranslation()
   const { snack, setSnack } = useSnackbar()
   const [notifications, setNotifications] = useState([])
   const totalUnRead = notifications.filter((item) => item.is_seen === false).length
@@ -86,11 +87,13 @@ const NotificationsPopover = memo(function NotificationsPopover() {
 
   return (
     <>
-      <Fab size='small' aria-label='notifi' onClick={handleOpen}>
-        <Badge badgeContent={totalUnRead} color='error'>
-          <NotificationsIcon />
-        </Badge>
-      </Fab>
+      <Tooltip title={t('notifications')} arrow>
+        <Fab size='small' aria-label='notifi' onClick={handleOpen}>
+          <Badge badgeContent={totalUnRead} color='error'>
+            <NotificationsIcon />
+          </Badge>
+        </Fab>
+      </Tooltip>
       <MenuPopover
         open={Boolean(open)}
         anchorEl={open}
@@ -100,7 +103,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant='body1' fontWeight='bold'>
-              Notifications
+              {t('notifications')}
             </Typography>
             {totalUnRead > 0 && (
               <Typography variant='body2' sx={{ color: 'text.secondary' }}>
@@ -125,7 +128,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
               disablePadding
               subheader={
                 <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                  New
+                  {t('new')}
                 </ListSubheader>
               }
             >
@@ -138,7 +141,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
               disablePadding
               subheader={
                 <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                  Before that
+                  {t('beforeThat')}
                 </ListSubheader>
               }
             >
