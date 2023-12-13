@@ -20,7 +20,7 @@ const style = {
   p: 4
 }
 
-export default function BookingDetailInfoModal({ open, handleCloseModal, post, setRefresh, refresh }) {
+export default function BookingDetailInfoModal({ open, handleCloseModal, post, fetchData }) {
   const { snack, setSnack } = useSnackbar()
   const { t } = useTranslation()
   const handleCancel = async () => {
@@ -32,8 +32,8 @@ export default function BookingDetailInfoModal({ open, handleCloseModal, post, s
           message: t('cancelJobRequestSuccess'),
           type: 'success'
         })
+        fetchData()
         handleCloseModal()
-        setRefresh(!refresh)
       })
       .catch((err) => {
         setSnack({
@@ -86,7 +86,7 @@ export default function BookingDetailInfoModal({ open, handleCloseModal, post, s
                 >
                   Price:
                 </Typography>{' '}
-                {post.price} VNĐ
+                {post.price}
               </Typography>
 
               <Typography
