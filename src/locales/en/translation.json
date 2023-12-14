@@ -235,5 +235,15 @@
 
   "pleaseFillOutAllFields": "Please fill out all fields!",
   "new": "New",
-  "beforeThat": "Before That"
+  "beforeThat": "Before That",
+
+  "cancelBooking": "Cancel booking",
+  "close": "Close",
+
+  "acceptAt": "Accept at",
+
+  "addCertificate": "Add Certificate",
+
+  "postSuccess": "Cancel job request successfully!",
+  "postFail": "Cancel job request failed!"
 }

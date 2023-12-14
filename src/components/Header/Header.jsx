@@ -350,7 +350,7 @@ const Header = () => {
               )}
               {user.role === 'EXPERT' && (
                 <>
-                  <Tooltip title='Add Certificate' arrow>
+                  <Tooltip title={t('addCertificate')} arrow>
                     <Fab size='small' aria-label='add' onClick={() => setOpenAddCertificate(true)}>
                       <AddIcon />
                     </Fab>
