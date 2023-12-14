@@ -66,6 +66,31 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
     setOpenModal(false)
   }
 
+  const getStatusLabel = (transaction) => {
+    const map = {
+      CANCELED: {
+        text: 'Canceled',
+        color: 'error'
+      },
+      DONE: {
+        text: 'Completed',
+        color: 'success'
+      },
+      PENDING: {
+        text: 'Pending',
+        color: 'warning'
+      },
+      PROCESSING: {
+        text: 'Processing',
+        color: 'info'
+      }
+    }
+  
+    const { text, color } = map[transaction]
+  
+    return <Label color={color}>{text}</Label>
+  }
+
   useEffect(() => {
     if (isMobile) {
       setRowsPerPage(5)
@@ -143,7 +168,7 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
                     </TableCell>
                     <TableCell>
                       <Typography variant='body1' fontWeight='bold' color='text.success' gutterBottom noWrap>
-                        {jobRequests.status}
+                        {getStatusLabel(jobRequests.status)}
                       </Typography>
                     </TableCell>
                     <TableCell align='right'>

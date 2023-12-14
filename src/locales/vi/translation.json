@@ -235,5 +235,15 @@
 
   "pleaseFillOutAllFields": "Vui lòng điền đầy đủ thông tin!",
   "new": "Mới",
-  "beforeThat": "Trước đó"
+  "beforeThat": "Trước đó",
+
+  "cancelBooking": "Huỷ đơn",
+  "close": "Đóng",
+
+  "acceptAt": "Nhận đơn lúc",
+
+  "addCertificate": "Thêm chứng chỉ",
+
+  "postSuccess": "Hủy yêu cầu công việc thành công!",
+  "postFail": "Hủy yêu cầu công việc thất bại!"
 }
