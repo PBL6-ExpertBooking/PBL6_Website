@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import path from '../../../../constants/path'
 import { Sidebar, Menu, MenuItem, useProSidebar } from 'react-pro-sidebar'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import SyncLockIcon from '@mui/icons-material/SyncLock'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import SsidChartIcon from '@mui/icons-material/SsidChart'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
 
@@ -47,7 +47,10 @@ export default function ExpertSideNav() {
             padding: 0
           }}
         >
-          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}></MenuItem>
+          <MenuItem
+            icon={<SsidChartIcon />}
+            component={<Link to={path.expertDashboard} style={styleLink} />}
+          ></MenuItem>
           <MenuItem
             icon={<ManageAccountsIcon />}
             component={<Link to={path.expertProfile} style={styleLink} />}
@@ -71,8 +74,8 @@ export default function ExpertSideNav() {
         </Menu>
       ) : (
         <Menu>
-          <MenuItem icon={<HomeRoundedIcon />} component={<Link to={path.dashboard} style={styleLink} />}>
-            {t('dashboard')}
+          <MenuItem icon={<SsidChartIcon />} component={<Link to={path.expertDashboard} style={styleLink} />}>
+            Thống kê
           </MenuItem>
           <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.expertProfile} style={styleLink} />}>
             {t('myProfile')}

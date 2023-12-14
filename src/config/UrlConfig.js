@@ -61,6 +61,12 @@ const urlConfig = {
     getAllReport: `${process.env.REACT_APP_API_ENDPOINT}/reports`,
     getReportById: `${process.env.REACT_APP_API_ENDPOINT}/reports`,
     deleteReport: `${process.env.REACT_APP_API_ENDPOINT}/reports`
+  },
+  statistics: {
+    getStatisticsAdmin: `${process.env.REACT_APP_API_ENDPOINT}/statistics/admin`,
+    getStatisticsIncome: `${process.env.REACT_APP_API_ENDPOINT}/statistics/income`,
+    getStatisticsExpert: `${process.env.REACT_APP_API_ENDPOINT}/statistics/current-expert`,
+    getStatisticsExpertIncome: `${process.env.REACT_APP_API_ENDPOINT}/statistics/current-expert-income`
   }
 }
 

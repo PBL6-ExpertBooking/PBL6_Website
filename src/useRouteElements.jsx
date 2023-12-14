@@ -31,6 +31,7 @@ const ExpertProfile = lazy(() => import('./pages/Expert/pages/ExpertProfile'))
 const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
+const ExpertDashboard = lazy(() => import('./pages/Expert/pages/DashBoard/DashBoard'))
 // admin page
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
@@ -233,6 +234,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <ExpertLayout>
                         <ExpertChangePassword />
+                      </ExpertLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.expertDashboard,
+                  element: (
+                    <Suspense>
+                      <ExpertLayout>
+                        <ExpertDashboard />
                       </ExpertLayout>
                     </Suspense>
                   )

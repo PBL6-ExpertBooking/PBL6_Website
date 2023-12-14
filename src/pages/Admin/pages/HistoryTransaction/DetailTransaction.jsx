@@ -5,9 +5,6 @@ import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Check from '@mui/icons-material/Check'
-import SettingsIcon from '@mui/icons-material/Settings'
-import GroupAddIcon from '@mui/icons-material/GroupAdd'
-import VideoLabelIcon from '@mui/icons-material/VideoLabel'
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import KeyboardDoubleArrowRightTwoToneIcon from '@mui/icons-material/KeyboardDoubleArrowRightTwoTone'
 import { Grid, Typography, Stack, Avatar, Container } from '@mui/material'
@@ -69,7 +66,7 @@ function QontoStepIcon(props) {
 const steps = ['Nạp', 'Xử lý', 'Hoàn thành']
 const DetailTransaction = ({ open, setOpen, transaction }) => {
   const activeStep =
-    transaction.transaction_status === 'PENDING' ? 1 : transaction.transaction_status === 'PROCESSING' ? 2 : 3
+    transaction.transaction_status === 'CANCELED' ? 1 : transaction.transaction_status === 'PROCESSING' ? 2 : 3
   return (
     <>
       <Rootmodal

@@ -13,6 +13,7 @@ import { MajorProvider } from './contexts/major.context'
 import 'simplebar-react/dist/simplebar.min.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+import { ChartStyle } from './components/chart'
 
 const App = () => {
   const routeElements = useRouteElements()
@@ -30,7 +31,10 @@ const App = () => {
           <CookiesProvider>
             <SnackbarContextProvider>
               <ProSidebarProvider>
-                <ThemeProvider>{routeElements}</ThemeProvider>
+                <ThemeProvider>
+                  {routeElements}
+                  <ChartStyle />
+                </ThemeProvider>
               </ProSidebarProvider>
             </SnackbarContextProvider>
           </CookiesProvider>

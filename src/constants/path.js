@@ -25,6 +25,7 @@ const path = {
   expertAnalytics: '/expert/analytics',
   expertBookings: '/expert/bookings',
   expertShowListPost: '/expert/list-post',
+  expertDashboard: '/expert/dashboard',
 
   //Admin
   admin: '/admin',

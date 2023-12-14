@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Grid, Stack, Card, CardContent, Typography } from '@mui/material'
 import BookingWidgetSummary from '../../components/Dashboard/BookingWidgetSummary'
 import BookingBooked from '../../components/Dashboard/BookingBooked'
@@ -10,11 +10,30 @@ import HailRoundedIcon from '@mui/icons-material/HailRounded'
 import AlignHorizontalRightRoundedIcon from '@mui/icons-material/AlignHorizontalRightRounded'
 import dashboard from '../../../../assets/images/dashboard.svg'
 import useResponsive from '../../../../hooks/useResponsive'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import urlConfig from '../../../../config/UrlConfig'
+import Loading from '../../../../common/components/Loading/Loading'
+import IncomeChart from '../../components/Dashboard/IncomeChart'
 
 const DashBoard = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const isMobile = useResponsive('down', 'sm')
-  return (
+  const [data, setData] = React.useState({})
+  const [isLoading, setIsLoading] = React.useState(true)
+  const fetchData = async () => {
+    await AxiosInterceptors.get(urlConfig.statistics.getStatisticsAdmin).then((res) => {
+      if (res && res.status === 200) {
+        setData(res.data.statistics)
+        setIsLoading(false)
+      }
+    })
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div
       style={
         isMobile
@@ -35,11 +54,11 @@ const DashBoard = () => {
                 <Stack direction='row' spacing={5} alignItems='center' justifyContent='space-between'>
                   <div>
                     <Typography gutterBottom variant='h4'>
-                      Welcome back 👋
+                      Chào mừng trở lại 👋
                       <br /> {user.first_name} {user.last_name}
                     </Typography>
                     <Typography variant='body2' sx={{ pb: { xs: 3, xl: 5 }, maxWidth: 480 }}>
-                      If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything
+                      Hãy kiểm tra các số liệu thống kê của bạn để biết bạn đã làm được gì trong tuần qua.
                     </Typography>
                   </div>
                   <img src={dashboard} alt='dashboard' style={{ width: '200px', height: '200px' }} />
@@ -51,7 +70,7 @@ const DashBoard = () => {
           <Grid item xs={12} md={4}>
             <BookingWidgetSummary
               title='Số lượng yêu cầu'
-              total={714000}
+              total={data.job_request_count}
               icon={
                 <WorkOutlineRoundedIcon
                   sx={{
@@ -65,7 +84,7 @@ const DashBoard = () => {
           <Grid item xs={12} md={4}>
             <BookingWidgetSummary
               title='Chuyên gia'
-              total={311000}
+              total={data.expert_count}
               icon={
                 <HailRoundedIcon
                   sx={{
@@ -79,7 +98,7 @@ const DashBoard = () => {
           <Grid item xs={12} md={4}>
             <BookingWidgetSummary
               title='Người dùng'
-              total={124000}
+              total={data.user_count}
               icon={
                 <EmojiPeopleRoundedIcon
                   sx={{
@@ -95,7 +114,7 @@ const DashBoard = () => {
               <Grid item xs={12} md={12}>
                 <BookingWidgetSummary
                   title='Tổng tiền đã nạp'
-                  total={12400000}
+                  total={data.total_deposit_amount}
                   icon={
                     <AddCardRoundedIcon
                       sx={{
@@ -109,7 +128,7 @@ const DashBoard = () => {
               <Grid item xs={12} md={12}>
                 <BookingWidgetSummary
                   title='Chuyên ngành'
-                  total={124000}
+                  total={data.major_count}
                   icon={
                     <AlignHorizontalRightRoundedIcon
                       sx={{
@@ -123,10 +142,18 @@ const DashBoard = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} md={4}>
-            <BookingBooked />
+            <BookingBooked
+              canceled={data.job_request_canceled_count}
+              pending={data.job_request_pending_count}
+              processing={data.job_request_processing_count}
+              done={data.job_request_done_count}
+            />
           </Grid>
           <Grid item xs={12} md={4}>
-            <BookingReview />
+            <BookingReview data={data.reviews} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <IncomeChart />
           </Grid>
         </Grid>
       </Container>
