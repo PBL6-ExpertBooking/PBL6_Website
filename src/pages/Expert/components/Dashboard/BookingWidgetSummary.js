@@ -3,6 +3,8 @@ import { styled } from '@mui/material/styles'
 import { Card, Typography, Box } from '@mui/material'
 import numeral from 'numeral'
 
+// utils
+// ----------------------------------------------------------------------
 export function fShortenNumber(number) {
   return numeral(number).format('0.00a').replace('.00', '')
 }

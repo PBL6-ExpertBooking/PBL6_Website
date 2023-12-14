@@ -1,53 +1,11 @@
 import Slider from 'react-slick'
 // @mui
 import { useTheme } from '@mui/material/styles'
-import { Card, Stack, Avatar, Rating, CardHeader, Typography } from '@mui/material'
+import { Card, Stack, Avatar, Rating, CardHeader, Typography, Grid, Container } from '@mui/material'
 import moment from 'moment'
+import KeyboardDoubleArrowRightTwoToneIcon from '@mui/icons-material/KeyboardDoubleArrowRightTwoTone'
 
-// _mock_
-// components
-
-// ----------------------------------------------------------------------
-
-const _bookingReview = [
-  {
-    id: '1',
-    name: 'Ekaterina Tankova',
-    avatar: 'https://i.pravatar.cc/300?img=1',
-    rating: 4,
-    description: `
-        I love this product, it really help me to boost my conversion rate.
-        Should have purchased it a lot earlier. I love this product, it really
-        help me to boost my conversion rate. Should have purchased it a lot
-        earlier.
-        `,
-    postedAt: '2021-08-28T16:28:32.616Z'
-  },
-  {
-    id: '2',
-    name: 'Ekaterina Tankova',
-    avatar: 'https://i.pravatar.cc/300?img=2',
-    rating: 4,
-    description: `
-        I've been using this product for a while now and decided to purchase
-        `,
-    postedAt: '2021-08-28T16:28:32.616Z'
-  },
-  {
-    id: '3',
-    name: 'Ekaterina Tankova',
-    avatar: 'https://i.pravatar.cc/300?img=3',
-    rating: 4,
-    description: `
-        Very good product, easy to use and nice design. I love this product!
-        `,
-    postedAt: '2021-08-28T16:28:32.616Z'
-  }
-]
-
-// ----------------------------------------------------------------------
-
-export default function EcommerceNewProducts() {
+export default function BookingReview({ data }) {
   const theme = useTheme()
 
   const settings = {
@@ -64,7 +22,6 @@ export default function EcommerceNewProducts() {
     <Card>
       <CardHeader
         title='Customer Reviews'
-        subheader={`${_bookingReview.length} Reviews`}
         sx={{
           '& .MuiCardHeader-action': {
             alignSelf: 'center'
@@ -73,8 +30,8 @@ export default function EcommerceNewProducts() {
       />
 
       <Slider {...settings}>
-        {_bookingReview.map((item) => (
-          <ReviewItem key={item.id} item={item} />
+        {data.map((item) => (
+          <ReviewItem key={item._id} item={item} />
         ))}
       </Slider>
     </Card>
@@ -83,22 +40,49 @@ export default function EcommerceNewProducts() {
 
 // ----------------------------------------------------------------------
 function ReviewItem({ item }) {
-  const { avatar, name, description, rating, postedAt } = item
-
   return (
-    <Stack spacing={2} sx={{ position: 'relative', p: 3 }}>
-      <Stack direction='row' alignItems='center' spacing={2}>
-        <Avatar alt={name} src={avatar} />
-        <div>
-          <Typography variant='subtitle2'>{name}</Typography>
+    <Stack spacing={2} sx={{ position: 'relative', p: 2 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={5}>
+          <Stack direction='column' alignItems='center' spacing={2}>
+            <Avatar alt={item.user.photo_url} src={item.user.photo_url} />
+            <div>
+              <Typography variant='subtitle2'>
+                {item.user.first_name} {item.user.last_name}
+              </Typography>
+            </div>
+          </Stack>
+        </Grid>
+        <Grid item xs={12} sm={2} alignItems='center'>
+          <KeyboardDoubleArrowRightTwoToneIcon sx={{ fontSize: 30 }} />
+        </Grid>
+        <Grid item xs={12} sm={5}>
+          <Stack direction='column' alignItems='center' spacing={2}>
+            <Avatar alt={item.expert.user.photo_url} src={item.expert.user.photo_url} />
+            <div>
+              <Typography variant='subtitle2'>
+                {item.expert.user.first_name} {item.expert.user.last_name}
+              </Typography>
+            </div>
+          </Stack>
+        </Grid>
+      </Grid>
+      <Container
+        maxWidth='sm'
+        sx={{
+          '& .MuiRating-root': {
+            my: 2
+          }
+        }}
+      >
+        <Stack direction='row' justifyContent='space-between' alignItems='center'>
+          <Rating value={item.rating} size='small' readOnly precision={0.5} />
           <Typography variant='caption' sx={{ color: 'text.secondary', mt: 0.5, display: 'block' }}>
-            Posted {moment(postedAt).fromNow()}
+            Posted {moment(item.updatedAt).fromNow()}
           </Typography>
-        </div>
-      </Stack>
-
-      <Rating value={rating} size='small' readOnly precision={0.5} />
-      <Typography variant='body2'>{description}</Typography>
+        </Stack>
+        <Typography variant='body2'>{item.comment}</Typography>
+      </Container>
     </Stack>
   )
 }
