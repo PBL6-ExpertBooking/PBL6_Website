@@ -32,6 +32,7 @@ const ExpertBooking = lazy(() => import('./pages/Expert/pages/ExpertBooking'))
 const ExpertDetail = lazy(() => import('./pages/ExpertDetail'))
 const ExpertChangePassword = lazy(() => import('./pages/Expert/pages/ChangePassword'))
 const ExpertDashboard = lazy(() => import('./pages/Expert/pages/DashBoard/DashBoard'))
+const Withdraw = lazy(() => import('./pages/Expert/pages/Withdraw/Withdraw'))
 // admin page
 const UsersManagement = lazy(() => import('./pages/Admin/pages/UsersManagement'))
 const MajorsManagement = lazy(() => import('./pages/Admin/pages/MajorsManagement'))
@@ -40,6 +41,7 @@ const DocumentManagement = lazy(() => import('./pages/Admin/pages/DocumentManage
 const TransactionManagement = lazy(() => import('./pages/Admin/pages/HistoryTransaction'))
 const ReportManagement = lazy(() => import('./pages/Admin/pages/ReportManagement'))
 const AdminDashboard = lazy(() => import('./pages/Admin/pages/DashBoard/DashBoard'))
+const WithdrawManagement = lazy(() => import('./pages/Admin/pages/WithdrawManagement'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -247,6 +249,16 @@ export default function useRouteElements() {
                       </ExpertLayout>
                     </Suspense>
                   )
+                },
+                {
+                  path: path.expertWithdraw,
+                  element: (
+                    <Suspense>
+                      <ExpertLayout>
+                        <Withdraw />
+                      </ExpertLayout>
+                    </Suspense>
+                  )
                 }
               ]
             }
@@ -336,6 +348,16 @@ export default function useRouteElements() {
                     <Suspense>
                       <AdminLayout>
                         <AdminDashboard />
+                      </AdminLayout>
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.adminWithdraw,
+                  element: (
+                    <Suspense>
+                      <AdminLayout>
+                        <WithdrawManagement />
                       </AdminLayout>
                     </Suspense>
                   )

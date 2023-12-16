@@ -72,6 +72,10 @@ export default function AdminSideNav() {
             component={<Link to={path.adminListReport} style={styleLink} />}
           ></MenuItem>
           <MenuItem icon={<ReportIcon />} component={<Link to={path.adminListReport} style={styleLink} />}></MenuItem>
+          <MenuItem
+            icon={<AccountBalanceWalletIcon />}
+            component={<Link to={path.adminWithdraw} style={styleLink} />}
+          ></MenuItem>
         </Menu>
       ) : (
         <Menu>
@@ -103,6 +107,12 @@ export default function AdminSideNav() {
             </MenuItem>
             <MenuItem icon={<ReportIcon />} component={<Link to={path.adminListReport} style={styleLink} />}>
               {t('reportManagement')}
+            </MenuItem>
+            <MenuItem
+              icon={<AccountBalanceWalletIcon />}
+              component={<Link to={path.adminWithdraw} style={styleLink} />}
+            >
+              Quản lý rút tiền
             </MenuItem>
           </SubMenu>
           <MenuItem

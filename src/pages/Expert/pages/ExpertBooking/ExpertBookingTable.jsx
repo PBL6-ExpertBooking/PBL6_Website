@@ -1,35 +1,25 @@
 import { useEffect, useState, lazy } from 'react'
 import {
-Tooltip,
-Divider,
-Box,
-Card,
-IconButton,
-Table,
-TableBody,
-TableCell,
-TableHead,
-TablePagination,
-TableRow,
-TableContainer,
-Typography,
-useTheme,
-CardHeader,
-Avatar,
-Stack
+  Tooltip,
+  Divider,
+  Box,
+  Card,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableContainer,
+  Typography,
+  useTheme,
+  CardHeader
 } from '@mui/material'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
-import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
-import urlConfig from '../../../../config/UrlConfig'
-import Snackbar from '../../../../common/components/SnackBar'
-import useSnackbar from '../../../../contexts/snackbar.context'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
-import moment from 'moment'
 import Label from '../../../../components/Label'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
-import LockIcon from '@mui/icons-material/Lock'
 
 const BookingDetailInfoModal = lazy(() => import('../../components/BookingDetailInfoModal'))
 
@@ -39,10 +29,7 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [openModal, setOpenModal] = useState(false)
-  const [openMenu, setOpenMenu] = useState(null)
   const [currentRow, setCurrentRow] = useState(null)
-  const [item, setItem] = useState({})
-  const { snack, setSnack } = useSnackbar()
   const theme = useTheme()
 
   const handlePageChange = (event, newPage) => {
@@ -51,10 +38,6 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
 
   const handleLimitChange = (event) => {
     setRowsPerPage(parseInt(event.target.value))
-  }
-
-  const handleCloseMenu = () => {
-    setOpenMenu(null)
   }
 
   const handleClickShowBtn = (jobRequest) => {
@@ -85,9 +68,9 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
         color: 'info'
       }
     }
-  
+
     const { text, color } = map[transaction]
-  
+
     return <Label color={color}>{text}</Label>
   }
 
@@ -98,7 +81,6 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
   }, [isMobile])
   return (
     <>
-      <Snackbar />
       {openModal && (
         <BookingDetailInfoModal
           open={openModal}
@@ -114,7 +96,6 @@ const ExpertBookingTable = ({ jobRequests, fetchData }) => {
           <Table size='small'>
             <TableHead>
               <TableRow>
-
                 {!isMobile && (
                   <>
                     <TableCell>{t('major')}</TableCell>
