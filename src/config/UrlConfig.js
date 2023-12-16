@@ -26,7 +26,10 @@ const urlConfig = {
     deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/recommended-job-requests`,
     acceptJobRequest: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/accepted-job-requests`,
     majors: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/majors`,
-    uploadDocuments: `${process.env.REACT_APP_API_ENDPOINT}/experts`
+    uploadDocuments: `${process.env.REACT_APP_API_ENDPOINT}/experts`,
+    getWithdrawMethod: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/bank-account`,
+    updateWithdrawMethod: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/bank-account`,
+    getWithdrawRequest: `${process.env.REACT_APP_API_ENDPOINT}/experts/current/withdrawal-requests`
   },
   majors: {
     getMajors: `${process.env.REACT_APP_API_ENDPOINT}/majors`,
@@ -40,7 +43,7 @@ const urlConfig = {
     deleteJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     updateJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
     doneJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
-    cancelJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`,
+    cancelJobRequests: `${process.env.REACT_APP_API_ENDPOINT}/job_requests`
   },
   transaction: {
     recharge: `${process.env.REACT_APP_API_ENDPOINT}/transactions/deposit`,
@@ -67,6 +70,13 @@ const urlConfig = {
     getStatisticsIncome: `${process.env.REACT_APP_API_ENDPOINT}/statistics/income`,
     getStatisticsExpert: `${process.env.REACT_APP_API_ENDPOINT}/statistics/current-expert`,
     getStatisticsExpertIncome: `${process.env.REACT_APP_API_ENDPOINT}/statistics/current-expert-income`
+  },
+  withdraw_request: {
+    createWithdrawRequest: `${process.env.REACT_APP_API_ENDPOINT}/withdrawal-requests`,
+    getWithdrawRequest: `${process.env.REACT_APP_API_ENDPOINT}/withdrawal-requests`,
+    getAllWithdrawRequest: `${process.env.REACT_APP_API_ENDPOINT}/withdrawal-requests`,
+    deleteWithdrawRequest: `${process.env.REACT_APP_API_ENDPOINT}/withdrawal-requests`,
+    accepterWithdrawRequest: `${process.env.REACT_APP_API_ENDPOINT}/withdrawal-requests`
   }
 }
 

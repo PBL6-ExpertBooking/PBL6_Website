@@ -8,6 +8,7 @@ import SyncLockIcon from '@mui/icons-material/SyncLock'
 import ChecklistIcon from '@mui/icons-material/Checklist'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import SsidChartIcon from '@mui/icons-material/SsidChart'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
 
@@ -71,6 +72,10 @@ export default function ExpertSideNav() {
             icon={<ShoppingCartIcon />}
             component={<Link to={path.expertBookings} style={styleLink} />}
           ></MenuItem>
+          <MenuItem
+            icon={<AccountBalanceWalletIcon />}
+            component={<Link to={path.expertWithdraw} style={styleLink} />}
+          ></MenuItem>
         </Menu>
       ) : (
         <Menu>
@@ -94,6 +99,9 @@ export default function ExpertSideNav() {
           </MenuItem>
           <MenuItem icon={<ShoppingCartIcon />} component={<Link to={path.expertBookings} style={styleLink} />}>
             {t('myBookings')}
+          </MenuItem>
+          <MenuItem icon={<AccountBalanceWalletIcon />} component={<Link to={path.expertWithdraw} style={styleLink} />}>
+            Rút tiền
           </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}

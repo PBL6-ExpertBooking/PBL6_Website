@@ -26,6 +26,7 @@ const path = {
   expertBookings: '/expert/bookings',
   expertShowListPost: '/expert/list-post',
   expertDashboard: '/expert/dashboard',
+  expertWithdraw: '/expert/withdraw',
 
   //Admin
   admin: '/admin',
@@ -36,7 +37,8 @@ const path = {
   adminListDocument: '/admin/document-management',
   adminListTransaction: '/admin/transaction-management',
   adminListReport: '/admin/report-management',
-  adminDashBoard: '/admin/dashboard'
+  adminDashBoard: '/admin/dashboard',
+  adminWithdraw: '/admin/withdraw-management'
 }
 
 export default path
