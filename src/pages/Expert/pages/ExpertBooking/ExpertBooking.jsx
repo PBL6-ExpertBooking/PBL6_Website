@@ -44,7 +44,7 @@ export default function ExpertBooking() {
       }
     >
       <Helmet>
-        <title>{t('userManagement')}</title>
+        <title>{t('myBookings')}</title>
       </Helmet>
       {isLoading ? <Loading /> : <ExpertBookingTable jobRequests={jobRequests} fetchData={fetchData} />}
     </div>

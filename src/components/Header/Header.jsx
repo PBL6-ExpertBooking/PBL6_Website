@@ -330,8 +330,8 @@ const Header = () => {
           {isMobile ? '' : 'Expert Booking'}
         </Typography>
         <div>
-          <Stack direction='row' spacing={2} sx={{ padding: '10px' }}>
-            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+          <Stack direction='row' spacing={isMobile ? 0 : 2} sx={{ padding: '10px' }}>
+            <Box sx={isMobile ? {} : { '& > :not(style)': { m: 1 } }}>
               <Notification />
               {user.role === 'USER' && (
                 <>

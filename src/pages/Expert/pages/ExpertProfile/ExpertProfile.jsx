@@ -27,6 +27,7 @@ import UploadAvatar from '../../../../components/UploadAvatar/UploadAvatar'
 import { LoadingButton } from '@mui/lab'
 import Loading from '../../../../common/components/Loading/Loading'
 import useResponsive from '../../../../hooks/useResponsive'
+import { Helmet } from 'react-helmet-async'
 
 const ExpertProfile = () => {
   const isMobile = useResponsive('down', 'sm')
@@ -190,6 +191,9 @@ const ExpertProfile = () => {
     ) : (
       profile._id && (
         <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
+          <Helmet>
+            <title>{t('expertProfile')}</title>
+          </Helmet>
           <Snackbar />
           <Box
             sx={

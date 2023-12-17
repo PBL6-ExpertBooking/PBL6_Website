@@ -73,7 +73,7 @@ const NotificationsPopover = memo(function NotificationsPopover() {
     )
   }
   const fetchData = async () => {
-    await AxiosInterceptors.get(urlConfig.user.getNotification)
+    await AxiosInterceptors.get(urlConfig.user.getNotification + '?limit=50')
       .then((res) => {
         if (res && res.status === 200) {
           setNotifications(res.data.notifications)
@@ -84,7 +84,6 @@ const NotificationsPopover = memo(function NotificationsPopover() {
   useEffect(() => {
     fetchData()
   }, [refresh])
-
   return (
     <>
       <Tooltip title={t('notifications')} arrow>
@@ -205,58 +204,75 @@ function renderContent(notification) {
     return {
       avatar: <img alt={notification.user} src={notification.ref.job_request.user.photo_url} />,
       title: (
-        <Typography variant='subtitle1'>
-          {notification.ref.job_request.user.first_name} {notification.ref.job_request.user.last_name} -{' '}
-          {notification.ref.job_request.title}
-          <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
-            &nbsp; {notification.ref.job_request.descriptions}
+        <>
+          <Typography variant='subtitle1'>
+            {notification.ref.job_request.user.first_name} {notification.ref.job_request.user.last_name} -{' '}
+            <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
+              Đã tạo một yêu cầu công việc mới
+            </Typography>
           </Typography>
-        </Typography>
+          <Typography variant='subtitle1'>{notification.ref.job_request.title}</Typography>
+        </>
+      )
+    }
+  }
+  if (notification.type === 'JOB_REQUEST_CANCELED') {
+    return {
+      avatar: <img alt={notification.user} src={notification.ref.job_request.expert.user.photo_url} />,
+      title: (
+        <>
+          <Typography variant='subtitle1'>
+            {notification.ref.job_request.expert.user.first_name} {notification.ref.job_request.expert.user.last_name} -{' '}
+            <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
+              Từ chối yêu cầu công việc
+            </Typography>
+          </Typography>
+          <Typography variant='subtitle1' sx={{ color: 'red' }}>
+            {notification.ref.job_request.title}
+          </Typography>
+        </>
       )
     }
   }
   if (notification.type === 'JOB_REQUEST_ACCEPTED') {
     return {
-      avatar: (
-        <img
-          alt={notification.title}
-          src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_shipping.svg'
-        />
-      ),
+      avatar: <img alt={notification.user} src={notification.ref.job_request.expert.user.photo_url} />,
       title: (
-        <Typography variant='subtitle1'>
-          Công việc vừa được nhận - {notification.ref.job_request.title}
-          <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
-            &nbsp; {notification.ref.job_request.descriptions}
+        <>
+          <Typography variant='subtitle1'>
+            {notification.ref.job_request.expert.user.first_name} {notification.ref.job_request.expert.user.last_name} -{' '}
+            <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
+              Đã chấp nhận yêu cầu công việc
+            </Typography>
           </Typography>
-        </Typography>
+          <Typography variant='subtitle1' sx={{ color: 'green' }}>
+            {notification.ref.job_request.title}
+          </Typography>
+        </>
       )
     }
   }
-  // if (notification.type === 'mail') {
-  //   return {
-  //     avatar: (
-  //       <img
-  //         alt={notification.title}
-  //         src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_mail.svg'
-  //       />
-  //     ),
-  //     title
-  //   }
-  // }
-  // if (notification.type === 'chat_message') {
-  //   return {
-  //     avatar: (
-  //       <img
-  //         alt={notification.title}
-  //         src='https://minimal-assets-api.vercel.app/assets/icons/ic_notification_chat.svg'
-  //       />
-  //     ),
-  //     title
-  //   }
-  // }
-  //   return {
-  // avatar: notification.avatar ? <img alt={notification.title} src={notification.avatar} /> : null,
-  // title
-  //   }
+  if (notification.type === 'PAYMENT') {
+    return {
+      avatar: <img alt={notification.user} src={notification.ref.transaction.user.photo_url} />,
+      title: (
+        <>
+          <Typography variant='subtitle1'>
+            {notification.ref.transaction.user.first_name} {notification.ref.transaction.user.last_name} -{' '}
+            <Typography component='span' variant='subtitle2' sx={{ color: 'text.secondary' }}>
+              Đã thanh toán cho công việc
+            </Typography>
+          </Typography>
+          <Typography
+            variant='subtitle1'
+            sx={{
+              color: 'green'
+            }}
+          >
+            + {notification.ref.transaction.amount.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+          </Typography>
+        </>
+      )
+    }
+  }
 }

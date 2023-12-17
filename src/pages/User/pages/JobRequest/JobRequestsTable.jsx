@@ -17,11 +17,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone'
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone'
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone'
-import PaidTwoToneIcon from '@mui/icons-material/PaidTwoTone'
 import RateReviewTwoToneIcon from '@mui/icons-material/RateReviewTwoTone'
-
-import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
-import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import DetailJobRequest from './DetailJobRequest'
@@ -70,28 +66,6 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [item, setItem] = useState({})
   const theme = useTheme()
-  const handleDone = async (id) => {
-    await AxiosInterceptors.post(urlConfig.job_requests.doneJobRequests + `/${id}/complete`)
-      .then((res) => {
-        if (res && res.status === 200) {
-          setSnack({
-            ...snack,
-            open: true,
-            message: t('changeStatusSuccess'),
-            type: 'success'
-          })
-          fetchData()
-        }
-      })
-      .catch((err) =>
-        setSnack({
-          ...snack,
-          open: true,
-          message: t('changeStatusFail'),
-          type: 'error'
-        })
-      )
-  }
   return (
     <>
       <Snackbar />
@@ -222,7 +196,10 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                                     message: t('yourBalanceIsNotEnough'),
                                     type: 'error'
                                   })
-                                } else handleDone(majorsOrder._id)
+                                } else {
+                                  setId(majorsOrder._id)
+                                  setOpenPayment(true)
+                                }
                               }}
                             >
                               <CheckCircleOutlineTwoToneIcon fontSize='small' />
@@ -250,46 +227,25 @@ const JobRequestTable = ({ majorsOrder, fetchData, pageCount, setPageCount }) =>
                               <VisibilityTwoToneIcon fontSize='small' />
                             </IconButton>
                           </Tooltip>
-                          {!majorsOrder.time_payment ? (
-                            <Tooltip title={t('payMoney')} arrow>
+                          {!majorsOrder.is_reviewed && (
+                            <Tooltip title={t('reviews')} arrow>
                               <IconButton
                                 sx={{
                                   '&:hover': {
-                                    background: theme.palette.success.lighter
+                                    background: theme.palette.warning.lighter
                                   },
-                                  color: theme.palette.success.main
+                                  color: theme.palette.warning.main
                                 }}
                                 color='inherit'
                                 size='small'
                                 onClick={() => {
                                   setId(majorsOrder._id)
-                                  setOpenPayment(true)
+                                  setOpenReview(true)
                                 }}
                               >
-                                <PaidTwoToneIcon fontSize='small' />
+                                <RateReviewTwoToneIcon fontSize='small' />
                               </IconButton>
                             </Tooltip>
-                          ) : (
-                            !majorsOrder.is_reviewed && (
-                              <Tooltip title={t('reviews')} arrow>
-                                <IconButton
-                                  sx={{
-                                    '&:hover': {
-                                      background: theme.palette.warning.lighter
-                                    },
-                                    color: theme.palette.warning.main
-                                  }}
-                                  color='inherit'
-                                  size='small'
-                                  onClick={() => {
-                                    setId(majorsOrder._id)
-                                    setOpenReview(true)
-                                  }}
-                                >
-                                  <RateReviewTwoToneIcon fontSize='small' />
-                                </IconButton>
-                              </Tooltip>
-                            )
                           )}
                         </>
                       )}

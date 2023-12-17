@@ -135,6 +135,10 @@ const WithdrawMethod = () => {
   })
   const fetchData = async () => {
     await AxiosInterceptors.get(urlConfig.expert.getWithdrawMethod).then((res) => {
+      if (res.data.bank_account === null) {
+        setIsLoading(false)
+        return
+      }
       setData({
         number: res.data.bank_account.number,
         owner_name: res.data.bank_account.owner_name,

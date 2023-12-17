@@ -62,7 +62,7 @@ const ShowListPost = () => {
   return (
     <div style={{ width: '100%', maxHeight: '93vh', overflow: 'auto' }}>
       <Helmet>
-        <title></title>
+        <title>{t('listJobRequests')}</title>
       </Helmet>
       {isLoading ? (
         <Loading />

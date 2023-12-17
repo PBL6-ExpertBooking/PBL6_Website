@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { Link, Container, Typography, Stack, TextField, Checkbox, FormControlLabel, Card } from '@mui/material'
+import { Link, Container, Typography, Stack, TextField, Checkbox, FormControlLabel, Card, Button } from '@mui/material'
 import useResponsive from '../../hooks/useResponsive'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -13,6 +13,7 @@ import { useCookies } from 'react-cookie'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '@mui/lab'
+import GoogleIcon from '@mui/icons-material/Google'
 
 // ----------------------------------------------------------------------
 
@@ -168,6 +169,17 @@ export default function LoginPage() {
               >
                 {t('login')}
               </LoadingButton>
+              <Button
+                fullWidth
+                color='primary'
+                size='large'
+                type='submit'
+                variant='text'
+                startIcon={<GoogleIcon />}
+                sx={{ mb: 2 }}
+              >
+                Login with Google
+              </Button>
               <Typography variant='body2' sx={{ mb: 5 }}>
                 {t('dontHaveAccount')}{' '}
                 <Link

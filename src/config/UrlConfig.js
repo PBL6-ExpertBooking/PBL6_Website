@@ -4,7 +4,8 @@ const urlConfig = {
     register: `${process.env.REACT_APP_API_ENDPOINT}/auth/register`,
     logout: `${process.env.REACT_APP_API_ENDPOINT}/auth/logout`,
     refreshToken: `${process.env.REACT_APP_API_ENDPOINT}/auth/refresh-token`,
-    validateEmail: `${process.env.REACT_APP_API_ENDPOINT}/auth/activate`
+    validateEmail: `${process.env.REACT_APP_API_ENDPOINT}/auth/activate`,
+    google: `${process.env.REACT_APP_API_ENDPOINT}/auth/google`
   },
   user: {
     info: `${process.env.REACT_APP_API_ENDPOINT}/users/current`,
