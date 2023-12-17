@@ -102,7 +102,7 @@ export default function BookingDetailInfoModal({ open, handleCloseModal, post, f
                       : ''}
                   </Typography>
                   <Typography align='start' gutterBottom variant='body1'>
-                  {t('address')}:{post && post.address.city.name
+                  {t('address')}: {post && post.address.city.name
                       ? post.address.district.name +
                         ', ' +
                         post.address.ward.name +
@@ -111,7 +111,7 @@ export default function BookingDetailInfoModal({ open, handleCloseModal, post, f
                       : ''}
                   </Typography>
                   <Typography align='start' gutterBottom variant='body1'>
-                  {t('status')}:{getStatusLabel(post.status)}
+                  {t('status')}: {getStatusLabel(post.status)}
                   </Typography>
                 </Stack>
               </Stack>

@@ -82,7 +82,7 @@ const ChangePassword = () => {
   return (
     <div style={{ width: '100%' }}>
       <Helmet>
-        <title>Change Password</title>
+        <title>{t('changePassword')}</title>
       </Helmet>
       <Snackbar />
       <Card
