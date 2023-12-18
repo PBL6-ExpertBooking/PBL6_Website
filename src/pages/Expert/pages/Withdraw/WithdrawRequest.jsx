@@ -51,11 +51,11 @@ const WithdrawRequest = () => {
     await AxiosInterceptors.post(urlConfig.withdraw_request.createWithdrawRequest, data)
       .then((res) => {
         if (res.status === 200) {
-          setSnack({ ...snack, open: true, message: 'Tạo yêu cầu thành công', type: 'success' })
+          setSnack({ ...snack, open: true, message: t('makeRequestSuccess'), type: 'success' })
         }
       })
       .catch((err) => {
-        setSnack({ ...snack, open: true, message: 'Tạo yêu cầu thất bại', type: 'error' })
+        setSnack({ ...snack, open: true, message: t('makeRequestFail'), type: 'error' })
       })
   }
   useEffect(() => {
@@ -68,7 +68,7 @@ const WithdrawRequest = () => {
       <Snackbar />
       <Grid item xs={12} md={6}>
         <Typography variant='h4' sx={{ my: 2 }}>
-          Rút tiền
+          {t('withdraw')}
         </Typography>
         <div>
           <FormControl sx={{ marginTop: 2 }} fullWidth>
@@ -81,17 +81,17 @@ const WithdrawRequest = () => {
               onChange={(e) => setData({ ...data, amount: e.target.value })}
             />
             <FormHelperText id='outlined-weight-helper-text'>
-              Bạn có thể rút {user.balance.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+						{t('youCanWithdraw')} {user.balance.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
             </FormHelperText>
           </FormControl>
         </div>
         <Button variant='text' sx={{ marginTop: 2 }} onClick={() => handleWithdraw()}>
-          Tạo yêu cầu
+					{t('makeRequest')}
         </Button>
       </Grid>
       <Grid item xs={12} md={6}>
         <Stack direction='column' spacing={2} sx={{ my: 2 }}>
-          <Typography variant='h4'>Thông tin thanh toán</Typography>
+          <Typography variant='h4'>{t('paymentInfo')}</Typography>
           {isMobile ? (
             <Box
               sx={{
@@ -100,9 +100,9 @@ const WithdrawRequest = () => {
                 padding: '20px'
               }}
             >
-              <Typography variant='subtitle1'>Tên ngân hàng: {data.bank_account.bank_name}</Typography>
-              <Typography variant='subtitle1'>Tên chủ tài khoản: {data.bank_account.owner_name}</Typography>
-              <Typography variant='subtitle1'>Số tài khoản: {data.bank_account.number}</Typography>
+              <Typography variant='subtitle1'>{t('bankName')}: {data.bank_account.bank_name}</Typography>
+              <Typography variant='subtitle1'>{t('bankAccountName')}: {data.bank_account.owner_name}</Typography>
+              <Typography variant='subtitle1'>{t('bankAccount')}: {data.bank_account.number}</Typography>
             </Box>
           ) : (
             <BankCard data={data.bank_account} />

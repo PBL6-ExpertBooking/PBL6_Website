@@ -275,5 +275,17 @@
   "jobRequestAccepted": "Job Request Accepted",
 
   "week": "Week",
-  "month": "Month"
+  "month": "Month",
+
+	"lastUpdate": "Last update",
+	"joinedDate": "Joined date",
+
+	"updateSuccess": "Update successfully",
+	"updateFailed": "Update failed",
+
+	"documentInfo": "Document information",
+	"paymentInfo": "Payment information",
+
+	"youCanWithdraw": "You can withdraw",
+	"makeRequest": "Make request"
 }

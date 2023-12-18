@@ -275,5 +275,15 @@
   "jobRequestAccepted": "Công việc đã nhận",
 
   "week": "Tuần",
-  "month": "Tháng"
+  "month": "Tháng",
+
+	"lastUpdate": "Cập nhật lần cuối",
+	"joinedDate": "Ngày tham gia",
+
+	"updateSuccess": "Update successfully",
+	"updateFailed": "Update failed",
+
+	"documentInfo": "Document information",
+	"paymentInfo": "Payment information"
+
 }

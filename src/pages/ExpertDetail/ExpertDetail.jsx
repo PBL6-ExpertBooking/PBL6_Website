@@ -116,7 +116,7 @@ const ExpertDetail = () => {
                 <Stack direction='column' spacing={3} sx={{ mt: 5 }}>
                   <div>
                     <Typography variant='h6' sx={{ mt: 2 }} align='right'>
-                      Ngày tham gia
+                      {t('joinedDate')}
                     </Typography>
                     <Typography variant='body1' sx={{ mt: 2 }} align='right'>
                       {moment(expert.createdAt).format('DD/MM/YYYY')}
@@ -124,7 +124,7 @@ const ExpertDetail = () => {
                   </div>
                   <div>
                     <Typography variant='h6' sx={{ mt: 2 }} align='right'>
-                      Cập nhật lần cuối
+											{t('lastUpdate')}
                     </Typography>
                     <Typography variant='body1' sx={{ mt: 2 }} align='right'>
                       {moment(expert.updatedAt).format('DD/MM/YYYY')}

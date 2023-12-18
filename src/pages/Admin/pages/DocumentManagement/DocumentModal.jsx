@@ -70,7 +70,7 @@ const DocumentModal = ({ open, handleClose, fetchData, item }) => {
       ) : (
         <RootModal
           variant='Info'
-          title='Thông tin tài liệu'
+          title={t('documentInfo')}
           open={open}
           handleClose={handleClose}
           handleOk={() => {
