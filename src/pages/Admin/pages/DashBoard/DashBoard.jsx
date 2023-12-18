@@ -60,11 +60,11 @@ const DashBoard = () => {
                 <Stack direction='row' spacing={5} alignItems='center' justifyContent='space-between'>
                   <div>
                     <Typography gutterBottom variant='h4'>
-                      Chào mừng trở lại 👋
+                      {t('welcomeBack')} 👋
                       <br /> {user.first_name} {user.last_name}
                     </Typography>
                     <Typography variant='body2' sx={{ pb: { xs: 3, xl: 5 }, maxWidth: 480 }}>
-                      Hãy kiểm tra các số liệu thống kê của bạn để biết bạn đã làm được gì trong tuần qua.
+                      {t('subWelcomeBack')}
                     </Typography>
                   </div>
                   <img src={dashboard} alt='dashboard' style={{ width: '200px', height: '200px' }} />
@@ -75,7 +75,7 @@ const DashBoard = () => {
 
           <Grid item xs={12} md={4}>
             <BookingWidgetSummary
-              title='Số lượng yêu cầu'
+              title={t('jobRequest')}
               total={data.job_request_count}
               icon={
                 <WorkOutlineRoundedIcon
@@ -89,7 +89,7 @@ const DashBoard = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             <BookingWidgetSummary
-              title='Chuyên gia'
+              title={t('expert')}
               total={data.expert_count}
               icon={
                 <HailRoundedIcon
@@ -103,7 +103,7 @@ const DashBoard = () => {
           </Grid>
           <Grid item xs={12} md={4}>
             <BookingWidgetSummary
-              title='Người dùng'
+              title={t('user')}
               total={data.user_count}
               icon={
                 <EmojiPeopleRoundedIcon
@@ -119,7 +119,7 @@ const DashBoard = () => {
             <Grid container spacing={3}>
               <Grid item xs={12} md={12}>
                 <BookingWidgetSummary
-                  title='Tổng tiền đã nạp'
+                  title={t('totalDeposit')}
                   total={data.total_deposit_amount}
                   icon={
                     <AddCardRoundedIcon
@@ -133,7 +133,7 @@ const DashBoard = () => {
               </Grid>
               <Grid item xs={12} md={12}>
                 <BookingWidgetSummary
-                  title='Chuyên ngành'
+                  title={t('major')}
                   total={data.major_count}
                   icon={
                     <AlignHorizontalRightRoundedIcon

@@ -61,7 +61,7 @@ const DocumentTable = ({ majorsOrder, fetchData }) => {
         <DocumentModal open={openModal} handleClose={() => setOpenModal(false)} fetchData={fetchData} item={item} />
       )}
       <Card>
-        <CardHeader title='Quản lý tài liệu' />
+        <CardHeader title={t('documentManagement')} />
         <Divider />
         <TableContainer>
           <Table size='small'>

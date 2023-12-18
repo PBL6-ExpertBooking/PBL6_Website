@@ -54,11 +54,11 @@ const DashBoard = () => {
                 <Stack direction='row' spacing={5} alignItems='center' justifyContent='space-between'>
                   <div>
                     <Typography gutterBottom variant='h4'>
-                      Chào mừng trở lại 👋
+                      {t('welcomeBack')} 👋
                       <br /> {user.first_name} {user.last_name}
                     </Typography>
                     <Typography variant='body2' sx={{ pb: { xs: 3, xl: 5 }, maxWidth: 480 }}>
-                      Hãy kiểm tra các số liệu thống kê của bạn để biết bạn đã làm được gì trong tuần qua.
+                    {t('subWelcomeBack')}
                     </Typography>
                   </div>
                   <img src={dashboard} alt='dashboard' style={{ width: '200px', height: '200px' }} />

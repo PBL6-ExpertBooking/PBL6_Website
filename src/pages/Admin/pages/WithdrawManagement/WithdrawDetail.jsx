@@ -2,13 +2,15 @@ import React from 'react'
 import Rootmodal from '../../../../components/Modal/RootModal/index'
 import { Grid, Typography, Stack, Avatar, Container, Box, Chip } from '@mui/material'
 import moment from 'moment'
+import { useTranslation } from 'react-i18next'
 
 const WithdrawDetail = ({ open, setOpen, withdraw }) => {
+  const { t } = useTranslation()
   return (
     <>
       <Rootmodal
         variant='Info'
-        title='Thông tin chi tiết'
+        title={t('detailInfo')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={() => setOpen()}
@@ -37,28 +39,37 @@ const WithdrawDetail = ({ open, setOpen, withdraw }) => {
                   mt: 2
                 }}
               >
-                <Typography variant='subtitle1'>Tên ngân hàng: {withdraw.bank_account.bank_name}</Typography>
-                <Typography variant='subtitle1'>Tên chủ tài khoản: {withdraw.bank_account.owner_name}</Typography>
-                <Typography variant='subtitle1'>Số tài khoản: {withdraw.bank_account.number}</Typography>
+                <Typography variant='subtitle1'>
+                  {t('bankName')}: {withdraw.bank_account.bank_name}
+                </Typography>
+                <Typography variant='subtitle1'>
+                  {t('bankAccountName')}: {withdraw.bank_account.owner_name}
+                </Typography>
+                <Typography variant='subtitle1'>
+                  {t('bankAccount')}: {withdraw.bank_account.number}
+                </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-                Withdraw
+                {t('withdraw')}
               </Typography>
               <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-                Amount: {withdraw.transaction.amount.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                {t('moneyAmount')}:{' '}
+                {withdraw.transaction.amount.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
               </Typography>
-              <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-                Status:{' '}
+              <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2, mt: 1 }}>
+                {t('status')}:{' '}
                 {withdraw.transaction.transaction_status === 'PROCESSING' ? (
                   <Chip label='PROCESSING' color='primary' />
+                ) : withdraw.transaction.transaction_status === 'CANCELED' ? (
+                  <Chip label='Canceled' color='error' />
                 ) : (
                   <Chip label='Success' color='success' />
                 )}
               </Typography>
-              <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-                Time: {moment(withdraw.createAt).format('DD/MM/YYYY h:mm:ss A')}
+              <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2, mt: 1 }}>
+                {t('time')}: {moment(withdraw.createAt).format('DD/MM/YYYY h:mm:ss A')}
               </Typography>
             </Grid>
           </Grid>

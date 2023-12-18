@@ -37,7 +37,9 @@ const MajorsManagement = () => {
       }
     >
       <Helmet>
-        <title>Quản lý tài liệu</title>
+        <title>
+          {t('documentManagement')}
+        </title>
       </Helmet>
       {isLoading ? <Loading /> : <DocumentTable majorsOrder={majorsOrder} fetchData={fetchData} />}
     </div>

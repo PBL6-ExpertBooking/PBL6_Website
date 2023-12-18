@@ -80,7 +80,7 @@ export default function AdminSideNav() {
       ) : (
         <Menu>
           <MenuItem icon={<SsidChartIcon />} component={<Link to={path.adminDashBoard} style={styleLink} />}>
-            Thống kê
+            {t('statitics')}
           </MenuItem>
           <MenuItem icon={<AccountBoxIcon />} component={<Link to={path.adminProfile} style={styleLink} />}>
             {t('profile')}
@@ -88,7 +88,7 @@ export default function AdminSideNav() {
           <MenuItem icon={<VerifiedUserIcon />} component={<Link to={path.adminVerifyExpert} style={styleLink} />}>
             {t('verifyExpert')}
           </MenuItem>
-          <SubMenu label='Quản lý' style={styleLink} icon={<HandymanIcon />}>
+          <SubMenu label={t('management')} style={styleLink} icon={<HandymanIcon />}>
             <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.adminListUser} style={styleLink} />}>
               {t('usersManagement')}
             </MenuItem>
@@ -112,7 +112,7 @@ export default function AdminSideNav() {
               icon={<AccountBalanceWalletIcon />}
               component={<Link to={path.adminWithdraw} style={styleLink} />}
             >
-              Quản lý rút tiền
+              {t('withdrawManagement')}
             </MenuItem>
           </SubMenu>
           <MenuItem

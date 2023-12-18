@@ -8,8 +8,10 @@ import WithdrawHistoryTable from './WithdrawHistoryTable'
 import { Helmet } from 'react-helmet-async'
 // @mui
 import { Box, Pagination } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 const WithdrawManagement = () => {
+  const { t } = useTranslation()
   const isMobile = useResponsive('down', 'sm')
   const [pageCount, setPageCount] = useState(1)
   const [totalPages, setTotalPages] = useState(0)
@@ -38,7 +40,7 @@ const WithdrawManagement = () => {
       }
     >
       <Helmet>
-        <title>Quản lý rút tiền</title>
+        <title>{t('withdrawManagement')}</title>
       </Helmet>
       {isLoading ? <Loading /> : <WithdrawHistoryTable request={request} fetchData={fetchData} />}
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -1,16 +1,17 @@
 // @mui
 import { Card, CardHeader, Typography, Stack, LinearProgress, Box } from '@mui/material'
-
+import { useTranslation } from 'react-i18next'
 export default function BookingBooked({ pending, canceled, done, processing }) {
+  const { t } = useTranslation()
   const _bookingsOverview = [
-    { status: 'Pending', quantity: pending, value: pending },
-    { status: 'Cancel', quantity: canceled, value: canceled },
-    { status: 'Success', quantity: done, value: done },
-    { status: 'Processing', quantity: processing, value: processing }
+    { status: 'Pending', quantity: pending, value: pending, tag: 'pending' },
+    { status: 'Cancelled', quantity: canceled, value: canceled, tag: 'cancelled' },
+    { status: 'Completed', quantity: done, value: done, tag: 'completed' },
+    { status: 'Processing', quantity: processing, value: processing, tag: 'processing' }
   ]
   return (
     <Card>
-      <CardHeader title='Booked Job' />
+      <CardHeader title={t('jobRequest')} />
       <Stack spacing={3} sx={{ px: 3, my: 5 }}>
         {_bookingsOverview.map((progress) => (
           <LinearProgress
@@ -19,7 +20,7 @@ export default function BookingBooked({ pending, canceled, done, processing }) {
             value={progress.value}
             color={
               (progress.status === 'Pending' && 'warning') ||
-              (progress.status === 'Cancel' && 'error') ||
+              (progress.status === 'Cancelled' && 'error') ||
               (progress.status === 'Processing' && 'secondary') ||
               'success'
             }
@@ -39,12 +40,12 @@ export default function BookingBooked({ pending, canceled, done, processing }) {
                   borderRadius: 0.5,
                   bgcolor: 'success.main',
                   ...(progress.status === 'Pending' && { bgcolor: 'warning.main' }),
-                  ...(progress.status === 'Cancel' && { bgcolor: 'error.main' }),
+                  ...(progress.status === 'Cancelled' && { bgcolor: 'error.main' }),
                   ...(progress.status === 'Processing' && { bgcolor: 'secondary.main' })
                 }}
               />
               <Typography variant='subtitle2' sx={{ color: 'text.secondary' }}>
-                {progress.status}
+                {t(progress.tag)}
               </Typography>
             </Stack>
 
