@@ -36,10 +36,10 @@ function PayMent() {
           >
             <img alt='404' height={180} src={svg} />
             <Typography variant='h2' sx={{ my: 2 }}>
-              Nạp tiền thành công!
+              {t('rechargeSuccess')}
             </Typography>
             <Typography variant='h4' color='text.secondary' fontWeight='normal'>
-              Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!
+              {t('thankYou')}
             </Typography>
           </Box>
           <Container maxWidth='sm' sx={{ textAlign: 'center' }}>

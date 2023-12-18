@@ -5,8 +5,11 @@ import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
 import urlConfig from '../../../../config/UrlConfig'
 import useSnack from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
+import { useTranslation } from 'react-i18next'
 
 const DeleteConfirm = ({ open, setOpen, item, fetchData }) => {
+  const { t } = useTranslation()
+
   const { snack, setSnack } = useSnack()
   const handleDelete = async () => {
     await AxiosInterceptors.delete(urlConfig.job_requests.deleteJobRequests + `/${item._id}`)
@@ -15,7 +18,7 @@ const DeleteConfirm = ({ open, setOpen, item, fetchData }) => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Xóa thành công',
+            message: t('deleteSuccess'),
             type: 'success'
           })
           setOpen(false)
@@ -26,7 +29,7 @@ const DeleteConfirm = ({ open, setOpen, item, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Xóa thất bại',
+          message: t('deleteFail'),
           type: 'error'
         })
       )

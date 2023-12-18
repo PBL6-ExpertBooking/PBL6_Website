@@ -67,7 +67,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Từ chối thành công',
+            message: t('rejectSuccess'),
             type: 'success'
           })
           fetchData()
@@ -77,7 +77,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Từ chối thất bại',
+          message: t('rejectFail'),
           type: 'error'
         })
       })
@@ -89,7 +89,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Xác nhận thành công',
+            message: t('confirmSuccess'),
             type: 'success'
           })
           fetchData()
@@ -99,7 +99,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Xác nhận thất bại',
+          message: t('confirmFail'),
           type: 'error'
         })
       })

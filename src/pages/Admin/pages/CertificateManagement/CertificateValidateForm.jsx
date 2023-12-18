@@ -8,6 +8,7 @@ import Snackbar from '../../../../common/components/SnackBar'
 import { styled } from '@mui/material/styles'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import svg from '../../../../assets/icons/pdf_file.svg'
+import { useTranslation } from 'react-i18next'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -25,6 +26,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
   const [formData, setFormData] = useState(new FormData())
   const [openImg, setOpenImg] = useState(false)
   const [item, setItem] = useState('')
+  const { t } = useTranslation()
   const [document, setDocument] = useState({
     name: null,
     description: null,
@@ -50,7 +52,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           setSnack({
             ...snack,
             open: true,
-            message: 'Tải tài liệu thành công',
+            message: t('uploadDocumentSuccess'),
             type: 'success'
           })
           setDocument({
@@ -69,7 +71,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           setSnack({
             ...snack,
             open: true,
-            message: 'Xác thực chứng chỉ thành công',
+            message: t('verifyCertificateSuccess'),
             type: 'success'
           })
           fetchData()
@@ -80,17 +82,18 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
         setSnack({
           ...snack,
           open: true,
-          message: 'Xác thực chứng chỉ thất bại',
+          message: t('verifyCertificateFail'),
           type: 'error'
         })
       )
   }
+
   return (
     <>
       <Snackbar />
       <RootModal
         variant='Create'
-        title='Xác thực chứng chỉ'
+        title={t('verifyCertificate')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={() => {
@@ -108,7 +111,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
         >
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-              Tên chứng chỉ:
+              {t('certificateName')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -118,7 +121,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-              Mô tả:
+            {t('description')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -128,7 +131,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-              Chuyên ngành:
+            {t('major')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -138,7 +141,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-              Trạng thái:
+            {t('status')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -148,7 +151,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-              Tài liệu:
+            {t('document')}:
             </Typography>
           </Grid>
           <Grid
@@ -201,7 +204,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={12} sm={12}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-              Hình ảnh:
+              {t('image')}
             </Typography>
           </Grid>
           <Grid

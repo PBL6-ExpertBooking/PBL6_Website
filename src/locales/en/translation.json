@@ -174,6 +174,9 @@
   "deleteJobRequestFail": "Delete job request failed!",
 
   "rechargeFailed": "Recharge failed!",
+  "rechargeSuccess": "Recharge successfully!",
+
+  "thankYou": "Thank you for using our service!!",
 
   "updateAccountSuccess": "Updated account successfully!",
   "updateAccountFail": "Updated account failed!",
@@ -277,15 +280,36 @@
   "week": "Week",
   "month": "Month",
 
-	"lastUpdate": "Last update",
-	"joinedDate": "Joined date",
+  "lastUpdate": "Last update",
+  "joinedDate": "Joined date",
 
-	"updateSuccess": "Update successfully",
-	"updateFailed": "Update failed",
+  "updateSuccess": "Update successfully",
+  "updateFailed": "Update failed",
 
-	"documentInfo": "Document information",
-	"paymentInfo": "Payment information",
+  "documentInfo": "Document information",
+  "paymentInfo": "Payment information",
 
-	"youCanWithdraw": "You can withdraw",
-	"makeRequest": "Make request"
+  "youCanWithdraw": "You can withdraw",
+  "makeRequest": "Make request",
+
+  "makeRequestSuccess": "Created request successfully",
+  "makeRequestFail": "Created request failed",
+
+  "uploadDocumentSuccess": "Upload document success",
+
+  "verifyCertificate": "Verify certificate",
+  "verifyCertificateSuccess": "Verify certificate success",
+  "verifyCertificateFail": "Verify certificate failed",
+
+  "document": "Document",
+  "image": "image",
+
+  "rejectSuccess": "Rejected success",
+  "rejectFail": "Rejected failed",
+
+  "confirmSuccess": "Confirmed success",
+  "confirmFail": "Confirmed failed",
+
+  "deleteSuccess": "Delete success",
+  "deleteFail": "Delete failed"
 }
