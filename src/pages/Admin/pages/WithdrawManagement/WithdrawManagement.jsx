@@ -30,7 +30,7 @@ const WithdrawManagement = () => {
   }
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [pageCount])
   return (
     <div
       style={

@@ -272,5 +272,8 @@
   "expert": "Chuyên gia",
   "user": "Người dùng",
   "totalDeposit": "Tổng tiền đã nạp",
-  "jobRequestAccepted": "Công việc đã nhận"
+  "jobRequestAccepted": "Công việc đã nhận",
+
+  "week": "Tuần",
+  "month": "Tháng"
 }

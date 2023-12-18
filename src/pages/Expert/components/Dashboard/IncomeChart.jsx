@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 // @mui
 import { Card, CardHeader, Box, TextField } from '@mui/material'
-//
 import { BaseOptionChart } from '../../../../components/chart'
 import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
-import urlConfig from '../../../../config/UrlConfig'
+import urlConfig from '../../../../config/UrlConfig'  
 import moment from 'moment'
+import { useTranslation } from 'react-i18next'
 
 // ----------------------------------------------------------------------
 
 export default function IncomeChart() {
+  const { t } = useTranslation()
   const [by, setBy] = useState('WEEK')
   const [data, setData] = useState([])
   const fetchData = async (fromDate, toDate) => {
@@ -94,8 +95,8 @@ export default function IncomeChart() {
               '& .MuiNativeSelect-icon': { top: 4, right: 0, width: 20, height: 20 }
             }}
           >
-            <option value='WEEK'>Tuần</option>
-            <option value='MONTH'>Tháng</option>
+            <option value='WEEK'>{t('week')}</option>
+            <option value='MONTH'>{t('month')}</option>
           </TextField>
         }
       />
