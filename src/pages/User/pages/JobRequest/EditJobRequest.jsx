@@ -65,7 +65,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
           setSnack({
             ...snack,
             open: true,
-            message: 'Cập nhật thành công',
+            message: t('updateSuccess'),
             type: 'success'
           })
           setOpen(false)
@@ -76,7 +76,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Cập nhật thất bại',
+          message: t('updateFailed'),
           type: 'error'
         })
       )

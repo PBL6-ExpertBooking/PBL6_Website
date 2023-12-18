@@ -162,7 +162,7 @@ const WithdrawMethod = () => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Cập nhật thông tin thành công',
+          message:  t('updateSuccess'),
           type: 'success'
         })
       })
@@ -170,7 +170,7 @@ const WithdrawMethod = () => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Cập nhật thông tin thất bại',
+          message: t('updateFailed'),
           type: 'error'
         })
       })
@@ -184,7 +184,7 @@ const WithdrawMethod = () => {
     <div>
       <Snackbar />
       <Typography variant='h4' sx={{ my: 2 }}>
-        Thông tin thanh toán
+        {t('paymentInfo')}
       </Typography>
       <Autocomplete
         disablePortal

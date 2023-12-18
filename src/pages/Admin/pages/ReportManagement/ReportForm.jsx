@@ -38,7 +38,7 @@ const ReportForm = ({ open, setOpen, id }) => {
       {report.user ? (
         <RootModal
           variant='Info'
-          title='Thông tin chi tiết'
+          title={t('detailInfo')}
           open={open}
           handleClose={() => setOpen(false)}
           handleOk={() => setOpen(false)}
