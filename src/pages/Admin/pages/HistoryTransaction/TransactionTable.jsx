@@ -189,7 +189,7 @@ const TransactionTable = ({ transaction }) => {
           <Table size='small'>
             <TableHead>
               <TableRow>
-                <TableCell>Từ</TableCell>
+                <TableCell>{t('from')}</TableCell>
                 <TableCell>{t('to')}</TableCell>
                 <TableCell>{t('time')}</TableCell>
                 <TableCell>{t('type')}</TableCell>
@@ -276,7 +276,7 @@ const TransactionTable = ({ transaction }) => {
                           <VisibilityTwoToneIcon fontSize='small' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title='Xuất dữ liệu' arrow>
+                      <Tooltip title={t('exportData')} arrow>
                         <IconButton
                           sx={{
                             '&:hover': {

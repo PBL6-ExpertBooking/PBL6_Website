@@ -54,6 +54,7 @@ const getStatusLabel = (request) => {
 }
 
 const WithdrawHistoryTable = ({ request, fetchData }) => {
+  console.log(request)
   const { t } = useTranslation()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
@@ -67,7 +68,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
             ...snack,
             open: true,
             message: 'Từ chối thành công',
-            severity: 'success'
+            type: 'success'
           })
           fetchData()
         }
@@ -77,7 +78,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
           ...snack,
           open: true,
           message: 'Từ chối thất bại',
-          severity: 'error'
+          type: 'error'
         })
       })
   }
@@ -89,7 +90,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
             ...snack,
             open: true,
             message: 'Xác nhận thành công',
-            severity: 'success'
+            type: 'success'
           })
           fetchData()
         }
@@ -99,7 +100,7 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
           ...snack,
           open: true,
           message: 'Xác nhận thất bại',
-          severity: 'error'
+          type: 'error'
         })
       })
   }
@@ -108,13 +109,13 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
       <Snackbar />
       {open && <WithdrawDetail open={open} setOpen={setOpen} withdraw={item} />}
       <Card>
-        <CardHeader title='Yêu cầu gần đây' />
+        <CardHeader title={t('recentRequests')} />
         <Divider />
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Từ</TableCell>
+                <TableCell>{t('from')}</TableCell>
                 <TableCell>{t('time')}</TableCell>
                 <TableCell align='right'>{t('moneyAmount')}</TableCell>
                 <TableCell align='right'>{t('status')}</TableCell>
@@ -148,6 +149,44 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
                     </TableCell>
                     <TableCell align='right'>{getStatusLabel(cryptoOrder.transaction.transaction_status)}</TableCell>
                     <TableCell align='right'>
+                      {cryptoOrder.transaction.transaction_status === 'PROCESSING' && (
+                        <>
+                          <Tooltip title={t('deny')} arrow>
+                            <IconButton
+                              sx={{
+                                '&:hover': {
+                                  background: theme.palette.error.lighter
+                                },
+                                color: theme.palette.error.main
+                              }}
+                              color='inherit'
+                              size='small'
+                              onClick={() => {
+                                handleDeny(cryptoOrder._id)
+                              }}
+                            >
+                              <CancelTwoToneIcon fontSize='small' />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title={t('confirm')} arrow>
+                            <IconButton
+                              sx={{
+                                '&:hover': {
+                                  background: theme.palette.success.lighter
+                                },
+                                color: theme.palette.success.main
+                              }}
+                              color='inherit'
+                              size='small'
+                              onClick={() => {
+                                handleConfirm(cryptoOrder._id)
+                              }}
+                            >
+                              <CheckCircleTwoToneIcon fontSize='small' />
+                            </IconButton>
+                          </Tooltip>
+                        </>
+                      )}
                       <Tooltip title={t('detailInfo')} arrow>
                         <IconButton
                           sx={{
@@ -164,40 +203,6 @@ const WithdrawHistoryTable = ({ request, fetchData }) => {
                           }}
                         >
                           <VisibilityTwoToneIcon fontSize='small' />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title={t('Từ chối')} arrow>
-                        <IconButton
-                          sx={{
-                            '&:hover': {
-                              background: theme.palette.error.lighter
-                            },
-                            color: theme.palette.error.main
-                          }}
-                          color='inherit'
-                          size='small'
-                          onClick={() => {
-                            handleDeny(cryptoOrder._id)
-                          }}
-                        >
-                          <CancelTwoToneIcon fontSize='small' />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title={t('Xác nhận')} arrow>
-                        <IconButton
-                          sx={{
-                            '&:hover': {
-                              background: theme.palette.success.lighter
-                            },
-                            color: theme.palette.success.main
-                          }}
-                          color='inherit'
-                          size='small'
-                          onClick={() => {
-                            handleConfirm(cryptoOrder._id)
-                          }}
-                        >
-                          <CheckCircleTwoToneIcon fontSize='small' />
                         </IconButton>
                       </Tooltip>
                     </TableCell>

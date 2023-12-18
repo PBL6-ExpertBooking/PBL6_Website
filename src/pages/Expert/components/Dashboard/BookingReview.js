@@ -3,8 +3,10 @@ import Slider from 'react-slick'
 import { useTheme } from '@mui/material/styles'
 import { Card, Stack, Avatar, Rating, CardHeader, Typography, Container } from '@mui/material'
 import moment from 'moment'
+import { useTranslation } from 'react-i18next'
 
 export default function BookingReview({ data }) {
+  const { t } = useTranslation()
   const theme = useTheme()
 
   const settings = {
@@ -20,7 +22,7 @@ export default function BookingReview({ data }) {
   return (
     <Card>
       <CardHeader
-        title='Customer Reviews'
+        title={t('reviews')}
         sx={{
           '& .MuiCardHeader-action': {
             alignSelf: 'center'

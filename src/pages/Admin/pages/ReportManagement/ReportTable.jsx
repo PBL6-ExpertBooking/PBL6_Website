@@ -49,7 +49,7 @@ const ReportTable = ({ majorsOrder, fetchData }) => {
           <Table size='small'>
             <TableHead>
               <TableRow>
-                <TableCell>Người gửi</TableCell>
+                <TableCell>{t('from')}</TableCell>
 
                 {!isMobile && (
                   <>

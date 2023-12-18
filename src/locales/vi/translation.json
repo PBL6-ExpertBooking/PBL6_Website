@@ -8,6 +8,9 @@
   "changePassword": "Đổi mật khẩu",
   "usersManagement": "Quản lý người dùng",
   "majorsManagement": "Quản lý chuyên ngành",
+  "withdrawManagement": "Quản lý rút tiền",
+  "management": "Quản lý",
+  "statitics": "Thống kê",
   "signIn": "Đăng nhập",
   "signUp": "Đăng ký",
   "login": "Đăng nhập",
@@ -45,6 +48,11 @@
   "previous": "Trước",
   "status": "Trạng thái",
   "address": "Địa chỉ",
+
+  "pending": "Đang chờ",
+  "processing": "Đang xử lý",
+  "completed": "Đã hoàn thành",
+  "cancelled": "Đã hủy",
 
   "discover": "Khám phá những chuyên gia hàng đầu",
   "topExpert": "Chuyên gia hàng đầu",
@@ -126,6 +134,8 @@
   "time": "Thời gian",
   "type": "Loại",
   "me": "Tôi",
+  "exportData": "Xuất dữ liệu",
+  "payment": "Thanh toán",
 
   "listJobRequests": "Danh sách yêu cầu",
   "myBookings": "Công việc đã nhận",
@@ -245,5 +255,22 @@
   "addCertificate": "Thêm chứng chỉ",
 
   "postSuccess": "Hủy yêu cầu công việc thành công!",
-  "postFail": "Hủy yêu cầu công việc thất bại!"
+  "postFail": "Hủy yêu cầu công việc thất bại!",
+
+  "deny": "Từ chối",
+  "confirm": "Xác nhận",
+  "from": "Từ",
+  "recentRequests": "Yêu cầu gần đây",
+
+  "bankName": "Tên ngân hàng",
+  "bankAccount": "Số tài khoản",
+  "bankAccountName": "Tên tài khoản",
+  "withdraw": "Rút tiền",
+
+  "welcomeBack": "Chào mừng trở lại",
+  "subWelcomeBack": "Hãy kiểm tra các số liệu thống kê của bạn để biết bạn đã làm được gì trong tuần qua.",
+  "expert": "Chuyên gia",
+  "user": "Người dùng",
+  "totalDeposit": "Tổng tiền đã nạp",
+  "jobRequestAccepted": "Công việc đã nhận"
 }

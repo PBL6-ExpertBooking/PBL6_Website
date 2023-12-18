@@ -8,6 +8,9 @@
   "changePassword": "Change Password",
   "usersManagement": "Users Management",
   "majorsManagement": "Majors Management",
+  "withdrawManagement": "Withdraw Management",
+  "management": "Management",
+  "statitics": "Statitics",
   "signIn": "Sign In",
   "signUp": "Sign Up",
   "login": "Login",
@@ -45,6 +48,11 @@
   "previous": "Previous",
   "status": "Status",
   "address": "Address",
+
+  "pending": "Pending",
+  "processing": "Processing",
+  "completed": "Completed",
+  "cancelled": "Cancelled",
 
   "discover": "Discover Top Experts",
   "topExpert": "Top Expert",
@@ -126,6 +134,8 @@
   "time": "Time",
   "type": "Type",
   "me": "Me",
+  "exportData": "Export Data",
+  "payment": "Payment",
 
   "listJobRequests": "List job requests",
   "myBookings": "My Bookings",
@@ -245,5 +255,22 @@
   "addCertificate": "Add Certificate",
 
   "postSuccess": "Cancel job request successfully!",
-  "postFail": "Cancel job request failed!"
+  "postFail": "Cancel job request failed!",
+
+  "deny": "Deny",
+  "confirm": "Confirm",
+  "from": "From",
+  "recentRequests": "Recent Requests",
+
+  "bankName": "Bank Name",
+  "bankAccount": "Bank Account",
+  "bankAccountName": "Bank Account Name",
+  "withdraw": "Withdraw",
+
+  "welcomeBack": "Welcome Back",
+  "subWelcomeBack": "We're so excited to see you again!",
+  "expert": "Expert",
+  "user": "User",
+  "totalDeposit": "Total Deposit",
+  "jobRequestAccepted": "Job Request Accepted"
 }

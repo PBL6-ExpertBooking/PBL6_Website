@@ -102,7 +102,7 @@ export default function LoginPage() {
         shape: 'pill'
       })
     }
-  }, [handleGoogle])
+  }, [])
   const mdUp = useResponsive('up', 'md')
   if (session) {
     navigate('/')

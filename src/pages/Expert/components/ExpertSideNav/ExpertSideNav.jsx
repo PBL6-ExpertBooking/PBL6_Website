@@ -80,7 +80,7 @@ export default function ExpertSideNav() {
       ) : (
         <Menu>
           <MenuItem icon={<SsidChartIcon />} component={<Link to={path.expertDashboard} style={styleLink} />}>
-            Thống kê
+            {t('statitics')}
           </MenuItem>
           <MenuItem icon={<ManageAccountsIcon />} component={<Link to={path.expertProfile} style={styleLink} />}>
             {t('myProfile')}
@@ -101,7 +101,7 @@ export default function ExpertSideNav() {
             {t('myBookings')}
           </MenuItem>
           <MenuItem icon={<AccountBalanceWalletIcon />} component={<Link to={path.expertWithdraw} style={styleLink} />}>
-            Rút tiền
+            {t('withdraw')}
           </MenuItem>
           <MenuItem
             icon={<MenuOutlinedIcon />}

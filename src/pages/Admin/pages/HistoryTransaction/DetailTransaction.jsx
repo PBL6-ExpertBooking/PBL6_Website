@@ -9,6 +9,7 @@ import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector
 import KeyboardDoubleArrowRightTwoToneIcon from '@mui/icons-material/KeyboardDoubleArrowRightTwoTone'
 import { Grid, Typography, Stack, Avatar, Container } from '@mui/material'
 import moment from 'moment'
+import { useTranslation } from 'react-i18next'
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -63,15 +64,16 @@ function QontoStepIcon(props) {
     </QontoStepIconRoot>
   )
 }
-const steps = ['Nạp', 'Xử lý', 'Hoàn thành']
 const DetailTransaction = ({ open, setOpen, transaction }) => {
+  const { t } = useTranslation()
+  const steps = ['Nạp', 'Xử lý', 'Hoàn thành']
   const activeStep =
     transaction.transaction_status === 'CANCELED' ? 1 : transaction.transaction_status === 'PROCESSING' ? 2 : 3
   return (
     <>
       <Rootmodal
         variant='Info'
-        title='Thông tin giao dịch'
+        title={t('detailInfo')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={() => setOpen()}
@@ -133,19 +135,19 @@ const DetailTransaction = ({ open, setOpen, transaction }) => {
           </Grid>
           <Container mt={2}>
             <Typography variant='body1' fontWeight='bold' color='text.primary' gutterBottom noWrap>
-              Payment
+              {t('payment')}
             </Typography>
             <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-              Price: {transaction.amount.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+              {t('moneyAmount')}: {transaction.amount.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
             </Typography>
             <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-              Payment Type: {transaction.transaction_type}
+              {t('type')}: {transaction.transaction_type}
             </Typography>
             <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-              Payment Status: {transaction.transaction_status}
+              {t('status')}: {transaction.transaction_status}
             </Typography>
             <Typography variant='body2' color='text.secondary' noWrap sx={{ ml: 2 }}>
-              Payment Time: {moment(transaction.createAt).format('DD/MM/YYYY h:mm:ss A')}
+              {t('time')}: {moment(transaction.createAt).format('DD/MM/YYYY h:mm:ss A')}
             </Typography>
           </Container>
         </Stack>

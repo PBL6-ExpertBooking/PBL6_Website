@@ -38,7 +38,7 @@ function Transaction() {
     <>
       <Stack direction='row' spacing={2} justifyContent='space-between'>
         <Typography variant='h3' sx={{ margin: '1rem 0' }}>
-          Quản lý giao dịch
+          {t('historyTransaction')}
         </Typography>
         <Stack direction='row' spacing={2} sx={{ marginBottom: '20px', float: 'right' }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
