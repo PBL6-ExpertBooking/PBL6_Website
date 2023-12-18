@@ -87,6 +87,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
         })
       )
   }
+
   return (
     <>
       <Snackbar />
