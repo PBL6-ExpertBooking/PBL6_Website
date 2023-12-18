@@ -272,5 +272,8 @@
   "expert": "Expert",
   "user": "User",
   "totalDeposit": "Total Deposit",
-  "jobRequestAccepted": "Job Request Accepted"
+  "jobRequestAccepted": "Job Request Accepted",
+
+  "week": "Week",
+  "month": "Month"
 }
