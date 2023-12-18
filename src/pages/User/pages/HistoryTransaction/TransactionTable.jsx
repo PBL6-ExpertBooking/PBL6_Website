@@ -16,7 +16,6 @@ import {
   Select,
   MenuItem,
   Typography,
-  useTheme,
   CardHeader,
   Avatar
 } from '@mui/material'
@@ -109,17 +108,8 @@ const TransactionTable = ({ transaction }) => {
     }))
   }
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleLimitChange = (event) => {
-    setLimit(parseInt(event.target.value))
-  }
-
   const filteredCryptoOrders = applyFilters(transaction, filters)
   const paginatedCryptoOrders = applyPagination(filteredCryptoOrders, page, limit)
-  const theme = useTheme()
   return (
     <Card>
       <CardHeader

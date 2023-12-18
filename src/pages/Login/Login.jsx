@@ -13,7 +13,8 @@ import { useCookies } from 'react-cookie'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '@mui/lab'
-import GoogleIcon from '@mui/icons-material/Google'
+import { useEffect } from 'react'
+import useFetch from '../../hooks/useFetch'
 
 // ----------------------------------------------------------------------
 
@@ -84,8 +85,24 @@ export default function LoginPage() {
         })
         setIsSubmitting(false)
       })
-    // navigate('/dashboard')
   }
+  const { handleGoogle, loading, error } = useFetch(urlConfig.authentication.google)
+
+  useEffect(() => {
+    /* global google */
+    if (window.google) {
+      google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_CLIENT_ID,
+        callback: handleGoogle
+      })
+
+      google.accounts.id.renderButton(document.getElementById('loginDiv'), {
+        theme: 'filled_black',
+        text: 'signin_with',
+        shape: 'pill'
+      })
+    }
+  }, [handleGoogle])
   const mdUp = useResponsive('up', 'md')
   if (session) {
     navigate('/')
@@ -169,17 +186,9 @@ export default function LoginPage() {
               >
                 {t('login')}
               </LoadingButton>
-              <Button
-                fullWidth
-                color='primary'
-                size='large'
-                type='submit'
-                variant='text'
-                startIcon={<GoogleIcon />}
-                sx={{ mb: 2 }}
-              >
+              <Stack id='loginDiv' sx={{ mb: 2 }}>
                 Login with Google
-              </Button>
+              </Stack>
               <Typography variant='body2' sx={{ mb: 5 }}>
                 {t('dontHaveAccount')}{' '}
                 <Link
