@@ -99,7 +99,26 @@ const UsersTable = ({ users, fetchData }) => {
     setOpenModal(true)
   }
 
-  const handleClickDeleteBtn = () => {}
+  const handleClickDeleteBtn = async (user) => {
+		await AxiosInterceptors.delete(urlConfig.user.deleteUser + `/${user._id}`)
+      .then((res) => {
+        setSnack({
+          ...snack,
+          open: true,
+          message: t('deleteSuccess'),
+          type: 'success'
+        })
+				fetchData()
+      })
+      .catch((err) => {
+        setSnack({
+          ...snack,
+          open: true,
+          message: t('deleteFail'),
+          type: 'error'
+        })
+      })
+	}
 
   const getLabel = (item) => {
     const map = {
