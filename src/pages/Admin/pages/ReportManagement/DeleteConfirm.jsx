@@ -27,7 +27,7 @@ const DeleteConfirm = ({ open, setOpen, id, fetchData }) => {
         setSnack({
           ...snack,
           open: true,
-          message: 'Xóa thất bại',
+          message: t('deleteFail'),
           type: 'error'
         })
       )
