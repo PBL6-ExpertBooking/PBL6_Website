@@ -124,7 +124,7 @@ const ExpertDetail = () => {
                   </div>
                   <div>
                     <Typography variant='h6' sx={{ mt: 2 }} align='right'>
-											{t('lastUpdate')}
+                      {t('lastUpdate')}
                     </Typography>
                     <Typography variant='body1' sx={{ mt: 2 }} align='right'>
                       {moment(expert.updatedAt).format('DD/MM/YYYY')}
@@ -154,7 +154,10 @@ const ExpertDetail = () => {
                           id='panel1a-header'
                         >
                           <Stack direction='row' spacing={2}>
-                            <Typography> {certificate.name}</Typography>
+                            <Typography>
+                              {' '}
+                              <span style={{ fontWeight: 'bold' }}>{certificate.major.name}</span> - {certificate.name}
+                            </Typography>
                             {certificate.isVerified && <VerifiedTwoToneIcon sx={{ color: 'green' }} />}
                           </Stack>
                         </AccordionSummary>

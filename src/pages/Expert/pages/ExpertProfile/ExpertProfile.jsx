@@ -1,33 +1,21 @@
-import {
-  Box,
-  Stack,
-  Button,
-  TextField,
-  Typography,
-  Card,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid
-} from '@mui/material'
+import { Box, Stack, TextField, Typography, Card, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material'
 import { React, useState, useEffect } from 'react'
-import CertificateInfo from '../../components/CertificateInfo'
-import useSnackbar from '../../../../contexts/snackbar.context'
-import Snackbar from '../../../../common/components/SnackBar'
-import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
-import { DateField } from '@mui/x-date-pickers/DateField'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import dayjs from 'dayjs'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import urlConfig from '../../../../config/UrlConfig'
-import Axios from 'axios'
 import { useTranslation } from 'react-i18next'
-import UploadAvatar from '../../../../components/UploadAvatar/UploadAvatar'
 import { LoadingButton } from '@mui/lab'
-import Loading from '../../../../common/components/Loading/Loading'
-import useResponsive from '../../../../hooks/useResponsive'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { DatePicker } from '@mui/x-date-pickers'
 import { Helmet } from 'react-helmet-async'
+import AxiosInterceptors from '../../../../common/utils/axiosInterceptors'
+import UploadAvatar from '../../../../components/UploadAvatar/UploadAvatar'
+import Loading from '../../../../common/components/Loading/Loading'
+import useSnackbar from '../../../../contexts/snackbar.context'
+import CertificateInfo from '../../components/CertificateInfo'
+import Snackbar from '../../../../common/components/SnackBar'
+import useResponsive from '../../../../hooks/useResponsive'
+import urlConfig from '../../../../config/UrlConfig'
+import dayjs from 'dayjs'
+import Axios from 'axios'
 
 const ExpertProfile = () => {
   const isMobile = useResponsive('down', 'sm')
@@ -113,6 +101,22 @@ const ExpertProfile = () => {
   }
 
   const handleUpdateProfile = async () => {
+    if (
+      profile.first_name === '' ||
+      profile.last_name === '' ||
+      profile.phone === '' ||
+      profile.DoB === '' ||
+      profile.address?.city?.code === '' ||
+      profile.address?.district?.code === '' ||
+      profile.address?.ward?.code === ''
+    ) {
+      setSnack({
+        open: true,
+        message: t('pleaseFillOutAllFields'),
+        type: 'error'
+      })
+      return
+    }
     setIsSubmitting(true)
     await AxiosInterceptors.put(
       urlConfig.user.info,
@@ -239,17 +243,6 @@ const ExpertProfile = () => {
                     Allowed *.jpg, *.png
                     <br /> max size of 3.5MB
                   </Typography>
-                  <Button
-                    variant='text'
-                    component='label'
-                    color='error'
-                    sx={{
-                      mt: 2,
-                      mx: 'auto'
-                    }}
-                  >
-                    {t('deleteAccount')}
-                  </Button>
                 </Card>
               </Grid>
               <Grid item xs={12} md={8}>
@@ -353,7 +346,7 @@ const ExpertProfile = () => {
                         </FormControl>
 
                         <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ width: '45%', m: 2 }}>
-                          <DateField
+                          <DatePicker
                             label={t('dateOfBirth')}
                             value={dayjs(profile.DoB)}
                             onChange={(newValue) =>
