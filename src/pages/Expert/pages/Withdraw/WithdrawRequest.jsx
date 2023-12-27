@@ -19,6 +19,7 @@ import urlConfig from '../../../../config/UrlConfig'
 import BankCard from './BankCard'
 import Loading from '../../../../common/components/Loading/Loading'
 import useResponsive from '../../../../hooks/useResponsive'
+import { LoadingButton } from '@mui/lab'
 
 const WithdrawRequest = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
@@ -26,6 +27,7 @@ const WithdrawRequest = () => {
   const isMobile = useResponsive('down', 'sm')
   const [isLoading, setIsLoading] = useState(true)
   const { snack, setSnack } = useSnackbar()
+  const [isSubmit, setIsSubmit] = useState(false)
   const [data, setData] = useState({
     amount: 0,
     bank_account: {
@@ -48,14 +50,35 @@ const WithdrawRequest = () => {
     })
   }
   const handleWithdraw = async () => {
+    if (data.amount === 0) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: t('pleaseFillOutAllFields'),
+        type: 'error'
+      })
+      return
+    }
+    if (data.amount > user.balance) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Số tiền rút không được lớn hơn số dư',  
+        type: 'error'
+      })
+      return
+    }
+    setIsSubmit(true)
     await AxiosInterceptors.post(urlConfig.withdraw_request.createWithdrawRequest, data)
       .then((res) => {
         if (res.status === 200) {
           setSnack({ ...snack, open: true, message: t('makeRequestSuccess'), type: 'success' })
+          setIsSubmit(false)
         }
       })
       .catch((err) => {
         setSnack({ ...snack, open: true, message: t('makeRequestFail'), type: 'error' })
+        setIsSubmit(false)
       })
   }
   useEffect(() => {
@@ -81,13 +104,13 @@ const WithdrawRequest = () => {
               onChange={(e) => setData({ ...data, amount: e.target.value })}
             />
             <FormHelperText id='outlined-weight-helper-text'>
-						{t('youCanWithdraw')} {user.balance.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+              {t('youCanWithdraw')} {user.balance.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
             </FormHelperText>
           </FormControl>
         </div>
-        <Button variant='text' sx={{ marginTop: 2 }} onClick={() => handleWithdraw()}>
-					{t('makeRequest')}
-        </Button>
+        <LoadingButton variant='contained' sx={{ marginTop: 2 }} onClick={() => handleWithdraw()} loading={isSubmit}>
+          {t('makeRequest')}
+        </LoadingButton>
       </Grid>
       <Grid item xs={12} md={6}>
         <Stack direction='column' spacing={2} sx={{ my: 2 }}>
@@ -100,9 +123,15 @@ const WithdrawRequest = () => {
                 padding: '20px'
               }}
             >
-              <Typography variant='subtitle1'>{t('bankName')}: {data.bank_account.bank_name}</Typography>
-              <Typography variant='subtitle1'>{t('bankAccountName')}: {data.bank_account.owner_name}</Typography>
-              <Typography variant='subtitle1'>{t('bankAccount')}: {data.bank_account.number}</Typography>
+              <Typography variant='subtitle1'>
+                {t('bankName')}: {data.bank_account.bank_name}
+              </Typography>
+              <Typography variant='subtitle1'>
+                {t('bankAccountName')}: {data.bank_account.owner_name}
+              </Typography>
+              <Typography variant='subtitle1'>
+                {t('bankAccount')}: {data.bank_account.number}
+              </Typography>
             </Box>
           ) : (
             <BankCard data={data.bank_account} />

@@ -7,6 +7,7 @@ import useSnackbar from '../../../../contexts/snackbar.context'
 import Snackbar from '../../../../common/components/SnackBar'
 import { useTranslation } from 'react-i18next'
 import useResponsive from '../../../../hooks/useResponsive'
+import { LoadingButton } from '@mui/lab'
 const bankName = [
   {
     label: 'Vietcombank',
@@ -128,6 +129,7 @@ const WithdrawMethod = () => {
   const [isLoading, setIsLoading] = useState(true)
   const widthAuto = isMobile ? '100%' : '600px'
   const { snack, setSnack } = useSnackbar()
+  const [isSubmit, setIsSubmit] = useState(false)
   const [data, setData] = useState({
     number: '',
     owner_name: '',
@@ -157,14 +159,16 @@ const WithdrawMethod = () => {
       })
       return
     }
+    setIsSubmit(true)
     await AxiosInterceptors.put(urlConfig.expert.updateWithdrawMethod, data)
       .then((res) => {
         setSnack({
           ...snack,
           open: true,
-          message:  t('updateSuccess'),
+          message: t('updateSuccess'),
           type: 'success'
         })
+        setIsSubmit(false)
       })
       .catch((err) => {
         setSnack({
@@ -173,6 +177,7 @@ const WithdrawMethod = () => {
           message: t('updateFailed'),
           type: 'error'
         })
+        setIsSubmit(false)
       })
   }
   useEffect(() => {
@@ -216,9 +221,14 @@ const WithdrawMethod = () => {
           onChange={(e) => setData({ ...data, number: e.target.value })}
         />
       </div>
-      <Button variant='text' sx={{ marginTop: 2, width: widthAuto }} onClick={() => updateData()}>
+      <LoadingButton
+        variant='contained'
+        sx={{ marginTop: 2, width: widthAuto }}
+        loading={isSubmit}
+        onClick={() => updateData()}
+      >
         {t('saveChanges')}
-      </Button>
+      </LoadingButton>
     </div>
   )
 }
