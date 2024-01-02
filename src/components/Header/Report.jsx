@@ -64,7 +64,7 @@ const Report = () => {
     <>
       <RootModal
         variant='Create'
-        title='Phản hồi'
+        title={t('report')}
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={handleReport}
@@ -96,7 +96,7 @@ const Report = () => {
         </Stack>
         <UploadReport file={data.photo} setFormData={setFormData} information={data} setInformation={setData} />
       </RootModal>
-      <Tooltip title='Phản hồi' arrow>
+      <Tooltip title={t('report')} arrow>
         <Fab size='small' aria-label='notifi' onClick={() => setOpen(true)}>
           <ReportIcon />
         </Fab>
