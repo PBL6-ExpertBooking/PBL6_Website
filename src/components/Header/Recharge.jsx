@@ -21,6 +21,15 @@ const Recharge = ({ openRecharge, setOpenRecharge }) => {
       })
       return
     }
+    if (money < 50000 || money > 5000000) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: t('rechargeAmount'),
+        type: 'error'
+      })
+      return
+    }
     await AxiosInterceptors.post(urlConfig.transaction.recharge, {
       amount: Number(money)
     })
@@ -57,6 +66,7 @@ const Recharge = ({ openRecharge, setOpenRecharge }) => {
               startAdornment={<InputAdornment position='start'>đ</InputAdornment>}
               label={t('moneyAmount')}
               type='number'
+              placeholder='(50.000 - 5.000.000)'
               onChange={(e) => setMoney(e.target.value)}
             />
           </FormControl>

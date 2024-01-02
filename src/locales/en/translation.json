@@ -240,6 +240,7 @@
   "reportSuccess": "Report successfully!",
   "reportFailed": "Report failed!",
   "deleteReportSuccess": "Delete report successfully!",
+  "report": "Report",
 
   "verifyExpert": "Verify Expert",
   "documentManagement": "Document Management",
@@ -311,5 +312,6 @@
   "confirmFail": "Confirmed failed",
 
   "deleteSuccess": "Delete success",
-  "deleteFail": "Delete failed"
+  "deleteFail": "Delete failed",
+  "rechargeAmount": "Recharge amount must be minimum 50.000 and maximum 5.000.000!"
 }

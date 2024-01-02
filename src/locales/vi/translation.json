@@ -240,6 +240,7 @@
   "reportSuccess": "Phản hồi thành công!",
   "reportFailed": "Phản hồi không thành công!",
   "deleteReportSuccess": "Xóa phản hồi thành công!",
+  "report": "Phản hồi",
 
   "verifyExpert": "Xác thực chuyên gia",
   "documentManagement": "Quản lý tài liệu",
@@ -311,5 +312,6 @@
   "confirmFail": "Xác nhận thất bại",
 
   "deleteSuccess": "Xóa thành công",
-  "deleteFail": "Xóa thất bại"
+  "deleteFail": "Xóa thất bại",
+  "rechargeAmount": "Số tiền cần nạp tối thiểu 50.000 và tối đa 5.000.000!"
 }
