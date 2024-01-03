@@ -92,7 +92,9 @@
 
   "validateEmail": "Validate Email",
 
-  "forgotPasswordReminder": "Please enter your email address and we'll send you a link to reset your password.",
+  "forgotPasswordReminder": "Please enter your email address and we'll send you a new password.",
+  "resetPasswordSuccess": "Reset password successfully!",
+  "resetPasswordFailed": "Reset password failed!",
   "sendResetLink": "Send Reset Link",
 
   "expertDetails": "Expert Details",

@@ -92,7 +92,9 @@
 
   "validateEmail": "Xác nhận Email",
 
-  "forgotPasswordReminder": "Vui lòng nhập email của bạn. Chúng tôi sẽ gửi cho bạn một email để đặt lại mật khẩu của bạn.",
+  "forgotPasswordReminder": "Vui lòng nhập thông tin của bạn. Chúng tôi sẽ gửi cho bạn một mật khẩu mới.",
+  "resetPasswordSuccess": "Đặt lại mật khẩu thành công!",
+  "resetPasswordFailed": "Đặt lại mật khẩu không thành công!",
   "sendResetLink": "Gửi liên kết đặt lại",
 
   "expertDetails": "Chi tiết chuyên gia",
