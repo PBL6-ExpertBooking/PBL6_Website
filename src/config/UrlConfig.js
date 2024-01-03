@@ -5,7 +5,8 @@ const urlConfig = {
     logout: `${process.env.REACT_APP_API_ENDPOINT}/auth/logout`,
     refreshToken: `${process.env.REACT_APP_API_ENDPOINT}/auth/refresh-token`,
     validateEmail: `${process.env.REACT_APP_API_ENDPOINT}/auth/activate`,
-    google: `${process.env.REACT_APP_API_ENDPOINT}/auth/google`
+    google: `${process.env.REACT_APP_API_ENDPOINT}/auth/google`,
+    resetPassword: `${process.env.REACT_APP_API_ENDPOINT}/auth/reset-password`
   },
   user: {
     info: `${process.env.REACT_APP_API_ENDPOINT}/users/current`,
@@ -17,7 +18,7 @@ const urlConfig = {
     getTransaction: `${process.env.REACT_APP_API_ENDPOINT}/users/current/transactions`,
     getNotification: `${process.env.REACT_APP_API_ENDPOINT}/users/current/notifications`,
     updateNotification: `${process.env.REACT_APP_API_ENDPOINT}/users/current/notifications`,
-		deleteUser: `${process.env.REACT_APP_API_ENDPOINT}/users`
+    deleteUser: `${process.env.REACT_APP_API_ENDPOINT}/users`
   },
   expert: {
     current: `${process.env.REACT_APP_API_ENDPOINT}/experts/current`,

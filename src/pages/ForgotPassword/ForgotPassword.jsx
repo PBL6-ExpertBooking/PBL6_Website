@@ -8,6 +8,10 @@ import { Helmet } from 'react-helmet-async'
 import Forgot_Photo from '../../assets/images/forgot_password.png'
 import { useTranslation } from 'react-i18next'
 import { LoadingButton } from '@mui/lab'
+import Axios from 'axios'
+import urlConfig from '../../config/UrlConfig'
+import useSnackbar from '../../contexts/snackbar.context'
+import Snackbar from '../../common/components/SnackBar'
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -39,65 +43,130 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function ForgotPassword() {
   const { t } = useTranslation()
-  const session = null
+  const { snack, setSnack } = useSnackbar()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const login = async () => {
-    navigate('/dashboard')
-  }
   const mdUp = useResponsive('up', 'md')
-  if (session) {
-    navigate('/')
-  } else
-    return (
-      <>
-        <Helmet>
-          <title>{t('forgotPassword')}</title>
-        </Helmet>
-        <StyledRoot>
-          {mdUp && (
-            <StyledSection>
-              <img src={Forgot_Photo} alt='login' />
-            </StyledSection>
-          )}
-          <Container maxWidth='sm'>
-            <StyledContent>
-              <Typography
-                variant='h4'
-                gutterBottom
+  const [isSubmit, setIsSubmit] = useState(false)
+  const [formData, setFormData] = useState({
+    username: '',
+    email: ''
+  })
+  const handleResetPassword = async () => {
+    if (formData.username === '' || formData.email === '') {
+      setSnack({
+        ...snack,
+        open: true,
+        message: t('pleaseFillOutAllFields'),
+        type: 'error'
+      })
+      return
+    }
+    setIsSubmit(true)
+    await Axios.post(urlConfig.authentication.resetPassword, {
+      username: formData.username,
+      email: formData.email
+    })
+      .then((res) => {
+        if (res && res.status === 200) {
+          setIsSubmit(false)
+          setSnack({
+            ...snack,
+            open: true,
+            message: t('resetPasswordSuccess'),
+            type: 'success'
+          })
+          setTimeout(() => {
+            navigate('/login')
+          }, 3000)
+        }
+      })
+      .catch((err) => {
+        setIsSubmit(false)
+        setSnack({
+          ...snack,
+          open: true,
+          message: t('resetPasswordFailed'),
+          type: 'error'
+        })
+      })
+  }
+  return (
+    <>
+      <Helmet>
+        <title>{t('forgotPassword')}</title>
+      </Helmet>
+      <Snackbar />
+      <StyledRoot>
+        {mdUp && (
+          <StyledSection>
+            <img src={Forgot_Photo} alt='login' />
+          </StyledSection>
+        )}
+        <Container maxWidth='sm'>
+          <StyledContent>
+            <Typography
+              variant='h4'
+              gutterBottom
+              sx={{
+                textTransform: 'uppercase'
+              }}
+            >
+              {t('forgotPassword')}
+            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>{t('forgotPasswordReminder')}</Typography>
+            <Stack
+              spacing={3}
+              sx={{
+                my: 2
+              }}
+            >
+              <TextField
+                name='username'
+                label={t('username')}
+                required
+                onChange={(e) => {
+                  setFormData({ ...formData, username: e.target.value })
+                }}
+              />
+              <TextField
+                name='email'
+                label='Email'
+                required
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value })
+                }}
+              />
+            </Stack>
+            <LoadingButton
+              fullWidth
+              color='secondary'
+              size='large'
+              type='submit'
+              variant='text'
+              loading={isSubmit}
+              onClick={() => handleResetPassword()}
+            >
+              {t('sendResetLink')}
+            </LoadingButton>
+            <Typography variant='body2' sx={{ my: 2 }}>
+              {t('dontHaveAccount')}{' '}
+              <Link
+                variant='subtitle2'
+                href='/register'
                 sx={{
-                  textTransform: 'uppercase'
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  '&:hover': {
+                    textDecoration: 'underline'
+                  }
                 }}
               >
-                {t('forgotPassword')}
-              </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>{t('forgotPasswordReminder')}</Typography>
-              <Stack
-                spacing={3}
-                sx={{
-                  my: 5
-                }}
-              >
-                <TextField
-                  name='email'
-                  label='Email'
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                  }}
-                />
-              </Stack>
-              <LoadingButton fullWidth color='secondary' size='large' type='submit' variant='text' onClick={login}>
-                {t('sendResetLink')}
-              </LoadingButton>
-              <Typography variant='body2' sx={{ my: 2 }}>
-                {t('dontHaveAccount')}{' '}
-                <Link variant='subtitle2' href='/register'>
-                  {t('registerNow')}
-                </Link>
-              </Typography>
-            </StyledContent>
-          </Container>
-        </StyledRoot>
-      </>
-    )
+                {t('registerNow')}
+              </Link>
+            </Typography>
+          </StyledContent>
+        </Container>
+      </StyledRoot>
+    </>
+  )
 }
