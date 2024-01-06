@@ -315,5 +315,6 @@
 
   "deleteSuccess": "Delete success",
   "deleteFail": "Delete failed",
-  "rechargeAmount": "Recharge amount must be minimum 50.000 and maximum 5.000.000!"
+  "rechargeAmount": "Recharge amount must be minimum 50.000 and maximum 5.000.000!",
+  "uploadDocumentFail": "Please upload document!"
 }
