@@ -97,6 +97,15 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
         open={open}
         handleClose={() => setOpen(false)}
         handleOk={() => {
+          if (!formData.get('file')) {
+            setSnack({
+              ...snack,
+              open: true,
+              message: t('uploadDocumentFail'),
+              type: 'error'
+            })
+            return
+          }
           handleDocument()
           handleVerify()
         }}
@@ -121,7 +130,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-            {t('description')}:
+              {t('description')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -131,7 +140,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-            {t('major')}:
+              {t('major')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -141,7 +150,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-            {t('status')}:
+              {t('status')}:
             </Typography>
           </Grid>
           <Grid item xs={6} sm={6}>
@@ -151,7 +160,7 @@ const CertificateValidateForm = ({ open, setOpen, certificate, fetchData, expert
           </Grid>
           <Grid item xs={6} sm={6}>
             <Typography variant='h5' color='text.primary' gutterBottom noWrap>
-            {t('document')}:
+              {t('document')}:
             </Typography>
           </Grid>
           <Grid
