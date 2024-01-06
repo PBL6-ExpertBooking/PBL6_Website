@@ -99,6 +99,15 @@ const Header = () => {
     getMajors()
   }, [])
   const handleOk = async () => {
+    if (parseInt(data.price) === 0) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Số tiền không được bằng 0!',
+        type: 'error'
+      })
+      return
+    }
     if (
       data.title === '' ||
       data.descriptions === '' ||
