@@ -59,6 +59,32 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
       .catch((err) => console.log(err))
   }
   const handleUpdate = async () => {
+    if (parseInt(data.price) === 0) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: 'Số tiền không được bằng 0!',
+        type: 'error'
+      })
+      return
+    }
+    if (
+      data.title === '' ||
+      data.descriptions === '' ||
+      data.major_id === '' ||
+      data.price === 0 ||
+      data.address.city.code === '' ||
+      data.address.district.code === '' ||
+      data.address.ward.code === ''
+    ) {
+      setSnack({
+        ...snack,
+        open: true,
+        message: t('pleaseFillOutAllFields'),
+        type: 'error'
+      })
+      return
+    }
     await AxiosInterceptors.put(urlConfig.job_requests.updateJobRequests + `/${item._id}`, data)
       .then((res) => {
         if (res && res.status === 200) {
@@ -112,6 +138,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
               variant='outlined'
               defaultValue={data.title}
               fullWidth
+              required
               onChange={(e) => setData({ ...data, title: e.target.value })}
             />
             <TextField
@@ -120,6 +147,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
               variant='outlined'
               defaultValue={data.descriptions}
               fullWidth
+              required
               sx={{
                 mt: 2
               }}
@@ -131,6 +159,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
                 select
                 label={t('major')}
                 defaultValue={data.major_id}
+                required
                 sx={{
                   width: '50%'
                 }}
@@ -149,6 +178,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
                   value={data.price}
                   startAdornment={<InputAdornment position='start'>đ</InputAdornment>}
                   label={t('price')}
+                  required
                   type='number'
                   onChange={(e) => setData({ ...data, price: e.target.value })}
                 />
@@ -160,6 +190,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
                 select
                 label={t('city')}
                 defaultValue={data.address.city.name}
+                required
                 sx={{
                   width: '33%'
                 }}
@@ -190,6 +221,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
                 select
                 label={t('district')}
                 defaultValue={data.address.district.name}
+                required
                 sx={{
                   width: '33%'
                 }}
@@ -220,6 +252,7 @@ const EditJobRequest = ({ open, setOpen, item, fetchData }) => {
                 select
                 label={t('ward')}
                 defaultValue={data.address.ward.name}
+                required
                 sx={{
                   width: '33%'
                 }}
